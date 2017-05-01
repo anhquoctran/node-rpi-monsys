@@ -19,5 +19,4 @@ function Connector() {
     mongoose.connection.on('disconnected', function() {
         console.log('Database connection disconnected')
     });
-
 }

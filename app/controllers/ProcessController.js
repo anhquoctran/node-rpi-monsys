@@ -1,3 +1,3 @@
-module.exports = function ProcessController(router, passport) {
+module.exports = function ProcessController(router, jwt) {
 
 }

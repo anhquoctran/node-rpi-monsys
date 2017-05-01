@@ -1,3 +1,3 @@
-module.exports = function FileSystemController(router, passport) {
+module.exports = function FileSystemController(router, jwt) {
 
 }

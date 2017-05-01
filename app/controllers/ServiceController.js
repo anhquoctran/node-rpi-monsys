@@ -1,3 +1,3 @@
-module.exports = function ServiceController(router, passport) {
+module.exports = function ServiceController(router, jwt) {
 
 }

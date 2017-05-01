@@ -1,4 +1,14 @@
+var jwt_simple = require('jwt-simple');
+
 module.exports = function UserController(router, passport) {
+    var authenticated = {
+        user: {
+            username: String,
+            password: String
+        },
+        secret: String
+    }
+
     router.route("/login").get(function(req, res) {
         var callback = req.query.callback || '/'
 
@@ -46,4 +56,16 @@ module.exports = function UserController(router, passport) {
             request_datetime: datetime.getDateTimeNow()
         })
     }))
+
+    require('../controllers/BlockDeviceController')(router, authenticated)
+    require('../controllers/CpuController')(router, authenticated)
+    require('../controllers/DiskIOController')(router, authenticated)
+    require('../controllers/FileSystemController')(router, authenticated)
+    require('../controllers/MemoryController')(router, authenticated)
+    require('../controllers/NetIfaceController')(router, authenticated)
+    require('../controllers/NetworkConnectionController')(router, authenticated)
+    require('../controllers/OSController')(router, authenticated)
+    require('../controllers/ProcessController')(router, authenticated)
+    require("../controllers/ServiceController")(router, authenticated)
+    require('../controllers/SystemUserController')(router, authenticated)
 }

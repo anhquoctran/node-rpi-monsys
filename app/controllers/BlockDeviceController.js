@@ -1,3 +1,3 @@
-module.exports = function BlockDeviceController(router, passport) {
+module.exports = function BlockDeviceController(router, jwt) {
 
 }

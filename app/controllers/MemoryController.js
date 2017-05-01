@@ -1,3 +1,3 @@
-module.exports = function MemoryController(router, passport) {
+module.exports = function MemoryController(router, jwt) {
 
 }

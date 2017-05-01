@@ -23,5 +23,5 @@ module.exports = function Configuration(app) {
     }))
 
     var router = express.Router()
-    require('./app/controllers/RestController')(app, router)
+    require('../app/controllers/RestController')(app, router)
 }

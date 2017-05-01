@@ -1,3 +1,3 @@
-module.exports = function DiskIOController(router, passport) {
+module.exports = function DiskIOController(router, jwt) {
 
 }

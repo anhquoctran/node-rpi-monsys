@@ -34,15 +34,5 @@ module.exports = function OAuth2(router) {
     passport.use("local", localstrategy)
 
     require('../controllers/UserController')(router, passport)
-    require('../controllers/BlockDeviceController')(router, passport)
-    require('../controllers/CpuController')(router, passport)
-    require('../controllers/DiskIOController')(router, passport)
-    require('../controllers/FileSystemController')(router, passport)
-    require('../controllers/MemoryController')(router, passport)
-    require('../controllers/NetIfaceController')(router, passport)
-    require('../controllers/NetworkConnectionController')(router, passport)
-    require('../controllers/OSController')(router, passport)
-    require('../controllers/ProcessController')(router, passport)
-    require("../controllers/ServiceController")(router, passport)
-    require('../controllers/SystemUserController')(router, passport)
+
 }
