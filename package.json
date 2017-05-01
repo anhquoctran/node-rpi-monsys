@@ -1,0 +1,28 @@
+{
+    "name": "node-rpi-monsys",
+    "version": "1.0.0",
+    "description": "Raspberry Pi Monitor and Control System",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "node index"
+    },
+    "keywords": [
+        "rpi"
+    ],
+    "author": "Anh Quoc Tran",
+    "license": "MIT",
+    "dependencies": {
+        "body-parser": "^1.17.1",
+        "cookie-parser": "^1.4.3",
+        "express": "^4.15.2",
+        "express-session": "^1.15.2",
+        "mongoose": "^4.9.7",
+        "passport-oauth2": "^1.4.0",
+        "passport-oauth2-middleware": "^1.0.2",
+        "passport-local": "^1.0.0",
+        "pug": "^2.0.0-beta.12",
+        "mysql": "^2.13.0",
+        "socket.io": "^1.7.3"
+    }
+}
