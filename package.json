@@ -25,6 +25,7 @@
         "pug": "^2.0.0-beta.12",
         "mysql": "^2.13.0",
         "socket.io": "^1.7.3",
-        "jwt-simple": "^0.5.1"
+        "jwt-simple": "^0.5.1",
+        "python-shell": "^0.4.0"
     }
 }

@@ -1,6 +1,6 @@
 var datetime = require('../middleware/datetime');
 var jwt_simple = require('jwt-simple')
-var cpu = require('../models/sysinfo')
+var fs = require('../models/sysinfo')
 
 module.exports = function FileSystemController(router, jwt) {
 
@@ -13,7 +13,18 @@ module.exports = function FileSystemController(router, jwt) {
                 fs_sizes: null
             })
         } else {
-
+            var decoded = jwt_simple.decode(token, jwt.secret);
+            if (decoded == jwt.user) {
+                fs.fsSize()
+                    .then(data => {
+                        res.json({
+                            token: token,
+                            request_datetime: datetime.getDateTimeNow(),
+                            fs_sizes: data
+                        });
+                    })
+                    .catch(error => console.error(error))
+            }
         }
     })
 }

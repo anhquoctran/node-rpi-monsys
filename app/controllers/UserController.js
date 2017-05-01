@@ -59,9 +59,25 @@ module.exports = function UserController(router, passport) {
         })
     }))
 
-    rouer.route('/user/create').post(passport.authenticate('main', function(req, res) {
+    router.route('/user/create').post(passport.authenticate('main', function(req, res) {
 
     }))
+
+    router.route('/user/fetchAll').get(passport.authenticate('main', function(req, res) {
+
+    }))
+
+    router.route('/user/fetch/:username').get(function(req, res) {
+
+    })
+
+    router.route('/user/delete/').delete(function(req, res) {
+
+    })
+
+    router.route('/user/update/').put(function(req, res) {
+
+    })
 
     require('../controllers/BlockDeviceController')(router, authenticated)
     require('../controllers/CpuController')(router, authenticated)

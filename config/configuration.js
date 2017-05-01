@@ -7,8 +7,8 @@ var pug = require('pug')
 
 module.exports = function Configuration(app) {
     app.set("view engine", "pug")
-    app.set("views", __dirname + "/views")
-    app.set("/resources", express.static(__dirname + '/resources'))
+    app.set("views", "../views/")
+    app.set("/resources", express.static('../resources/'))
     app.use(bodyparser.json())
     app.use(bodyparser.urlencoded({
         extended: true

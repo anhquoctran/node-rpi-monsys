@@ -48,7 +48,7 @@ module.exports = function CpuController(router, jwt) {
                         })
                     )
                     .catch(error => console.error(error))
-            }
+            } else handleBadAuthentication(res)
         }
     })
 
@@ -72,7 +72,7 @@ module.exports = function CpuController(router, jwt) {
                         })
                     })
                     .catch(error => console.error(error))
-            }
+            } else handleBadAuthentication(res)
         }
     })
 
@@ -85,17 +85,21 @@ module.exports = function CpuController(router, jwt) {
                 cpu_currentSpeed: null
             })
         } else {
-            cpu.cpuCurrentspeed()
-                .then(data => {
-                    res.json({
-                        token: token,
-                        request_datetime: datetime.getDateTimeNow(),
-                        cpu_currentSpeed: data
+            var decoded = jwt_simple.decode(token, jwt.secret)
+            if (decoded == jwt.user) {
+                cpu.cpuCurrentspeed()
+                    .then(data => {
+                        res.json({
+                            token: token,
+                            request_datetime: datetime.getDateTimeNow(),
+                            cpu_currentSpeed: data
+                        })
                     })
-                })
-                .catch(error => {
-                    console.error(error)
-                })
+                    .catch(error => {
+                        console.error(error)
+                    })
+            } else handleBadAuthentication(res)
+
         }
     })
 
@@ -108,15 +112,26 @@ module.exports = function CpuController(router, jwt) {
                 cpu_flags: null
             })
         } else {
-            cpu.cpuFlags()
-                .then(data => {
-                    res.json({
-                        token: token,
-                        request_datetime: datetime.getDateTimeNow(),
-                        flags: data
+            var decoded = jwt_simple.decode(token, jwt.scret)
+            if (decoded == jwt.user) {
+                cpu.cpuFlags()
+                    .then(data => {
+                        res.json({
+                            token: token,
+                            request_datetime: datetime.getDateTimeNow(),
+                            flags: data
+                        })
                     })
-                })
-                .catch(error => console.error(error))
+                    .catch(error => console.error(error))
+            } else handleBadAuthentication(res)
+
         }
     })
+
+    function handleBadAuthentication(res) {
+        res.status(400).send({
+            message: "Error when authenticating session",
+            status: 400
+        })
+    }
 }
