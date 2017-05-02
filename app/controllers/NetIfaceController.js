@@ -12,7 +12,7 @@ module.exports = function NetworkInterfaceController(router, jwt) {
                 list_ifaces: null
             })
         } else {
-            var decoded = jwt_simple.decode(token, jwt.secret)
+            let decoded = jwt_simple.decode(token, jwt.secret)
             if (decoded == jwt.user) {
                 network.networkInterfaces()
                     .then(data => {
@@ -23,7 +23,14 @@ module.exports = function NetworkInterfaceController(router, jwt) {
                         })
                     })
                     .catch(error => console.error(error))
-            }
+            } else handleBadAuthentication(res)
         }
     })
+
+    function handleBadAuthentication(res) {
+        res.status(400).send({
+            message: "Error when authenticating session",
+            status: 400
+        })
+    }
 }

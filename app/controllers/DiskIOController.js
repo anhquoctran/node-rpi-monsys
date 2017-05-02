@@ -12,7 +12,7 @@ module.exports = function DiskIOController(router, jwt) {
                 io: null
             })
         } else {
-            var decoded = jwt_simple.decode(token, jwt.scret)
+            let decoded = jwt_simple.decode(token, jwt.scret)
             if (decoded == jwt.user) {
                 disk.disksIO()
                     .then(data => {

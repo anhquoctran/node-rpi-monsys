@@ -112,7 +112,7 @@ module.exports = function CpuController(router, jwt) {
                 cpu_flags: null
             })
         } else {
-            var decoded = jwt_simple.decode(token, jwt.scret)
+            let decoded = jwt_simple.decode(token, jwt.scret)
             if (decoded == jwt.user) {
                 cpu.cpuFlags()
                     .then(data => {
