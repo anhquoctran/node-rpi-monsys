@@ -6,7 +6,7 @@ function Connector() {
         This is database connector module to connect to MongoDB Database
     */
 
-    this.connector = mongoose.connect(connection.MongoDbConnection.host + ":" + connection.MongoDbConnection.port + "/" + connection.MongoDbConnection.database)
+    this.datasource = mongoose.connect(connection.MongoDbConnection.host + ":" + connection.MongoDbConnection.port + "/" + connection.MongoDbConnection.database)
 
     mongoose.connection.on('connected', function() {
         console.log("Connect to database has been established")
@@ -20,3 +20,5 @@ function Connector() {
         console.log('Database connection disconnected')
     });
 }
+
+module.exports = new Connector();

@@ -77,6 +77,21 @@ function PythonExecution() {
             })
         })
     }
+
+    this.getGpio = function() {
+        return new Promise((resolve, reject) => {
+            var pyshell = new PythonShell('../../python/gpio_usage.py')
+
+            pyshell.on("message", function(message) {
+                resolve(message)
+            })
+
+            pyshell.end(function(error) {
+                if (error) reject(error)
+                console.log("Finished execution")
+            })
+        })
+    }
 }
 
 module.exports = new PythonExecution()

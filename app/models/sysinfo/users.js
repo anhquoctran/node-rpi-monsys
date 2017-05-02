@@ -1,33 +1,33 @@
-const os = require('os');
-const exec = require('child_process').exec;
-const util = require('./util');
+const os = require('os')
+const exec = require('child_process').exec
+const util = require('./util')
 
-var _platform = os.type();
+var _platform = os.type()
 
-const _linux = (_platform == 'Linux');
-const _darwin = (_platform == 'Darwin');
-const _windows = (_platform == 'Windows_NT');
-const NOT_SUPPORTED = 'oS not supported';
+const _linux = (_platform == 'Linux')
+const _darwin = (_platform == 'Darwin')
+const _windows = (_platform == 'Windows_NT')
+const NOT_SUPPORTED = 'oS not supported'
 
 // --------------------------
 // array of users online = sessions
 
 function parseUsers1(lines) {
-    var result = [];
-    var result_who = [];
-    var result_w = {};
-    var w_first = true;
-    var w_header = [];
-    var w_pos = [];
-    var w_headerline = '';
-    var who_line = {};
+    var result = []
+    var result_who = []
+    var result_w = {}
+    var w_first = true
+    var w_header = []
+    var w_pos = []
+    var w_headerline = ''
+    var who_line = {}
 
-    var is_whopart = true;
+    var is_whopart = true
     lines.forEach(function(line) {
         if (line == '---') {
-            is_whopart = false;
+            is_whopart = false
         } else {
-            var l = line.replace(/ +/g, " ").split(' ');
+            var l = line.replace(/ +/g, " ").split(' ')
 
             // who part
             if (is_whopart) {
@@ -41,22 +41,22 @@ function parseUsers1(lines) {
             } else {
                 // w part
                 if (w_first) { // header
-                    w_header = l;
-                    w_headerline = line;
+                    w_header = l
+                    w_headerline = line
                     w_header.forEach(function(item) {
                         w_pos.push(line.indexOf(item))
-                    });
-                    w_first = false;
+                    })
+                    w_first = false
                 } else {
                     // split by w_pos
-                    result_w.user = line.substring(w_pos[0], w_pos[1] - 1).trim();
-                    result_w.tty = line.substring(w_pos[1], w_pos[2] - 1).trim();
-                    result_w.ip = line.substring(w_pos[2], w_pos[3] - 1).replace(/\(/g, "").replace(/\)/g, "").trim();
-                    result_w.command = line.substring(w_pos[7], 1000).trim();
-                    // find corresponding 'who' line
+                    result_w.user = line.substring(w_pos[0], w_pos[1] - 1).trim()
+                    result_w.tty = line.substring(w_pos[1], w_pos[2] - 1).trim()
+                    result_w.ip = line.substring(w_pos[2], w_pos[3] - 1).replace(/\(/g, "").replace(/\)/g, "").trim()
+                    result_w.command = line.substring(w_pos[7], 1000).trim()
+                        // find corresponding 'who' line
                     who_line = result_who.filter(function(obj) {
                         return (obj.user.substring(0, 8).trim() == result_w.user && obj.tty == result_w.tty)
-                    });
+                    })
                     if (who_line.length == 1) {
                         result.push({
                             user: who_line[0].user,
@@ -70,22 +70,22 @@ function parseUsers1(lines) {
                 }
             }
         }
-    });
-    return result;
+    })
+    return result
 }
 
 function parseUsers2(lines) {
-    var result = [];
-    var result_who = [];
-    var result_w = {};
-    var who_line = {};
+    var result = []
+    var result_who = []
+    var result_w = {}
+    var who_line = {}
 
-    var is_whopart = true;
+    var is_whopart = true
     lines.forEach(function(line) {
         if (line == '---') {
-            is_whopart = false;
+            is_whopart = false
         } else {
-            var l = line.replace(/ +/g, " ").split(' ');
+            var l = line.replace(/ +/g, " ").split(' ')
 
             // who part
             if (is_whopart) {
@@ -98,14 +98,14 @@ function parseUsers2(lines) {
             } else {
                 // w part
                 // split by w_pos
-                result_w.user = l[0];
-                result_w.tty = l[1];
-                result_w.ip = (l[2] != '-') ? l[2] : '';
-                result_w.command = l.slice(5, 1000).join(' ');
-                // find corresponding 'who' line
+                result_w.user = l[0]
+                result_w.tty = l[1]
+                result_w.ip = (l[2] != '-') ? l[2] : ''
+                result_w.command = l.slice(5, 1000).join(' ')
+                    // find corresponding 'who' line
                 who_line = result_who.filter(function(obj) {
                     return (obj.user == result_w.user && (obj.tty.substring(3, 1000) == result_w.tty || obj.tty == result_w.tty))
-                });
+                })
                 if (who_line.length == 1) {
                     result.push({
                         user: who_line[0].user,
@@ -118,8 +118,8 @@ function parseUsers2(lines) {
                 }
             }
         }
-    });
-    return result;
+    })
+    return result
 }
 
 function users(callback) {
@@ -127,62 +127,62 @@ function users(callback) {
     return new Promise((resolve, reject) => {
         process.nextTick(() => {
             if (_windows) {
-                var error = new Error(NOT_SUPPORTED);
+                var error = new Error(NOT_SUPPORTED)
                 if (callback) { callback(NOT_SUPPORTED) }
-                reject(error);
+                reject(error)
             }
 
-            var result = [];
+            var result = []
 
             // linux
             if (_linux) {
-                exec("who --ips; echo '---'; w | tail -n +2", function(error, stdout) {
+                exec("who --ips echo '---' w | tail -n +2", function(error, stdout) {
                     if (!error) {
                         // lines / split
-                        var lines = stdout.toString().split('\n');
-                        result = parseUsers1(lines);
+                        var lines = stdout.toString().split('\n')
+                        result = parseUsers1(lines)
                         if (result.length == 0) {
-                            exec("who; echo '---'; w | tail -n +2", function(error, stdout) {
+                            exec("who echo '---' w | tail -n +2", function(error, stdout) {
                                 if (!error) {
                                     // lines / split
-                                    lines = stdout.toString().split('\n');
-                                    result = parseUsers1(lines);
+                                    lines = stdout.toString().split('\n')
+                                    result = parseUsers1(lines)
                                     if (callback) { callback(result) }
-                                    resolve(result);
+                                    resolve(result)
                                 } else {
                                     if (callback) { callback(result) }
-                                    resolve(result);
+                                    resolve(result)
                                 }
-                            });
+                            })
                         } else {
                             if (callback) { callback(result) }
-                            resolve(result);
+                            resolve(result)
                         }
                     } else {
                         if (callback) { callback(result) }
-                        resolve(result);
+                        resolve(result)
                     }
-                });
+                })
             }
 
             if (_darwin) {
-                exec("who; echo '---'; w -ih", function(error, stdout) {
+                exec("who echo '---' w -ih", function(error, stdout) {
                     if (!error) {
                         // lines / split
-                        var lines = stdout.toString().split('\n');
-                        result = parseUsers2(lines);
+                        var lines = stdout.toString().split('\n')
+                        result = parseUsers2(lines)
 
                         if (callback) { callback(result) }
-                        resolve(result);
+                        resolve(result)
                     } else {
                         if (callback) { callback(result) }
-                        resolve(result);
+                        resolve(result)
                     }
-                });
+                })
             }
 
-        });
-    });
+        })
+    })
 }
 
-exports.users = users;
+exports.users = users
