@@ -1,5 +1,5 @@
-var jwt_simple = require('jwt-simple');
-
+var jwt_simple = require('jwt-simple')
+var datetime = require('../middleware/datetime')
 module.exports = function UserController(router, passport) {
     var authenticated = {
         user: {
