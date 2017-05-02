@@ -61,6 +61,22 @@ function PythonExecution() {
             })
         })
     }
+
+    this.killProcess = function(pid) {
+        return new Promise((resolve, reject) => {
+            var pyshell = new PythonShell('../../python/process_kill.py')
+
+            pyshell.send("-pid " + pid);
+            pyshell.on("message", function(message) {
+                resolve(message)
+            })
+
+            pyshell.end(function(error) {
+                if (error) reject(error)
+                console.log("Finished execution")
+            })
+        })
+    }
 }
 
 module.exports = new PythonExecution()

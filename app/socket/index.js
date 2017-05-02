@@ -1,4 +1,9 @@
-var io = require('socket.io')
+var io = require('socket.io'),
+    cpu = require('./cpu'),
+    mem = require('./memory'),
+    disk = require('./disk'),
+    network = require('./network'),
+    gpio = require('./gpio')
 
 function SysInfoSocketHandle(server) {
     io.listen(server)
@@ -28,6 +33,10 @@ function SysInfoSocketHandle(server) {
         socket.on("gpio", function(info) {
 
         })
+    })
+
+    io.on("disconnected", function() {
+        console.log("Client has disconnected from Socket")
     })
 }
 
