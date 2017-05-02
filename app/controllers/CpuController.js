@@ -23,7 +23,7 @@ module.exports = function CpuController(router, jwt) {
                         })
                     })
                     .catch(error => console.error(error))
-            }
+            } else handleBadAuthentication(res)
 
         }
     })

@@ -6,5 +6,5 @@ app.listen(port, function() {
     console.log("Application is running at: " + port)
 });
 
-require("./config/configuration")(app)
+require("./configuration")(app)
 require("./app/routes")(app)

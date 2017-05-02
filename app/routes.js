@@ -2,7 +2,7 @@ var express = require('express')
 
 module.exports = function Route(app, passport) {
     app.get('/', function(req, res) {
-        res.render('index')
+        res.render('login')
     })
 
     app.get('/login', function(req, res) {

@@ -7,8 +7,8 @@ var pug = require('pug')
 
 module.exports = function Configuration(app) {
     app.set("view engine", "pug")
-    app.set("views", "../views/")
-    app.set("/resources", express.static('../resources/'))
+    app.set('views', __dirname + '/views')
+    app.use('/public', express.static(__dirname + '/public'))
     app.use(bodyparser.json())
     app.use(bodyparser.urlencoded({
         extended: true
@@ -23,5 +23,5 @@ module.exports = function Configuration(app) {
     }))
 
     var router = express.Router()
-    require('../app/controllers/RestController')(app, router)
+    require('./app/controllers/RestController')(app, router)
 }
