@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Disk Utilization Statistic</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <!-- VENDOR CSS -->
+    <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../assets/vendor/linearicons/style.css">
+    <link rel="stylesheet" href="../assets/vendor/chartist/css/chartist-custom.css">
+    <!-- MAIN CSS -->
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <!-- GOOGLE FONTS -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
+    <!-- ICONS -->
+    <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/favicon.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="../assets/img/favicon.png">
+</head>
+<body>
+    <div id="wrapper">
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="brand">
+                <a href="/"><img src="../assets/img/RPiMonSysDarkLogo.png" alt="RPiMonSys Logo" class="img-responsive logo"></a>
+            </div>
+            <div class="container-fluid">
+                <div class="navbar-btn">
+                    <button type="button" class="btn-toggle-fullwidth"><i class="lnr lnr-arrow-left-circle"></i></button>
+                </div>
+                <div id="navbar-menu">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle icon-menu" data-toggle="dropdown">
+                                <i class="lnr lnr-alarm"></i>
+                            </a>
+                            <ul class="dropdown-menu notifications">
+                                <li><a href="#" class="notification-item"><span class="dot bg-warning"></span>System space is almost full</a></li>
+                                <li><a href="#" class="notification-item"><span class="dot bg-danger"></span>You have 9 unfinished tasks</a></li>
+                                <li><a href="#" class="notification-item"><span class="dot bg-success"></span>Monthly report is available</a></li>
+                                <li><a href="#" class="notification-item"><span class="dot bg-warning"></span>Weekly meeting in 1 hour</a></li>
+                                <li><a href="#" class="notification-item"><span class="dot bg-success"></span>Your request has been approved</a></li>
+                                <li><a href="#" class="more">See all notifications</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="../assets/img/pic01.jpg" class="img-circle" alt="Avatar"> <span>Trần Anh Quốc</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#"><i class="lnr lnr-user"></i> <span>My Profile</span></a></li>
+                                <li><a href="#"><i class="lnr lnr-cog"></i> <span>Preferences</span></a></li>
+                                <li><a href="#"><i class="lnr lnr-exit"></i> <span>Logout</span></a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div id="sidebar-nav" class="sidebar">
+            <div class="sidebar-scroll">
+                <nav>
+                    <ul class="nav">
+                        <li><a href="/" class=""><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
+                        <li><a href="#" class=""><i class="fa fa-desktop"></i> <span>System overview</span></a></li>
+                        <li><a href="#" class=""><i class="fa fa-microchip"></i> <span>CPU</span></a></li>
+                        <li><a href="#" class=""><i class="fa fa-building-o"></i> <span>Memory</span></a></li>
+                        <li><a href="#" class="active"><i class="fa fa-database"></i> <span>Disk</span></a></li>
+                        <li>
+                            <a href="#subPages" data-toggle="collapse" class="collapsed"><i class="fa fa-wifi"></i> <span>Network</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
+                            <div id="subPages" class="collapse ">
+                                <ul class="nav">
+                                    <li><a href="#" class="">Interfaces</a></li>
+                                    <li><a href="#" class="">Connections</a></li>
+                                    <li><a href="#" class="">Traffics</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li><a href="#" class=""><i class="fa fa-file"></i> <span>Filesystem</span></a></li>
+                        <li><a href="#" class=""><i class="fa fa-folder"></i> <span>Linux packages</span></a></li>
+                        <li><a href="#" class=""><i class="fa fa-cogs"></i> <span>Processes</span></a></li>
+                        <li><a href="#" class=""><i class="fa fa-shield"></i><span>Linux Firewall</span> </a></li>
+                        <li><a href="#" class=""><i class="fa fa-users"></i><span>System Users & Groups</span></a> </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+        <div class="main">
+            <div class="main-content">
+                <div class="container-fluid">
+                    <div class="panel panel-headline">
+                        <div class="panel-heading">
+                            <h3 class="heading">
+                                Disk And I/O Statistic
+                            </h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <h4 class="heading">
+                                                <b>I/O activities</b>
+                                            </h4>
+                                            <div class="ct-chart" id="io-statistic"></div>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <h4 class="heading"><b>Disk space usage</b></h4>
+                                            <div class="ct-chart-pie" id="disk-space"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/vendor/jquery/jquery.min.js"></script>
+    <script src="../assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.js"></script>
+    <script src="../assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="../assets/vendor/jquery.easy-pie-chart/jquery.easypiechart.min.js"></script>
+    <script src="../assets/vendor/chartist/js/chartist.min.js"></script>
+    <script src="../assets/scripts/klorofil-common.js"></script>
+    <script>
+        var io, options;
+
+        io = {
+            series: [
+                [12,13,16,30,42,20,15,30]
+            ]
+        };
+
+        options = {
+            height: 300,
+            showArea: true,
+            showLine: false,
+            showPoint: false,
+            fullWidth: true,
+            low: 0,
+            high: 100,
+            axisX: {
+                showGrid: false
+            },
+            axisY: {
+                showGrid: false
+            },
+            lineSmooth: false,
+        };
+
+        new Chartist.Line("#io-statistic", io, options);
+
+        var disk_space, disk_options;
+
+        disk_space = {
+            lables: ["Used", "Free"],
+            series: [
+                [20, 40]
+            ]
+        };
+
+        disk_options = {
+            labelInterpolationFnc: function(value) {
+                return value[0];
+            }
+        };
+
+        var responsiveOptions = [
+            ['screen and (min-width: 640px)', {
+                chartPadding: 20,
+                labelOffset: 50,
+                labelDirection: 'explode',
+                labelInterpolationFnc: function(value) {
+                    return value;
+                }
+            }],
+            ['screen and (min-width: 1024px)', {
+                labelOffset: 10,
+                chartPadding: 20
+            }]
+        ];
+
+        new Chartist.Pie("#disk-space", disk_space, disk_options, responsiveOptions);
+    </script>
+</body>
+</html>

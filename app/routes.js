@@ -5,25 +5,54 @@ var crypto = require('crypto'),
 
 module.exports = function Route(app, passport) {
     app.get('/', function(req, res) {
-        var fullUrl = req.protocol + '://' + req.get('host');
-        var hash = crypto.createHash('sha512')
-        hash.update(new Date().toLocaleTimeString())
-        var key = hash.digest('hex')
+        res.redirect('/login')
+    })
 
-        var hashtoken = crypto.createHash('sha256')
-        hashtoken.update(key)
-        var token = hashtoken.digest('hex')
+    app.get('/login', function(req, res) {
+        res.render('login')
+    })
 
-        res.json({
-            message: "The API is running on " + fullUrl,
-            status: 200,
-            current_time: new Date().toLocaleTimeString(),
-            session_base: {
-                key: key,
-                token: token,
-                bare: req.session
-            },
-            data: req.route || null
-        })
+    app.post('/login', function(req, res) {
+
+    })
+
+    app.get('/logout', function(req, res) {
+
+    })
+
+    app.get('/admin', function(req, res) {
+
+    })
+
+    app.get("/admin/overview", function(req, res) {
+
+    })
+
+    app.get('/admin/cpu', function(req, res) {
+
+    })
+
+    app.get('/admin/memory', function(req, res) {
+
+    })
+
+    app.get('/admin/network/interfaces', function(req, res) {
+
+    })
+
+    app.get('/admin/network/connections', function(req, res) {
+
+    })
+
+    app.get('/admin/network/traffic', function(req, res) {
+
+    })
+
+    app.get('/admin/disk', function(req, res) {
+
+    })
+
+    app.get('/admin/filesystem', function(req, res) {
+
     })
 }
