@@ -1,7 +1,4 @@
 var express = require('express')
-var crypto = require('crypto'),
-    text = 'hello',
-    key = 'abcfdfsdf'
 
 module.exports = function Route(app, passport) {
     app.get('/', function(req, res) {
@@ -13,6 +10,22 @@ module.exports = function Route(app, passport) {
     })
 
     app.post('/login', function(req, res) {
+
+    })
+
+    app.post('/register', function(req, res) {
+
+    })
+
+    app.get('/register', function(req, res) {
+
+    })
+
+    app.get('/profile', function(req, res) {
+
+    })
+
+    app.get('/profile/setting', function(req, res) {
 
     })
 
