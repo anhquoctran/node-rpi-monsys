@@ -6,7 +6,7 @@ var fs = require('fs')
 var pug = require('pug')
 
 module.exports = function Configuration(app) {
-    app.engine('html', pug.renderFile)
+    app.engine('pug', pug.renderFile)
     app.set("view engine", "pug")
     app.set('views', __dirname + '/views')
     app.use('/public', express.static(__dirname + '/public'))
