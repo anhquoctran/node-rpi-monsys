@@ -36,15 +36,7 @@ module.exports = function Route(app, passport) {
 
     })
 
-    app.get('/admin/network/interfaces', function(req, res) {
-
-    })
-
-    app.get('/admin/network/connections', function(req, res) {
-
-    })
-
-    app.get('/admin/network/traffic', function(req, res) {
+    app.get('/admin/network', function(req, res) {
 
     })
 
