@@ -7,6 +7,7 @@ var pug = require('pug')
 var passport = require('passport')
 var path = require('path')
 var redistStore = require('connect-redis')(session)
+var config = require("./config/config")
 
 module.exports = function Configuration(app) {
     app.engine('pug', pug.renderFile)
