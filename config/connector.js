@@ -18,7 +18,7 @@ function Connector() {
 
     mongoose.connection.on('disconnected', function() {
         console.log('Database connection disconnected')
-    });
+    })
 }
 
-module.exports = new Connector();
+module.exports = new Connector()

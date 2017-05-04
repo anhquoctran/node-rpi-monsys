@@ -2,31 +2,27 @@ const connector = require('../query/queryBuilder')
 
 class Migrate {
 
-    static createOne([object]) {
+    static register(username, password, email, fullname, phone, hometown, wherenow, bio) {
 
     }
 
-    static findOne([object]) {
+    static getOneUser(usernameOrEmail) {
 
     }
 
-    static find(object) {
+    static getAllUser() {
 
     }
 
-    static delete([object]) {
+    static deleteUser(username) {
 
     }
 
-    static update([object]) {
+    static updateUser(username, fullname, email, phone, hometown, wherenow, bio) {
 
     }
 
-    static fill([object]) {
-
-    }
-
-    static search([object]) {
+    static updatePassword(username, newpassword) {
 
     }
 

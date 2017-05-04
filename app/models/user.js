@@ -7,9 +7,13 @@ module.exports = {
     password: String,
     fullname: String,
     birthdate: Date,
+    phone: String,
     hometown: String,
     wherenow: String,
     bio: String,
     description: String,
-    role: role.id
+    role: {
+        name: String,
+        description: String
+    }
 }
