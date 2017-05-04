@@ -1,32 +1,32 @@
-const connector = require('../../config/connector')
+const connector = require('../query/queryBuilder')
 
 class Migrate {
 
-    static createOne([param], callback) {
+    static createOne([object]) {
 
     }
 
-    static findOne([params], callback) {
+    static findOne([object]) {
 
     }
 
-    static find(callback) {
+    static find(object) {
 
     }
 
-    static delete([params], callback) {
+    static delete([object]) {
 
     }
 
-    static update([params], callback) {
+    static update([object]) {
 
     }
 
-    static fill([params], callback) {
+    static fill([object]) {
 
     }
 
-    static search([params], callback) {
+    static search([object]) {
 
     }
 
