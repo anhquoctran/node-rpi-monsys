@@ -1,7 +1,34 @@
 var express = require('express')
 var sysinfo = require('../app/models/sysinfo')
+var localStrategy = require("passport-local")
 
 module.exports = function Route(app, passport) {
+
+    passport.use(new localStrategy({
+        function(username, password, done) {
+            migrate.findUser(username, function(err, user) {
+                if (err) return done(err)
+                if (!user) {
+                    return done(null, false)
+                }
+
+                if (password !== user.password) {
+                    return done(null, false)
+                }
+                return done(null, user)
+            })
+        }
+    }))
+
+    function authenticationMiddleware() {
+        return function(req, res, next) {
+            if (req.isAuthenticated()) {
+                return next()
+            }
+            res.redirect('/login')
+        }
+    }
+
     app.get('/', function(req, res) {
         res.redirect('/login')
     })

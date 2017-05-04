@@ -1,5 +1,6 @@
 const crypto = require('crypto')
 
+
 function Security() {
     this.encryptPassword = function() {
 

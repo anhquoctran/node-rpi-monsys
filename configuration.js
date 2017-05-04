@@ -4,6 +4,8 @@ var cookieParser = require('cookie-parser')
 var session = require('express-session')
 var fs = require('fs')
 var pug = require('pug')
+var passport = require('passport')
+var redistStore = require('connect-redis')(session)
 
 module.exports = function Configuration(app) {
     app.engine('pug', pug.renderFile)
@@ -15,14 +17,17 @@ module.exports = function Configuration(app) {
         extended: true
     }))
     app.use(session({
-        cookie: 'session',
-        secret: 'userlogin',
+        store: new redistStore({
+            url: config.redisStore.url
+        }),
+        secret: config.redisStore.secret,
         resave: false,
-        saveUninitialized: true,
-        duration: 30 * 60 * 1000,
-        activeDuration: 5 * 60 * 1000
+        saveUninitialized: false
     }))
 
+    app.use(passport.initialize())
+    app.use(passport.session())
     var router = express.Router()
+    require("./app/routes")(app, passport)
     require('./app/controllers/RestController')(app, router)
 }

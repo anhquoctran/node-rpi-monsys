@@ -7,5 +7,4 @@ var server = app.listen(port, function() {
 });
 
 require("./configuration")(app)
-require("./app/routes")(app)
 require('./app/socket')(server)
