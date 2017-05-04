@@ -1,5 +1,3 @@
-var role = require('./role');
-
 module.exports = {
     id: String,
     username: String,

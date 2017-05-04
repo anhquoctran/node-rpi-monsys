@@ -1,11 +1,18 @@
 var express = require('express')
 var sysinfo = require('../app/models/sysinfo')
 var localStrategy = require("passport-local")
+var migrate = require('../database/migration/migrate')
 
 module.exports = function Route(app, passport) {
 
     passport.use(new localStrategy({
         function(username, password, done) {
+            migrate.getOneUser(username)
+                .then(user => {
+
+                })
+                .catch(error => console.error(error))
+
             migrate.findUser(username, function(err, user) {
                 if (err) return done(err)
                 if (!user) {

@@ -5,6 +5,7 @@ var session = require('express-session')
 var fs = require('fs')
 var pug = require('pug')
 var passport = require('passport')
+var path = require('path')
 var redistStore = require('connect-redis')(session)
 
 module.exports = function Configuration(app) {
