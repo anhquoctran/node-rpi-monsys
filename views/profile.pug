@@ -1,0 +1,128 @@
+extends layouts/layout.pug
+
+block content
+
+  // MAIN CONTENT
+  .main-content
+    .container-fluid
+      .panel.panel-profile
+        .clearfix
+          // LEFT COLUMN
+          .profile-left
+            // PROFILE HEADER
+            .profile-header
+              .overlay
+              .profile-main
+                img.img-circle(src='assets/img/medium-avatar.jpg.png', alt='Avatar')
+                h3.name Trần Anh Quốc
+                span.online-status.status-available Administrator
+              .profile-stat
+                .row
+                  .col-md-4.stat-item
+                    | 45 
+                    span Projects
+                  .col-md-4.stat-item
+                    | 15 
+                    span Awards
+                  .col-md-4.stat-item
+                    | 2174 
+                    span Points
+            // END PROFILE HEADER
+            // PROFILE DETAIL
+            .profile-detail
+              .profile-info
+                h4.heading Basic Info
+                ul.list-unstyled.list-justify
+                  li
+                    | Birthdate 
+                    span 19 Aug, 1996
+                  li
+                    | Hometown 
+                    span Hue, Vietnam
+                  li
+                    | Current city 
+                    span Hue, Vietnam
+                  li
+                    | Mobile 
+                    span (84) 918.910.735
+                  li
+                    | Email 
+                    span aquoc.hue@outlook.com
+                  li
+                    | Website 
+                    span
+                      a(href='https://anhquoctran.xyz') https://anhquoctran.xyz
+              .profile-info
+                h4.heading About
+                p I don't have anything to describe.
+              .text-center
+                a.btn.btn-primary(href='#') Edit Profile
+            // END PROFILE DETAIL
+          // END LEFT COLUMN
+          // RIGHT COLUMN
+          .profile-right
+            h4.heading User tool
+            // AWARDS
+            .awards
+              .row(style='text-align: center; align-content: center')
+                .col-md-3.col-sm-6
+                  .award-item
+                    .hexagon
+                      span.fa.fa-key.award-icon
+                    span
+                      a(href='#') Change password
+                .col-md-3.col-sm-6
+                  .award-item
+                    .hexagon
+                      span.fa.fa-user-circle.award-icon
+                    span
+                      a(href='#') Change avatar
+                .col-md-3.col-sm-6
+                  .award-item
+                    .hexagon
+                      span.fa.fa-user-o.award-icon
+                    span
+                      a(href='#') Add users
+            // END AWARDS
+            // TABBED CONTENT
+            .custom-tabs-line.tabs-line-bottom.left-aligned
+              ul.nav(role='tablist')
+                li.active
+                  a(href='#tab-bottom-left1', role='tab', data-toggle='tab') Recent Activity
+            .tab-content
+              #tab-bottom-left1.tab-pane.fade.in.active
+                ul.list-unstyled.activity-timeline
+                  li
+                    i.fa.fa-comment.activity-icon
+                    p
+                      | Commented on post 
+                      a(href='#') Prototyping
+                      span.timestamp 2 minutes ago
+                  li
+                    i.fa.fa-cloud-upload.activity-icon
+                    p
+                      | Uploaded new file 
+                      a(href='#') Proposal.docx
+                      |  to project 
+                      a(href='#') New Year Campaign
+                      span.timestamp 7 hours ago
+                  li
+                    i.fa.fa-plus.activity-icon
+                    p
+                      | Added 
+                      a(href='#') Martin
+                      |  and 
+                      a(href='#') 3 others colleagues
+                      |  to project repository 
+                      span.timestamp Yesterday
+                  li
+                    i.fa.fa-check.activity-icon
+                    p
+                      | Finished 80% of all 
+                      a(href='#') assigned tasks
+                      span.timestamp 1 day ago
+                .margin-top-30.text-center
+                  a.btn.btn-default(href='#') See all activity
+            // END TABBED CONTENT
+          // END RIGHT COLUMN
+  // END MAIN CONTENT
