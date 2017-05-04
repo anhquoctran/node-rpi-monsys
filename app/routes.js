@@ -5,28 +5,24 @@ var migrate = require('../database/migration/migrate')
 
 module.exports = function Route(app, passport) {
 
-    passport.use(new localStrategy({
+    /*passport.use(new localStrategy({
         function(username, password, done) {
-            migrate.getOneUser(username)
-                .then(user => {
-
-                })
-                .catch(error => console.error(error))
-
-            migrate.findUser(username, function(err, user) {
-                if (err) return done(err)
-                if (!user) {
-                    return done(null, false)
-                }
-
-                if (password !== user.password) {
-                    return done(null, false)
-                }
-                return done(null, user)
+            return new Promise(function(resolve, reject) {
+                migrate.getOneUser(username)
+                    .then(user => {
+                        if (!user) {
+                            resolve(null)
+                        } else if (passport !== user.password) {
+                            resolve(null)
+                        } else {
+                            resolve(user)
+                        }
+                    })
+                    .catch(error => console.error(error))
             })
         }
     }))
-
+*/
     function authenticationMiddleware() {
         return function(req, res, next) {
             if (req.isAuthenticated()) {
