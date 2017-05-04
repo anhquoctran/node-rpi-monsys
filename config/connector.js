@@ -1,24 +1,20 @@
 var connection = require('./connection')
 var mongoose = require('mongoose')
+var mysql = require("mysql")
 
 function Connector() {
     /*
-        This is database connector module to connect to MongoDB Database
+        This is database connector module to connect to MySQL Database
     */
-
-    this.datasource = mongoose.connect(connection.MongoDbConnection.host + ":" + connection.MongoDbConnection.port + "/" + connection.MongoDbConnection.database)
-
-    mongoose.connection.on('connected', function() {
-        console.log("Connect to database has been established")
+    this.connector = mysql.createConnection(connection.MySqlDbConnection)
+    this.connector.connect(function(error) {
+        if (err) {
+            console.error("Error when connecting to MySQL Database: " + err.stack);
+            return;
+        }
+        require('../database/init')
     })
 
-    mongoose.connection.on('error', function(error) {
-        console.log('Error occurred when connect to database: ' + error)
-    })
-
-    mongoose.connection.on('disconnected', function() {
-        console.log('Database connection disconnected')
-    })
 }
 
 module.exports = new Connector()

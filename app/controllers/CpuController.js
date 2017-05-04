@@ -16,6 +16,7 @@ module.exports = function CpuController(router, jwt) {
             if (decoded === jwt.user) {
                 cpu.cpu()
                     .then(data => {
+                        console.log("GET /sysinfo/cpuinfo 200 OK")
                         res.json({
                             token: token,
                             request_datetime: datetime.getDateTimeNow(),
@@ -40,12 +41,15 @@ module.exports = function CpuController(router, jwt) {
             var decoded = jwt_simple.decode(token, jwt.scret)
             if (decoded == jwt.user) {
                 cpu.cpuCache()
-                    .then(data =>
-                        res.json({
-                            token: token,
-                            request_datetime: datetime.getDateTimeNow(),
-                            cpu_cache: data
-                        })
+                    .then(data => {
+                            console.log("GET" + req.originalUrl + " 200 OK")
+                            res.json({
+                                token: token,
+                                request_datetime: datetime.getDateTimeNow(),
+                                cpu_cache: data
+                            })
+                        }
+
                     )
                     .catch(error => console.error(error))
             } else handleBadAuthentication(res)
@@ -65,6 +69,7 @@ module.exports = function CpuController(router, jwt) {
             if (decoded == jwt.user) {
                 cpu.cpuTemperature()
                     .then(data => {
+                        console.log("GET" + req.originalUrl + " 200 OK")
                         res.json({
                             token: token,
                             request_datetime: datetime.getDateTimeNow(),
@@ -89,6 +94,7 @@ module.exports = function CpuController(router, jwt) {
             if (decoded == jwt.user) {
                 cpu.cpuCurrentspeed()
                     .then(data => {
+                        console.log("GET" + req.originalUrl + " 200 OK")
                         res.json({
                             token: token,
                             request_datetime: datetime.getDateTimeNow(),
@@ -116,6 +122,7 @@ module.exports = function CpuController(router, jwt) {
             if (decoded == jwt.user) {
                 cpu.cpuFlags()
                     .then(data => {
+                        console.log("GET " + req.originalUrl + " 200 OK")
                         res.json({
                             token: token,
                             request_datetime: datetime.getDateTimeNow(),

@@ -10,8 +10,5 @@ module.exports = {
     wherenow: String,
     bio: String,
     description: String,
-    role: {
-        name: String,
-        description: String
-    }
+    role: Number
 }

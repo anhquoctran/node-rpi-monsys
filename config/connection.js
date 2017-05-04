@@ -1,26 +1,22 @@
 module.exports = {
 
-    //Default is MongoDbConnection - MongoDB Server
 
-    "Default": "MongoDbConnection",
-
-    "MongoDbConnection": {
+    /*"MongoDbConnection": {
         "host": "mongodb://localhost",
         "port": 27017,
         "username": "",
         "password": "",
         "database": "rpi-monsys"
-    }
+    }*/
 
     //If you want to use MySQL Server, comment out of here
 
-    /*
     "MySqlDbConnection": {
-        "host": "localhost",
-        "port": "3306",
-        "username": "root",
-        "password": "",
-        "database": "rpi-monsys"
+        host: '203.113.167.3',
+        user: 'root',
+        password: '@Hueic2016',
+        multipleStatements: true,
+        charset: 'utf8_general_ci'
     }
-    */
+
 }

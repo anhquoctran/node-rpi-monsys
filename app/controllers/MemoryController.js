@@ -16,7 +16,9 @@ module.exports = function MemoryController(router, jwt) {
             if (decoded == jwt.user) {
                 memory.mem()
                     .then(data => {
+                        console.log("GET " + req.originalUrl + " 200 OK")
                         res.json({
+
                             token: token,
                             request_datetime: datetime.getDateTimeNow(),
                             memory_properties: data

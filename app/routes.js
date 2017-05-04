@@ -79,6 +79,10 @@ module.exports = function Route(app, passport) {
 
     })
 
+    app.post('/upload', function(req, res) {
+
+    })
+
     app.get('/logout', function(req, res) {
 
     })

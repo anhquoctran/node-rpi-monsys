@@ -18,6 +18,7 @@ module.exports = function Configuration(app) {
     app.use(bodyparser.urlencoded({
         extended: true
     }))
+    app.use(bodyparser({ uploadDir: './public/blobs/tmp' }))
     app.use(session({
         store: new redistStore({
             url: config.redisStore.url

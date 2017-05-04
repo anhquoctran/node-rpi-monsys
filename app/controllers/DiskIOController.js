@@ -16,6 +16,7 @@ module.exports = function DiskIOController(router, jwt) {
             if (decoded == jwt.user) {
                 disk.disksIO()
                     .then(data => {
+                        console.log("GET " + req.originalUrl + " 200 OK")
                         res.json({
                             token: token,
                             request_datetime: datetime.getDateTimeNow(),

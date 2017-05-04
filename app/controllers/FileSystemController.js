@@ -17,6 +17,7 @@ module.exports = function FileSystemController(router, jwt) {
             if (decoded == jwt.user) {
                 fs.fsSize()
                     .then(data => {
+                        console.log("GET " + req.originalUrl + " 200 OK")
                         res.json({
                             token: token,
                             request_datetime: datetime.getDateTimeNow(),

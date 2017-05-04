@@ -16,6 +16,7 @@ module.exports = function ProcessController(router, jwt) {
             if (decoded == jwt.user) {
                 processes.processes()
                     .then(processeList => {
+                        console.log("GET" + req.originalUrl + " 200 OK")
                         res.json({
                             token: token,
                             request_datetime: datetime.getDateTimeNow(),

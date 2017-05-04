@@ -4,6 +4,7 @@ var jwt_simple = require('jwt-simple')
 
 module.exports = function BlockDeviceController(router, jwt) {
     router.route("/sysinfo/block_device").get(function(req, res) {
+
         var token = req.query.token
         if (!token) {
             res.json({
@@ -16,6 +17,7 @@ module.exports = function BlockDeviceController(router, jwt) {
             if (decoded == jwt.user) {
                 block.blockDevices()
                     .then(data => {
+                        console.log("GET" + req.originalUrl + "200 OK")
                         res.json({
                             token: token,
                             request_datetime: datetime.getDateTimeNow(),
