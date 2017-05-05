@@ -1,8 +1,8 @@
 const mysql = require('../../config/connector')
 
-class Migrate {
+function Migrate() {
 
-    static register(username, password, email, fullname, phone, hometown, wherenow, bio, description) {
+    this.register = function(username, password, email, fullname, phone, hometown, wherenow, bio, description) {
         return new Promise(function(resolve, reject) {
             mysql.connector.query("SELECT COUNT(U.username) FROM rpi_user U WHERE U.username = ?", [username], function(error, result) {
                 if (error) reject(error);
@@ -26,7 +26,7 @@ class Migrate {
         })
     }
 
-    static getOneUser(usernameOrEmail, password) {
+    this.getOneUser = function(usernameOrEmail, password) {
         return new Promise(function(resolve, reject) {
             mysql.connector.query("call procGetUsernameOrEmail(?, ?)", [usernameOrEmail, password], function(error, user) {
                 if (error) reject(error)
@@ -41,7 +41,7 @@ class Migrate {
         })
     }
 
-    static getAdmin() {
+    this.getAdmin = function() {
         return new Promise(function(resolve, reject) {
             mysql.connector.query("call getUserIfAdmin()", function(error, users) {
                 if (error) reject(error)
@@ -56,7 +56,7 @@ class Migrate {
         })
     }
 
-    static getAllUser() {
+    this.getAllUser = function() {
         return new Promise(function(resolve, reject) {
             mysql.connector.query("call procGetAllUsers()", function(error, users) {
                 if (error) reject(error)
@@ -73,7 +73,7 @@ class Migrate {
         })
     }
 
-    static deleteUser(username) {
+    this.deleteUser = function(username) {
         return new Promise(function(resolve, reject) {
             mysql.connector.query("update from rpi_user set isdeleted = 1 where username = ?", userame, function(error, result) {
                 if (error) reject(error)
@@ -86,7 +86,7 @@ class Migrate {
         })
     }
 
-    static updateUser(fullname, email, phone, birthdate, hometown, wherenow, bio, description) {
+    this.updateUser = function(fullname, email, phone, birthdate, hometown, wherenow, bio, description) {
         return new Promise(function(resolve, reject) {
             mysql.connector.query("update rpi_user set fullname = ?, email = ?, phone = ?, birthdate = ?, hometown = ?, wherenow = ?, bio = ?, description = ?", [fullname, email, phone, birthdate, hometown, wherenow, bio, description], function(error, result) {
 
@@ -94,10 +94,10 @@ class Migrate {
         })
     }
 
-    static uploadAvatar(filename, filesize, dateupload, path, userId) {
+    this.uploadAvatar = function(filename, filesize, dateupload, path, userId) {
         return new Promise(function(resolve, reject) {
-            mysql.connector.query("insert rpi_avatar(filename, filesize, dateupload, path, userId) values(?, ?, ?, ?, ?)", [filename, filesize, dateupload, path, userId], function(er, result) {
-                if (error) reject(error)
+            mysql.connector.query("insert rpi_avatar(filename, filesize, dateupload, path, userId, inused) values(?, ?, ?, ?, ?, ?)", [filename, filesize, dateupload, path, userId, 1], function(er, result) {
+                if (er) reject(er)
                 else {
                     if (result.affectedRows >= 0) {
                         resolve(true)
@@ -109,7 +109,7 @@ class Migrate {
         })
     }
 
-    static updatePassword(username, newpassword) {
+    this.updatePassword = function(username, newpassword) {
         return new Promise((resolve, reject) => {
             mysql.connector.query("update rpi_user set password = ? where username like ?", [password, username], function(error, result) {
                 if (error) reject(error)
@@ -122,13 +122,13 @@ class Migrate {
         })
     }
 
-    static saveSession(name, key, token, datetime, client, mac, path) {
+    this.saveSession = function(name, key, token, datetime, client, mac, path) {
         return new Promise(function(resolve, reject) {
 
         })
     }
 
-    static listSession() {
+    this.listSession = function() {
         return new Promise(function(resolve, reject) {
 
         })
@@ -136,4 +136,4 @@ class Migrate {
 
 }
 
-module.exports = Migrate
+module.exports = new Migrate()

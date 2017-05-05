@@ -1,7 +1,9 @@
 var express = require('express')
 var sysinfo = require('../app/models/sysinfo')
 var localStrategy = require("passport-local")
-var migrate = require('../database/migration/migrate')
+var migrator = require('../database/migration/migrate')
+var file = require('../app/middleware/file')
+var datetime = require("../app/middleware/datetime")
 
 module.exports = function Route(app, passport) {
 
@@ -33,10 +35,14 @@ module.exports = function Route(app, passport) {
     }
 
     app.get('/', function(req, res) {
-        res.redirect('/login')
+        console.log("GET " + req.originalUrl + " 200 OK from " + req.ip)
+        res.render("register", {
+            data: [1, 2, 3, 4, 5, 6]
+        })
     })
 
     app.get('/login', function(req, res) {
+        console.log("GET " + req.originalUrl + " 200 OK from " + req.ip)
         res.render('login')
     })
 
@@ -68,11 +74,16 @@ module.exports = function Route(app, passport) {
     })
 
     app.get('/register', function(req, res) {
-        res.render('register');
+        res.render('register', {
+            title: "Create an account to access our system"
+        });
     })
 
     app.get('/profile', function(req, res) {
-        res.render('profile');
+        res.render('profile', {
+            title: "Profile",
+            message: null
+        });
     })
 
     app.get('/profile/setting', function(req, res) {
@@ -80,11 +91,31 @@ module.exports = function Route(app, passport) {
     })
 
     app.post('/upload', function(req, res) {
+        var photo = req.files;
+        var size = photo.size,
+            name = photo.originalname,
+            path = photo.path,
+            date = datetime.getDateTimeNow()
+        migrator.uploadAvatar(name, size, date, path, 1)
+            .then(result => {
+                if (result == true) {
+                    res.render("", {
+                        title: "Profile",
+                        message: "Your avatar has been changed successfully!"
+                    })
+                } else {
+                    res.render("", {
+                        title: "Profile",
+                        message: "Error when changing avatar! Please try again"
+                    })
+                }
+            })
 
     })
 
     app.get('/logout', function(req, res) {
-
+        req.session.destroy();
+        res.redirect('/login')
     })
 
     app.get('/admin', function(req, res) {

@@ -2,20 +2,8 @@ const fs = require('fs'),
     path = require('path')
 
 function File() {
-    this.uploadTo = function(dir, filename, cb) {
 
-    }
-
-    this.downloadFrom = function(path, cb) {
-
-    }
-
-    function getFileProperties(filename) {
-        const stats = fs.statSync("myfile.txt")
-
-    }
-
-    function convertFileSizeReadable(filesize, options) {
+    this.convertFileSizeReadable = function(filesize, options) {
         if (0 == a) return "0 Bytes"
         var c = 1e3,
             d = options || 2,

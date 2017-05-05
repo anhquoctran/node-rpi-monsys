@@ -8,9 +8,18 @@ var passport = require('passport')
 var path = require('path')
 var redistStore = require('connect-redis')(session)
 var config = require("./config/config")
+var multer = require('multer')
+var uuid = require("node-uuid-generator")
 
 module.exports = function Configuration(app) {
-    app.engine('pug', pug.renderFile)
+
+    var storage = multer.diskStorage({
+        filename: function(req, file, cb) {
+            cb(null, "rpi_" + uuid.generate())
+        }
+    })
+
+    //app.engine('pug', pug.renderFile)
     app.set("view engine", "pug")
     app.set('views', __dirname + '/views')
     app.use('/public', express.static(__dirname + '/public'))
@@ -18,7 +27,6 @@ module.exports = function Configuration(app) {
     app.use(bodyparser.urlencoded({
         extended: true
     }))
-    app.use(bodyparser({ uploadDir: './public/blobs/tmp' }))
     app.use(session({
         store: new redistStore({
             url: config.redisStore.url
