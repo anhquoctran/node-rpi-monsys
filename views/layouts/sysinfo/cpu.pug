@@ -1,0 +1,43 @@
+extends layouts/layout.pug
+
+block content
+
+  // MAIN CONTENT
+  .main-content
+    .container-fluid
+      .panel.panel-headline
+        .panel-heading
+          h3.panel-title
+            b CPU Utilization Information
+        .panel-body
+          .row
+            .col-md-12
+              .row
+                .col-md-9
+                  h4.heading
+                    b Overall Utilization
+                  #cpu-usage-chart.ct-chart
+                .col-md-3
+                  .weekly-summary.text-right.bottom
+                    span.number 203
+                    span.info-label Processes
+                  .weekly-summary.text-right.bottom
+                    span.number 16%
+                    span.info-label CPU Utilize
+                  .weekly-summary.text-right.bottom
+                    span.number 4
+                    span.info-label Logical Processors
+              .row
+                .col-md-9
+                  h4.heading
+                    b Logical Processors
+                  .row
+                    .col-md-3
+                      #cpu-core-1.ct-chart
+                    .col-md-3
+                      #cpu-core-2.ct-chart
+                    .col-md-3
+                      #cpu-core-3.ct-chart
+                    .col-md-3
+                      #cpu-core-4.ct-chart
+

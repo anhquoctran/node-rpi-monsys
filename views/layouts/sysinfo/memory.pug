@@ -1,0 +1,95 @@
+extends layouts/layout.pug
+
+block content
+
+  .main-content
+    .container-fluid
+      .panel.panel-headline
+        .panel-heading
+          h3.panel-title
+            b Memory Statistics
+        .panel-body
+          .row
+            .col-md-12
+              .row
+                .col-md-9
+                  h4.heading
+                    b Overall Usage
+                  #memory-usage-chart.ct-chart
+                .col-md-3
+                  .weekly-summary.text-right.bottom
+                    span.number 40% (398.8 MB)
+                    span.info-label In use
+                  .weekly-summary.text-right.bottom
+                    span.number 997 MB
+                    span.info-label Total
+                  .weekly-summary.text-right.bottom
+                    span.number 20 MB
+                    span.info-label Swap in used
+                  .weekly-summary.text-right.bottom
+                    span.number 10 GB
+                    span.info-label Swap total
+              .row.container-fluid
+                .col-md-3
+                  h4.heading
+                    b Statistic
+                  ul.list-unstyled.list-justify
+                    li
+                      | Total 
+                      span 1
+                    li
+                      | Free 
+                      span 1
+                    li
+                      | In use 
+                      span 2
+                    li
+                      | Active 
+                      span 1
+                    li
+                      | Available 
+                      span 2
+                    li
+                      | Buffer cache 
+                      span 1
+                    li
+                      | Swap total 
+                      span 3
+                    li
+                      | Swap used 
+                      span 4
+                    li
+                      | Swap free 
+                      span 4
+
+block scripts
+
+  script.
+      $(function () {
+          var memory_usage, options;
+
+          memory_usage = {
+              series: [
+                  [23, 29, 24, 40, 25, 24, 35, 12, 35]
+              ]
+          };
+
+          options = {
+              height: 300,
+              showArea: true,
+              showLine: false,
+              showPoint: false,
+              fullWidth: true,
+              low: 0,
+              high: 100,
+              axisX: {
+                  showGrid: false
+              },
+              axisY: {
+                  showGrid: false
+              },
+              lineSmooth: false,
+          };
+
+          new Chartist.Line("#memory-usage-chart", memory_usage, options);
+      })
