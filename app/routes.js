@@ -64,10 +64,16 @@ module.exports = function Route(app, passport) {
             birthdate = req.body.birthdate,
             hometown = req.body.hometown,
             wherenow = req.body.wherenow,
-            phone = req.body.phone;
+            phone = req.body.phone,
+            bio = req.body.bio,
+            description = req.body.description
 
-        if (username || fullname || email || password || birthdate || hometown || wherenow || phone) {
+        if (username || fullname || email || password || birthdate || hometown || wherenow || phone || bio || description) {
+            migrator.register(username, password, email, fullname, phone, hometown, wherenow, bio, description)
+                .then(result => {
 
+                })
+                .catch(error => console.error(error))
         } else {
 
         }
