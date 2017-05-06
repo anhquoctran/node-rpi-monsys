@@ -1,0 +1,171 @@
+extends layouts/layout.pug
+
+block content
+
+  .main-content
+    .container-fluid
+      .panel.panel-headline
+        .panel-heading
+          h3.panel-title System Information
+        .panel-body
+          .row
+            .col-md-12
+              .col-md-4
+                h4.heading
+                  b Operating System
+                ul.list-unstyled.list-justify
+                  li
+                    | Platform 
+                    span Linux
+                  li
+                    | Distro 
+                    span Raspbian Jessie
+                  li
+                    | Release 
+                    span sfdfdf
+                  li
+                    | Code name 
+                    span sdfsddfsdf
+                  li
+                    | Kernel 
+                    span 3.4.2
+                  li
+                    | Architecture 
+                    span ARMv7
+                  li
+                    | Hostname 
+                    span Pi-Server
+                  li
+                    | Logo file 
+                    span sdsfsdfsdfd
+              .col-md-4
+                h4.heading
+                  b Central Processor Unit
+                ul.list-unstyled.list-justify
+                  li
+                    | Manufacturer 
+                    span Value 1
+                  li
+                    | Brand 
+                    span Value 2
+                  li
+                    | Speed 
+                    span Value 3
+                  li
+                    | Total cores 
+                    span Value 4
+                  li
+                    | Minimum speed 
+                    span Value 5
+                  li
+                    | Maximum speed 
+                    span Value 6
+                  li
+                    | Average speed 
+                    span Value 7
+                  li
+                    | Temperature 
+                    span Value 8
+              .col-md-4
+                h4.heading
+                  b Memory
+                ul.list-unstyled.list-justify
+                  li
+                    | Total 
+                    span Value 1
+                  li
+                    | Free 
+                    span Value 2
+                  li
+                    | In used 
+                    span Value 3
+                  li
+                    | Active 
+                    span Value 4
+                  li
+                    | Available 
+                    span Value 5
+                  li
+                    | Buffer cache 
+                    span Value 6
+                  li
+                    | Swap total 
+                    span Value 7
+                  li
+                    | Swap use 
+                    span Value 8
+                  li
+                    | Swap free 
+                    span Value 9
+              .col-md-4
+                h4.heading
+                  b Disk IO activities
+                ul.list-unstyled.list-justify
+                  li
+                    | Read IO 
+                    span Value 1
+                  li
+                    | Write IO 
+                    span Value 2
+                  li
+                    | T IO 
+                    span Value 3
+                  li
+                    | Read per second 
+                    span Value 4
+                  li
+                    | Write per second 
+                    span Value 5
+              .col-md-4
+                h4.heading
+                  b Networking
+                ul.list-unstyled.list-justify
+                  li
+                    | Total interfaces 
+                    span Value 1
+                  li
+                    | Default interface 
+                    span Value 2
+                  li
+                    | IPv4 address 
+                    span Value 3
+                  li
+                    | IPv6 address 
+                    span Value 4
+                  li
+                    | MAC address 
+                    span Value 5
+                  li
+                    | Total connnections 
+                    span Value 6
+              .col-md-4
+                h4.heading
+                  b File system
+                ul.list-unstyled.list-justify
+                  li
+                    | Name 
+                    span Value 1
+                  li
+                    | Type 
+                    span Value 2
+                  li
+                    | Size 
+                    span Value 3
+                  li
+                    | Used 
+                    span Value 4
+                  li
+                    | Use 
+                    span Value 5
+                  li
+                    | Mount 
+                    span Value 6
+        .panel-footer
+          .row
+            .col-md-12.text-right
+              button#exportText.btn.btn-primary(name='exportText')
+                span.fa.fa-file-text(aria-hidden='true')
+                | Export to text file
+              button#refreshData.btn.btn-primary(name='refreshData')
+                span.fa.fa-refresh
+                | Refresh all data
