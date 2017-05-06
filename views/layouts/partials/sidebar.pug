@@ -1,31 +1,63 @@
 <!-- LEFT SIDEBAR -->
-<div id="sidebar-nav" class="sidebar">
-    <div class="sidebar-scroll">
-        <nav>
-            <ul class="nav">
-                <li><a href="/" class="active"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
-                <li><a href="#" class=""><i class="fa fa-desktop"></i> <span>System overview</span></a></li>
-                <li><a href="#" class=""><i class="fa fa-microchip"></i> <span>CPU</span></a></li>
-                <li><a href="#" class=""><i class="fa fa-building-o"></i> <span>Memory</span></a></li>
-                <li><a href="#" class=""><i class="fa fa-database"></i> <span>Disk</span></a></li>
-                <li>
-                    <a href="#subPages" data-toggle="collapse" class="collapsed"><i class="fa fa-wifi"></i> <span>Network</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
-                    <div id="subPages" class="collapse ">
-                        <ul class="nav">
-                            <li><a href="#" class="">Interfaces</a></li>
-                            <li><a href="#" class="">Connections</a></li>
-                            <li><a href="#" class="">Traffics</a></li>
-                        </ul>
-                    </div>
-                </li>
-                <li><a href="#" class=""><i class="fa fa-file"></i> <span>Filesystem</span></a></li>
-                <li class="disabled"><a class=""><i class="fa fa-folder"></i> <span>Linux packages</span></a></li>
-                <li><a href="#" class=""><i class="fa fa-cogs"></i> <span>Processes</span></a></li>
-                <li><a href="#" class=""><i class="fa fa-shield"></i><span>Linux Firewall</span> </a></li>
-                <li class="disabled"><a class=""><i class="fa fa-users"></i><span>System Users & Groups</span></a> </li>
-                <li class="disabled"><a class=""><i class="fa fa-terminal"></i><span>Web Terminal</span></a></li>
-            </ul>
-        </nav>
-    </div>
-</div>
+#sidebar-nav.sidebar
+  .sidebar-scroll
+    nav
+      ul.nav
+        li
+          a.active(href='/')
+            i.fa.fa-dashboard
+            span Dashboard
+        li
+          a(href='#')
+            i.fa.fa-desktop
+            span System overview
+        li
+          a(href='#')
+            i.fa.fa-microchip
+            span CPU
+        li
+          a(href='#')
+            i.fa.fa-building-o
+            span Memory
+        li
+          a(href='#')
+            i.fa.fa-database
+            span Disk
+        li
+          a.collapsed(href='#subPages', data-toggle='collapse')
+            i.fa.fa-wifi
+            span Network
+            i.icon-submenu.lnr.lnr-chevron-left
+          #subPages.collapse
+            ul.nav
+              li
+                a(href='#') Interfaces
+              li
+                a(href='#') Connections
+              li
+                a(href='#') Traffics
+        li
+          a(href='#')
+            i.fa.fa-file
+            span Filesystem
+        li.disabled
+          a
+            i.fa.fa-folder
+            span Linux packages
+        li
+          a(href='#')
+            i.fa.fa-cogs
+            span Processes
+        li
+          a(href='#')
+            i.fa.fa-shield
+            span Linux Firewall
+        li.disabled
+          a
+            i.fa.fa-users
+            span System Users & Groups
+        li.disabled
+          a
+            i.fa.fa-terminal
+            span Web Terminal
 <!-- END LEFT SIDEBAR -->

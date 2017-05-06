@@ -4,6 +4,7 @@ var localStrategy = require("passport-local")
 var migrator = require('../database/migration/migrate')
 var file = require('../app/middleware/file')
 var datetime = require("../app/middleware/datetime")
+var mail = require("../app/middleware/mail")
 
 module.exports = function Route(app, passport) {
 
@@ -71,7 +72,11 @@ module.exports = function Route(app, passport) {
         if (username || fullname || email || password || birthdate || hometown || wherenow || phone || bio || description) {
             migrator.register(username, password, email, fullname, phone, hometown, wherenow, bio, description)
                 .then(result => {
+                    if (result == true) {
 
+                    } else {
+
+                    }
                 })
                 .catch(error => console.error(error))
         } else {
