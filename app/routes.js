@@ -107,6 +107,10 @@ module.exports = function Route(app, passport) {
 
     })
 
+    app.get('/sysinfo/terminal/ssh', function(req, res) {
+
+    })
+
     app.post('/upload', function(req, res) {
         var photo = req.files;
         var size = photo.size,
@@ -269,7 +273,7 @@ module.exports = function Route(app, passport) {
                     running: processes.running,
                     blocked: processes.blocked,
                     sleeping: processes.sleeping,
-                    list: processes.processes
+                    list: processes.list
                 })
             })
             .catch(error => console.error(error))
