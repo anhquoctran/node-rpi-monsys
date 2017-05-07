@@ -37,9 +37,15 @@ module.exports = function Route(app, passport) {
 
     app.get('/', function(req, res) {
         console.log("GET " + req.originalUrl + " 200 OK from " + req.ip)
-        res.render("register", {
-            data: [1, 2, 3, 4, 5, 6]
-        })
+        sysinfo.processes()
+            .then(data => {
+                res.json({
+                    processes: data
+                })
+            })
+            .catch(error => {
+
+            })
     })
 
     app.get('/login', function(req, res) {
