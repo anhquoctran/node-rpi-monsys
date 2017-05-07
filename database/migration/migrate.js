@@ -1,6 +1,11 @@
 const mysql = require('../../config/connector')
+var security = require('../../app/middleware/security')
 
 function Migrate() {
+
+    function getDateTimeLocal() {
+        return new Date().toLocaleDateString() + " " + new Date().toLocaleTimeString()
+    }
 
     this.register = function(username, password, email, fullname, phone, hometown, wherenow, bio, description) {
         return new Promise(function(resolve, reject) {
@@ -8,11 +13,20 @@ function Migrate() {
                 if (error) reject(error);
                 else {
                     if (result["COUNT(U.username)"] == 0) {
+                        password = security.encryptPassword(password)
                         mysql.connector.query("INSERT INTO rpi_user(username, password, email, fullname, phone, hometown, wherenow, bio, description) VALUES(?, ?, ?, ?, ?, ?, ?, ?)", [username, password, email, fullname, phone, hometown, wherenow, bio], function(error, result) {
                             if (error) reject(error);
                             else {
                                 if (result.affectedRows >= 0) {
-                                    resolve(true)
+                                    mysql.connector.query("INSERT INTO rpi_verification(idUser, isverified, createdAt) VALUES(?, ?, ?)", [result.insertId, 0, getDateTimeLocal()], function(error, response) {
+                                        if (error) reject(error)
+                                        else {
+                                            if (response.affectedRows >= 0)
+                                                resolve(true)
+                                            else
+                                                resolve(false)
+                                        }
+                                    })
                                 } else {
                                     reject(false)
                                 }
@@ -20,6 +34,21 @@ function Migrate() {
                         })
                     } else {
                         resolve(false)
+                    }
+                }
+            })
+        })
+    }
+
+    this.verify = function(userid) {
+        return new Promise(function(resolve, reject) {
+            mysql.connector.query("update rpi_verification set isverified = ?, verifiedAt = ?", [userid, datetime.getDateTimeNow()], function(error, result) {
+                if (error) reject(error)
+                else {
+                    if (result.affectedRows >= 0) {
+                        resolve(true)
+                    } else {
+                        resolve(true)
                     }
                 }
             })
@@ -132,6 +161,7 @@ function Migrate() {
 
     this.updatePassword = function(username, newpassword) {
         return new Promise((resolve, reject) => {
+            newpassword = security.encryptPassword(newpassword)
             mysql.connector.query("update rpi_user set password = ? where username like ?", [newpassword, username], function(error, result) {
                 if (error) reject(error)
                 else {
@@ -160,12 +190,14 @@ function Migrate() {
 
     this.listSessionFromDate = function(datefrom) {
         return new Promise(function(resolve, reject) {
-            mysql.connector.query("select S.id, S.name, S.token, S.datetime, S.client, S.mac, S.path from rpi_sessions S where datetime between ? and now()", datefrom, function(error, result) {
+            mysql.connector.query("call procGetSessionFromDateToDate(?, ?)", [datefrom, getDateTimeLocal()], function(error, result) {
                 if (error) reject(error)
                 else {
                     if (result.length > 0) {
                         resolve(result)
-                    } else resolve(null)
+                    } else {
+                        resolve(null)
+                    }
                 }
             })
         })
@@ -173,7 +205,7 @@ function Migrate() {
 
     this.listSessionFromDateToDate = function(from, to) {
         return new Promise(function(resolve, reject) {
-            mysql.connector.query("select S.id, S.name, S.token, S.datetime, S.Client, S.mac, S.path from rpi_sessions S where datetime between ? and ?", [from, to], function(error, result) {
+            mysql.connector.query("call procGetSessionFromDateToDate(?, ?)", [from, to], function(error, result) {
                 if (error) reject(error)
                 else {
                     if (result.length > 0) {

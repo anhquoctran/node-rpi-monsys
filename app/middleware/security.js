@@ -1,9 +1,8 @@
-const crypto = require('crypto')
-
+var crypto = require('crypto')
 
 function Security() {
-    this.encryptPassword = function() {
-
+    this.encryptPassword = function(password) {
+        return crypto.createHash("sha512").update(password.toString()).digest('hex')
     }
 
     this.createHash = function() {
