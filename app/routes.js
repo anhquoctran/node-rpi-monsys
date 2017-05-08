@@ -184,6 +184,10 @@ module.exports = function Route(app, passport) {
     })
 
     app.get('/admin/cpu', function(req, res) {
+        res.render('layouts/sysinfo/cpu', {
+            title: "CPU",
+            message: null
+        });
         Promise.all([
                 sysinfo.cpu(), sysinfo.cpuCache(), sysinfo.cpuCurrentspeed(), sysinfo.cpuFlags()
             ])
