@@ -42,7 +42,9 @@ module.exports = function Route(app, passport) {
 
     app.get('/login', function(req, res) {
         console.log("GET " + req.originalUrl + " 200 OK from " + req.ip)
-        res.render('login')
+        res.render('login', {
+            title: "Login to your system - RPiMonSys"
+        })
     })
 
     app.post('/login', function(req, res) {
@@ -80,6 +82,12 @@ module.exports = function Route(app, passport) {
         } else {
 
         }
+    })
+
+    app.get('/forgot', function(req, res) {
+        res.render('forgot', {
+            title: "Forgot your password - RPiMonSys"
+        })
     })
 
     app.get('/register', function(req, res) {

@@ -1,7 +1,7 @@
 doctype html
 html
   head
-    title Dashboard
+    title #{title}
     meta(charset='utf-8')
     meta(http-equiv='X-UA-Compatible', content='IE=edge,chrome=1')
     meta(name='viewport', content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0')
@@ -29,22 +29,29 @@ html
                                 .logo.text-center
                                     h3 Raspberry Pi Monitor System
                                 p.lead Login to your account
-                            form.form-auth-small(action='index.php')
+                            form.form-auth-small(action='/register', method='post')
                             .form-group
                                 label.control-label.sr-only(for='signin-email') Email or username
-                                input#signin-email.form-control(type='email', value='', placeholder='Email or username')
+                                input#signin-email.form-control(type='email', value='', name='password' placeholder='Email or username')
                             .form-group
                                 label.control-label.sr-only(for='signin-password') Password
-                                input#signin-password.form-control(type='password', placeholder='Password')
+                                input#signin-password.form-control(type='password', name='password' placeholder='Password')
                             .form-group.clearfix
                                 label.fancy-checkbox.element-left
-                                input(type='checkbox')
+                                input#chkSaveCredential(type='checkbox', name='chkSaveCredential')
                                 span Remember me
-                            button.btn.btn-primary.btn-lg.btn-block(type='submit') LOGIN
+                            button#btnSubmit.btn.btn-primary.btn-lg.btn-block(type='submit') LOGIN
                             .bottom
                                 span.helper-text
                                     i.fa.fa-lock
-                                        a(href='#') Forgot password?
+                                        a(href='/forgot') Forgot password?
                     .right
                     .clearfix
         // END WRAPPER
+    block scripts
+        script.
+            var chck = $("#chkSaveCredential")
+            var btnSubmit = $("#btnSubmit")
+            btnSubmit.on("click", function() {
+
+            })
