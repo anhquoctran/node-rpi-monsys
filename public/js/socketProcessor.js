@@ -7,16 +7,20 @@ $(function() {
         _cpuPercent = $("#cpuPercent"),
         _memPercent = $("#memPercent"),
         _diskIo = $("#diskIoChart"),
-        _processes = $("#processes"),
+        _killprocBtn = $("#killprocBtn"),
         _networkIo = $("#netioChart")
 
     socket.on("connected", function() {
         socket.emit("cpu")
         socket.emit("memory")
         socket.emit("disk")
-        socket.emit("processes")
         socket.emit("network")
         socket.emit("gpio")
+    })
+
+    _killprocBtn.on("click", function() {
+        var pid = $(".rowSelected").value()
+        socket.emit("processes", pid)
     })
 
     socket.on("cpu", function(cpu) {
