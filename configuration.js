@@ -27,14 +27,14 @@ module.exports = function Configuration(app) {
     app.use(bodyparser.urlencoded({
         extended: true
     }))
-    app.use(session({
-        store: new redistStore({
-            url: config.redisStore.url
-        }),
-        secret: config.redisStore.secret,
+    app.use(app.use(session({
+        cookie: 'session',
+        secret: 'userlogin',
         resave: false,
-        saveUninitialized: false
-    }))
+        saveUninitialized: true,
+        duration: 30 * 60 * 1000,
+        activeDuration: 5 * 60 * 1000
+    })))
 
     app.use(passport.initialize())
     app.use(passport.session())

@@ -13,9 +13,9 @@ block content
             .profile-header
               .overlay
               .profile-main
-                img.img-circle(src='assets/img/medium-avatar.jpg.png', alt='Avatar')
-                h3.name Trần Anh Quốc
-                span.online-status.status-available Administrator
+                img.img-circle(src='#{user.AvatarPath}', alt='Avatar')
+                h3.name #{user.Fullname}
+                span.online-status.status-available #{user.Rolename}
               .profile-stat
                 .row
                   .col-md-4.stat-item
@@ -35,26 +35,22 @@ block content
                 ul.list-unstyled.list-justify
                   li
                     | Birthdate 
-                    span 19 Aug, 1996
+                    span #{user.Birthdate}
                   li
                     | Hometown 
-                    span Hue, Vietnam
+                    span #{user.Hometown}
                   li
                     | Current city 
-                    span Hue, Vietnam
+                    span #{user.CurrentCity}
                   li
                     | Mobile 
-                    span (84) 918.910.735
+                    span #{user.Phone}
                   li
                     | Email 
-                    span aquoc.hue@outlook.com
-                  li
-                    | Website 
-                    span
-                      a(href='https://anhquoctran.xyz') https://anhquoctran.xyz
+                    span #{user.Email}
               .profile-info
                 h4.heading About
-                p I don't have anything to describe.
+                p #{user.Bio}
               .text-center
                 a.btn.btn-primary(href='#') Edit Profile
             // END PROFILE DETAIL

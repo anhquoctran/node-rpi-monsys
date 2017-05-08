@@ -15,29 +15,34 @@ nav.navbar.navbar-default.navbar-fixed-top
             li
               a.notification-item(href='#')
                 span.dot.bg-warning
-                | System space is almost full
+                | 
             li
               a.notification-item(href='#')
-                span.dot.bg-danger
-                | You have 9 unfinished tasks
-            li
-              a.notification-item(href='#')
-                span.dot.bg-success
-                | Monthly report is available
-            li
-              a.notification-item(href='#')
-                span.dot.bg-warning
-                | Weekly meeting in 1 hour
+                span.dot.bg-login
+                | First visited Dashboard on #{user.FirstVisitedDashboard}
             li
               a.notification-item(href='#')
                 span.dot.bg-success
-                | Your request has been approved
+                | First login on #{user.FirstLogin}
+            li
+              a.notification-item(href='#')
+                if user.isverfied == true
+                  span.dot.bg-success Account has been verified at #{user.VerifiedAt}
+                else
+                  span.dot.bg-warning Your account has not been verified. Please click
+                    a(href='/verify') here 
+                  | to verify.
+                    
+            li
+              a.notification-item(href='#')
+                span.dot.bg-success
+                | Joined on #{user.CreateAt}
             li
               a.more(href='#') See all notifications
         li.dropdown
           a.dropdown-toggle(href='#', data-toggle='dropdown')
-            img.img-circle(src='../public/images/pic01.jpg', alt='Avatar')
-            span Trần Anh Quốc
+            img.img-circle(src='#{user.AvatarPath}', alt='Avatar')
+            span #{user.Fullname}
             i.icon-submenu.lnr.lnr-chevron-down
           ul.dropdown-menu
             li
