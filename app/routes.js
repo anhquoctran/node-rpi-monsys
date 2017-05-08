@@ -206,6 +206,10 @@ module.exports = function Route(app, passport) {
     })
 
     app.get('/admin/memory', function(req, res) {
+        res.render('layouts/sysinfo/memory', {
+            title: "Memory Usage Statistic",
+            message: null
+        });
         sysinfo.mem()
             .then(memory => {
                 res.json({
