@@ -1,28 +1,21 @@
-<!-- LEFT SIDEBAR -->
+-var menu = [["Dashboard", "fa-dashboard", "/"],["System overview", "fa-desktop", "admin/overview"],["CPU", "fa-microchip", "/admin/cpu"], ["Memory", "fa-building-o", "admin/memory"], ["Disk", "fa-database", "admin/disk"], ["Filesystem", "fa-file", "admin/filesystem"], ["Linux packages", "fa-folder", "admin/filesystem"], ["Processes", "fa-cogs", "admin/processes"],]
+
+//- ["Title", "fa-icon", "link"]
 #sidebar-nav.sidebar
   .sidebar-scroll
     nav
       ul.nav
-        li
-          a.active(href='/')
-            i.fa.fa-dashboard
-            span Dashboard
-        li
-          a(href='#')
-            i.fa.fa-desktop
-            span System overview
-        li
-          a(href='#')
-            i.fa.fa-microchip
-            span CPU
-        li
-          a(href='#')
-            i.fa.fa-building-o
-            span Memory
-        li
-          a(href='#')
-            i.fa.fa-database
-            span Disk
+        each val, key in menu
+          if selected === key
+            li.active
+              a(href= val[2], title= val[0])
+                i.fa(class= val[1])
+                span #{val[0]}
+          else
+            li
+              a(href= val[2], title= val[0])
+                i.fa(class= val[1])
+                span #{val[0]}
         li
           a.collapsed(href='#subPages', data-toggle='collapse')
             i.fa.fa-wifi
@@ -38,18 +31,6 @@
                 a(href='#') Traffics
         li
           a(href='#')
-            i.fa.fa-file
-            span Filesystem
-        li.disabled
-          a
-            i.fa.fa-folder
-            span Linux packages
-        li
-          a(href='#')
-            i.fa.fa-cogs
-            span Processes
-        li
-          a(href='#')
             i.fa.fa-shield
             span Linux Firewall
         li.disabled
@@ -60,4 +41,5 @@
           a
             i.fa.fa-terminal
             span Web Terminal
+            span(style="font-size: .7em; margin-left: 10px;") Comming soon
 <!-- END LEFT SIDEBAR -->
