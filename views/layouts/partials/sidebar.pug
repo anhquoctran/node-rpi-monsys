@@ -1,63 +1,28 @@
-<!-- LEFT SIDEBAR -->
 #sidebar-nav.sidebar
   .sidebar-scroll
     nav
       ul.nav
-        li
-          a.active(href='/')
-            i.fa.fa-dashboard
-            span Dashboard
-        li
-          a(href='#')
-            i.fa.fa-desktop
-            span System overview
-        li
-          a(href='#')
-            i.fa.fa-microchip
-            span CPU
-        li
-          a(href='#')
-            i.fa.fa-building-o
-            span Memory
-        li
-          a(href='#')
-            i.fa.fa-database
-            span Disk
-        li
-          a.collapsed(href='#subPages', data-toggle='collapse')
-            i.fa.fa-wifi
-            span Network
-            i.icon-submenu.lnr.lnr-chevron-left
-          #subPages.collapse
-            ul.nav
-              li
-                a(href='#') Interfaces
-              li
-                a(href='#') Connections
-              li
-                a(href='#') Traffics
-        li
-          a(href='#')
-            i.fa.fa-file
-            span Filesystem
-        li.disabled
-          a
-            i.fa.fa-folder
-            span Linux packages
-        li
-          a(href='#')
-            i.fa.fa-cogs
-            span Processes
-        li
-          a(href='#')
-            i.fa.fa-shield
-            span Linux Firewall
-        li.disabled
-          a
-            i.fa.fa-users
-            span System Users & Groups
-        li.disabled
-          a
-            i.fa.fa-terminal
-            span Web Terminal
-<!-- END LEFT SIDEBAR -->
+        each val, key in menu
+          if selected === val[2]
+            li
+              a.active(href= val[2], title= val[0])
+                i.fa(class= val[1])
+                span #{val[0]}
+          else
+            li
+              a(href= val[2], title= val[0])
+                i.fa(class= val[1])
+                span #{val[0]}
+        //- li
+        //-   a.collapsed(href='#subPages', data-toggle='collapse')
+        //-     i.fa.fa-wifi
+        //-     span Network
+        //-     i.icon-submenu.lnr.lnr-chevron-left
+        //-   #subPages.collapse
+        //-     ul.nav
+        //-       li
+        //-         a(href='#') Interfaces
+        //-       li
+        //-         a(href='#') Connections
+        //-       li
+        //-         a(href='#') Traffics
