@@ -37,15 +37,7 @@ module.exports = function Route(app, passport) {
 
     app.get('/', function(req, res) {
         console.log("GET " + req.originalUrl + " 200 OK from " + req.ip)
-        sysinfo.cpuCurrentspeed()
-            .then(data => {
-                res.json({
-                    processes: data
-                })
-            })
-            .catch(error => {
-
-            })
+        res.redirect("/login")
     })
 
     app.get('/login', function(req, res) {
@@ -110,10 +102,6 @@ module.exports = function Route(app, passport) {
         });
     })
 
-    app.get('/sysinfo/terminal/ssh', function(req, res) {
-
-    })
-
     app.post('/upload', function(req, res) {
         var photo = req.files;
         var size = photo.size,
@@ -148,7 +136,7 @@ module.exports = function Route(app, passport) {
                 sysinfo.mem(), sysinfo.disksIO(), sysinfo.networkConnections(), sysinfo.processes()
             ])
             .then(result => {
-                res.json({
+                res.render("layouts/sysinfo/general", {
                     title: "Dashboard",
                     mem: result[0],
                     disk: result[1],
@@ -162,6 +150,10 @@ module.exports = function Route(app, passport) {
             })
     })
 
+    app.get('/sysinfo/terminal/ssh', function(req, res) {
+
+    })
+
     app.get("/admin/overview", function(req, res) {
         res.render('layouts/sysinfo/overview', {
             title: "Overview System Information",
@@ -169,10 +161,10 @@ module.exports = function Route(app, passport) {
         });
         Promise.all([
                 sysinfo.osInfo(), sysinfo.cpu(), sysinfo.cpuCache(), sysinfo.cpuCurrentspeed(),
-                sysinfo.mem(), sysinfo.disksIO(), sysinfo.networkConnections(), sysinfo.networkInterfaces(), sysinfo.networkInterfaceDefault()
+                sysinfo.mem(), sysinfo.disksIO(), sysinfo.networkConnections(), sysinfo.networkInterfaces(), sysinfo.networkInterfaceDefault(), sysinfo.fsSize()
             ])
             .then(result => {
-                res.json({
+                res.render("layouts/sysinfo/overview", {
                     title: "Overview System Information",
                     osInfo: result[0],
                     cpuinfo: result[1],
@@ -182,7 +174,8 @@ module.exports = function Route(app, passport) {
                     disksIO: result[5],
                     networkConnections: result[6],
                     networkInterfaces: result[7],
-                    networkInterfaceDefault: result[8]
+                    networkInterfaceDefault: result[8],
+                    filesystem: result[9]
                 })
             }).catch(error => {
                 console.error(error)
@@ -190,15 +183,11 @@ module.exports = function Route(app, passport) {
     })
 
     app.get('/admin/cpu', function(req, res) {
-        res.render('layouts/sysinfo/cpu', {
-            title: "CPU",
-            message: null
-        });
         Promise.all([
                 sysinfo.cpu(), sysinfo.cpuCache(), sysinfo.cpuCurrentspeed(), sysinfo.cpuFlags()
             ])
             .then(result => {
-                res.json({
+                res.render("layouts/sysinfo/cpu", {
                     title: 'CPU Usage Statistic',
                     cpu: result[0],
                     cpuCache: result[1],
@@ -209,13 +198,9 @@ module.exports = function Route(app, passport) {
     })
 
     app.get('/admin/memory', function(req, res) {
-        res.render('layouts/sysinfo/memory', {
-            title: "Memory Usage Statistic",
-            message: null
-        });
         sysinfo.mem()
             .then(memory => {
-                res.json({
+                res.render("/layouts/sysinfo/memory", {
                     title: "Memory Usage Statistic",
                     total: memory.total,
                     free: memory.free,
@@ -236,7 +221,7 @@ module.exports = function Route(app, passport) {
                 sysinfo.networkInterfaces(), sysinfo.networkInterfaceDefault(), sysinfo.networkConnections()
             ])
             .then(result => {
-                res.json({
+                res.render("layout/sysinfo/network", {
                     title: "Network Statistic",
                     result: result
                 })
@@ -248,7 +233,7 @@ module.exports = function Route(app, passport) {
                 sysinfo.disksIO(), sysinfo.blockDevices()
             ])
             .then(result => {
-                res.json({
+                res.render("layouts/sysinfo/disk", {
                     title: "Disk I/O and Block Device Statistic",
                     io: result[0],
                     device: result[1]
@@ -260,7 +245,7 @@ module.exports = function Route(app, passport) {
     app.get('/admin/filesystem', function(req, res) {
         sysinfo.fsSize()
             .then(fs => {
-                res.json({
+                res.render("layouts/sysinfo/filesytem", {
                     title: "Linux Filesystem Statistic",
                     filesystem: fs
                 })
@@ -271,7 +256,7 @@ module.exports = function Route(app, passport) {
     app.get('/admin/sysuser', function(req, res) {
         sysinfo.users()
             .then(users => {
-                res.json({
+                res.render("layouts/sysinfo/sysuser", {
                     users: users
                 })
             })
@@ -279,13 +264,9 @@ module.exports = function Route(app, passport) {
     })
 
     app.get('/admin/processes', function(req, res) {
-        res.render('layouts/sysinfo/processes', {
-            title: "Process Manager",
-            message: null
-        });
         sysinfo.processes()
             .then(processes => {
-                res.json({
+                res.render("layouts/sysinfo/processes", {
                     title: "Process Manager",
                     all: processes.all,
                     running: processes.running,

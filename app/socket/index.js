@@ -10,6 +10,12 @@ function SysInfoSocketHandle(server) {
     io.on('connection', function(socket) {
         console.log("Client connected")
 
+        cpu.getUsage(function(result) {
+            if (result.percent >= 90) {
+                socket.emit("overload", { message: "Warning! Your system overloading!" })
+            }
+        })
+
         socket.on("cpu", function(info) {
             cpu.getUsage(function(result) {
                 socket.emit("cpu", result)

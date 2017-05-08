@@ -5,7 +5,7 @@ $(function() {
     var _cpuAdmin = $("#cpuPercentChart"),
         _cpuFreq = $("#cpuFreq"),
         _cpuPercent = $("#cpuPercent"),
-        _memPercent = $("#memPercent"),
+        _memPercent = $("#memPercentChart"),
         _diskIo = $("#diskIoChart"),
         _killprocBtn = $("#killprocBtn"),
         _networkIo = $("#netioChart")
@@ -21,6 +21,10 @@ $(function() {
     _killprocBtn.on("click", function() {
         var pid = $(".rowSelected").value()
         socket.emit("processes", pid)
+    })
+
+    socket.on("overload", function(data) {
+
     })
 
     socket.on("cpu", function(cpu) {

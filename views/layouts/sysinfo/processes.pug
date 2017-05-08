@@ -16,16 +16,16 @@ block content
               ul.list-unstyled.list-justify
                 li
                   | All 
-                  span 203
+                  span #{all}
                 li
                   | Running 
-                  span 198
+                  span #{running}
                 li
                   | Blocked 
-                  span 2
+                  span #{blocked}
                 li
                   | Sleeping 
-                  span 0
+                  span #{sleeping}
           .row
             .col-md-4
               button.btn.btn-primary Refresh
@@ -67,62 +67,21 @@ block content
                     th Memory Vsz
                     th Started
                 tbody
-                  tr
-                    td
-                      input(type='checkbox')
-                    td 0
-                    td sdfsdf
-                    td sdfdsfsdf
-                    td sfsdfawqr
-                    td sfdf
-                    td sdfdf
-                    td sfdsf
-                    td sfddsf
-                    td sewrgsd
-                    td sfgdgdf
-                    td efsdsdff
-                  tr
-                    td
-                      input(type='checkbox')
-                    td 1
-                    td sdfsdf
-                    td sdfdsfsdf
-                    td sfsdfawqr
-                    td sfdf
-                    td sdfdf
-                    td sfdsf
-                    td sfddsf
-                    td sewrgsd
-                    td sfgdgdf
-                    td efsdsdff
-                  tr
-                    td
-                      input(type='checkbox')
-                    td 2
-                    td sdfsdf
-                    td sdfdsfsdf
-                    td sfsdfawqr
-                    td sfdf
-                    td sdfdf
-                    td sfdsf
-                    td sfddsf
-                    td sewrgsd
-                    td sfgdgdf
-                    td efsdsdff
-                  tr
-                    td
-                      input(type='checkbox')
-                    td 3
-                    td sdfsdf
-                    td sdfdsfsdf
-                    td sfsdfawqr
-                    td sfdf
-                    td sdfdf
-                    td sfdsf
-                    td sfddsf
-                    td sewrgsd
-                    td sfgdgdf
-                    td efsdsdff
+                  each val in list
+                    tr
+                      td
+                        input(type='checkbox')
+                      td= val.pid
+                      td= val.nice
+                      td= val.pcpu
+                      td= val.pmem
+                      td= val.priority
+                      td= val.tty
+                      td= val.user
+                      td= val.state
+                      td= val.mem_rss
+                      td= val.mem_vsz
+                      td= val.started
           .row
             .col-md-4
               button.btn.btn-primary Refresh
