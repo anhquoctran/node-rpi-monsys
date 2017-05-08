@@ -97,7 +97,7 @@ module.exports = function Route(app, passport) {
     })
 
     app.get('/profile', function(req, res) {
-        res.render('profile', {
+        res.render('layouts/profile/profile', {
             title: "Profile",
             message: null
         });
