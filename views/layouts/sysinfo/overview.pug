@@ -16,106 +16,106 @@ block content
                 ul.list-unstyled.list-justify
                   li
                     | Platform 
-                    span Linux
+                    span #{osInfo.platform}
                   li
                     | Distro 
-                    span Raspbian Jessie
+                    span #{osInfo.distro}
                   li
                     | Release 
-                    span sfdfdf
+                    span #{osInfo.release}
                   li
                     | Code name 
-                    span sdfsddfsdf
+                    span #{osInfo.codename}
                   li
                     | Kernel 
-                    span 3.4.2
+                    span #{osInfo.kernel}
                   li
                     | Architecture 
-                    span ARMv7
+                    span #{osInfo.arch}
                   li
                     | Hostname 
-                    span Pi-Server
+                    span #{osInfo.hostname}
                   li
                     | Logo file 
-                    span sdsfsdfsdfd
+                    span #{osInfo.logofile}
               .col-md-4
                 h4.heading
                   b Central Processor Unit
                 ul.list-unstyled.list-justify
                   li
                     | Manufacturer 
-                    span Value 1
+                    span #{cpuInfo.manufacturer}
                   li
                     | Brand 
-                    span Value 2
+                    span #{cpuInfo.brand}
                   li
                     | Speed 
-                    span Value 3
+                    span #{cpuInfo.speed}
                   li
                     | Total cores 
-                    span Value 4
+                    span #{cpuInfo.cores}
                   li
                     | Minimum speed 
-                    span Value 5
+                    span #{cpuCurrentSpeed.min}
                   li
                     | Maximum speed 
-                    span Value 6
+                    span #{cpuCurrentSpeed.max}
                   li
                     | Average speed 
-                    span Value 7
+                    span #{cpuCurrentSpeed.avg}
                   li
                     | Temperature 
-                    span Value 8
+                    span Not available
               .col-md-4
                 h4.heading
                   b Memory
                 ul.list-unstyled.list-justify
                   li
                     | Total 
-                    span Value 1
+                    span #{mem.total}
                   li
                     | Free 
-                    span Value 2
+                    span #{mem.free}
                   li
                     | In used 
-                    span Value 3
+                    span #{mem.used}
                   li
                     | Active 
-                    span Value 4
+                    span #{mem.active}
                   li
                     | Available 
-                    span Value 5
+                    span #{mem.available}
                   li
                     | Buffer cache 
-                    span Value 6
+                    span #{mem.buffcache}
                   li
                     | Swap total 
-                    span Value 7
+                    span #{mem.swaptotal}
                   li
                     | Swap use 
-                    span Value 8
+                    span #{mem.swapuse}
                   li
                     | Swap free 
-                    span Value 9
+                    span #{mem.swapfree}
               .col-md-4
                 h4.heading
                   b Disk IO activities
                 ul.list-unstyled.list-justify
                   li
                     | Read IO 
-                    span Value 1
+                    span #{diskIO.rio}
                   li
                     | Write IO 
-                    span Value 2
+                    span #{diskIO.wio}
                   li
-                    | T IO 
-                    span Value 3
+                    | Transfer IO 
+                    span #{diskIO.tio}
                   li
                     | Read per second 
-                    span Value 4
+                    span #{diskIO.rio_sec}
                   li
                     | Write per second 
-                    span Value 5
+                    span #{diskIO.wio_sec}
               .col-md-4
                 h4.heading
                   b Networking
@@ -125,7 +125,7 @@ block content
                     span Value 1
                   li
                     | Default interface 
-                    span Value 2
+                    span #{networkInterfaceDefault}
                   li
                     | IPv4 address 
                     span Value 3
@@ -144,22 +144,22 @@ block content
                 ul.list-unstyled.list-justify
                   li
                     | Name 
-                    span Value 1
+                    span #{filesystem[0].fs}
                   li
                     | Type 
-                    span Value 2
+                    span #{filesystem[0].type}
                   li
                     | Size 
-                    span Value 3
+                    span #{filesystem[0].size}
                   li
                     | Used 
-                    span Value 4
+                    span #{filesystem[0].used}
                   li
                     | Use 
-                    span Value 5
+                    span #{filesystem[0].use}
                   li
                     | Mount 
-                    span Value 6
+                    span #{filesystem[0].mount}
         .panel-footer
           .row
             .col-md-12.text-right

@@ -37,15 +37,7 @@ module.exports = function Route(app, passport) {
 
     app.get('/', function(req, res) {
         console.log("GET " + req.originalUrl + " 200 OK from " + req.ip)
-        sysinfo.cpuCurrentspeed()
-            .then(data => {
-                res.json({
-                    processes: data
-                })
-            })
-            .catch(error => {
-
-            })
+        res.redirect("/login")
     })
 
     app.get('/login', function(req, res) {
@@ -169,7 +161,7 @@ module.exports = function Route(app, passport) {
         });
         Promise.all([
                 sysinfo.osInfo(), sysinfo.cpu(), sysinfo.cpuCache(), sysinfo.cpuCurrentspeed(),
-                sysinfo.mem(), sysinfo.disksIO(), sysinfo.networkConnections(), sysinfo.networkInterfaces(), sysinfo.networkInterfaceDefault()
+                sysinfo.mem(), sysinfo.disksIO(), sysinfo.networkConnections(), sysinfo.networkInterfaces(), sysinfo.networkInterfaceDefault(), sysinfo.fsSize()
             ])
             .then(result => {
                 res.json({
@@ -182,7 +174,8 @@ module.exports = function Route(app, passport) {
                     disksIO: result[5],
                     networkConnections: result[6],
                     networkInterfaces: result[7],
-                    networkInterfaceDefault: result[8]
+                    networkInterfaceDefault: result[8],
+                    filesystem: result[9]
                 })
             }).catch(error => {
                 console.error(error)

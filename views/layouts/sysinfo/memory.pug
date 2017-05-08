@@ -18,16 +18,16 @@ block content
                   #memory-usage-chart.ct-chart
                 .col-md-3
                   .weekly-summary.text-right.bottom
-                    span.number 40% (398.8 MB)
+                    span#memPercent.number 40% (398.8 MB)
                     span.info-label In use
                   .weekly-summary.text-right.bottom
-                    span.number 997 MB
+                    span#memUsage.number 997 MB
                     span.info-label Total
                   .weekly-summary.text-right.bottom
-                    span.number 20 MB
+                    span#swapUsage.number 20 MB
                     span.info-label Swap in used
                   .weekly-summary.text-right.bottom
-                    span.number 10 GB
+                    span#swapTotal.number 10 GB
                     span.info-label Swap total
               .row.container-fluid
                 .col-md-3
@@ -35,32 +35,32 @@ block content
                     b Statistic
                   ul.list-unstyled.list-justify
                     li
-                      | Total 
-                      span 1
-                    li
-                      | Free 
-                      span 1
-                    li
-                      | In use 
-                      span 2
-                    li
-                      | Active 
-                      span 1
-                    li
-                      | Available 
-                      span 2
-                    li
-                      | Buffer cache 
-                      span 1
-                    li
-                      | Swap total 
-                      span 3
-                    li
-                      | Swap used 
-                      span 4
-                    li
-                      | Swap free 
-                      span 4
+                    | Total 
+                    span #{mem.total}
+                  li
+                    | Free 
+                    span #{mem.free}
+                  li
+                    | In used 
+                    span #{mem.used}
+                  li
+                    | Active 
+                    span #{mem.active}
+                  li
+                    | Available 
+                    span #{mem.available}
+                  li
+                    | Buffer cache 
+                    span #{mem.buffcache}
+                  li
+                    | Swap total 
+                    span #{mem.swaptotal}
+                  li
+                    | Swap use 
+                    span #{mem.swapuse}
+                  li
+                    | Swap free 
+                    span #{mem.swapfree}
 
 block scripts
 
