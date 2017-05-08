@@ -1,0 +1,243 @@
+extends ../../layouts/layout.pug
+
+block content
+  .main-content
+    .container-fluid
+      // OVERVIEW
+      .panel.panel-headline
+        .panel-heading
+          h3.panel-title System Overview
+          p.panel-subtitle
+            script.
+              var d = new Date().toLocaleDateString(), t = new Date().toLocaleTimeString(); document.write(d + " " + t);
+        .panel-body
+          .row
+            .col-md-3
+              .metric
+                span.icon
+                  i.fa.fa-microchip
+                p
+                  span.number 17%
+                  span.title CPU Usage
+            .col-md-3
+              .metric
+                span.icon
+                  i.fa.fa-building-o
+                p
+                  span.number 52%
+                  span.title RAM Usage
+            .col-md-3
+              .metric
+                span.icon
+                  i.fa.fa-database
+                p
+                  span.number 4 MB/s
+                  span.title Disk IO Utilization
+            .col-md-3
+              .metric
+                span.icon
+                  i.fa.fa-wifi
+                p
+                  span.number 16
+                  span.title Active network connections
+          .row
+            .col-md-9
+              #headline-chart.ct-chart
+            .col-md-3
+              .weekly-summary.text-right
+                span.number 4
+                span.info-label Logical processors
+              .weekly-summary.text-right
+                span.number 4
+                span.info-label Cores
+              .weekly-summary.text-right
+                span.number 620 MHz
+                span.info-label Current speed
+      // END OVERVIEW
+      .row
+        .col-md-6
+          .panel
+            .panel-heading
+              h3.panel-title Processes
+              .right
+                button.btn-toggle-collapse(type='button')
+                  i.lnr.lnr-chevron-up
+            .panel-body.no-padding
+              table.table.table-striped
+                thead
+                  tr
+                    th PID
+                    th Name
+                    th CPU
+                    th Mem
+                    th Priority
+                    th User
+                tbody
+                  tr
+                    td 1356
+                    td apache
+                    td 03
+                    td 28472
+                    td Normal
+                    td root
+                  tr
+                    td 334
+                    td hwins
+                    td 12
+                    td 5847
+                    td Normal
+                    td root
+                  tr
+                    td 22
+                    td mysql
+                    td 01
+                    td 5842
+                    td Normal
+                    td root
+                  tr
+                    td 92
+                    td mongodb
+                    td 02
+                    td 485
+                    td Normal
+                    td root
+                  tr
+                    td 45302
+                    td networking
+                    td 00
+                    td 214
+                    td Normal
+                    td root
+            .panel-footer
+              .row
+                .col-md-6
+                  span.panel-note
+                    i.fa.fa-clock-o
+                    |  Last updated: 2 minutes ago
+                .col-md-6.text-right
+                  a.btn.btn-primary(href='#') View more processes
+        .col-md-6
+          // MULTI CHARTS
+          .panel
+            .panel-heading
+              h3.panel-title Memory Usage
+              .right
+                button.btn-toggle-collapse(type='button')
+                  i.lnr.lnr-chevron-up
+            .panel-body
+              #visits-trends-chart.ct-chart
+          // END MULTI CHARTS
+block script
+  script.
+    $(function() {
+      var data, options;
+
+      // headline charts
+      data = {
+        labels: ['1 min', '2 mins', '3 mins', '4 mins', '5 mins', '6 mins', '7 mins', '8 mins', '9 mins'],
+        series: [
+          [23, 29, 24, 40, 25, 24, 35, 12, 35],
+        ]
+      };
+
+      options = {
+        height: 300,
+        showArea: true,
+        showLine: false,
+        showPoint: false,
+        fullWidth: true,
+        axisX: {
+          showGrid: false
+        },
+        lineSmooth: false,
+      };
+
+      new Chartist.Line('#headline-chart', data, options);
+
+
+      // visits trend charts
+      data = {
+        labels: ['00', '02', '04', '06', '08', '12', '14', '16', '18', '20', '22', "24"],
+        series: [{
+          name: 'series-projection',
+          data: [23, 32, 36, 38, 45, 70, 50, 52, 30, 12, 12, 14],
+        }]
+      };
+
+      options = {
+        fullWidth: true,
+        lineSmooth: false,
+        height: "270px",
+        low: 0,
+        high: 'auto',
+        series: {
+          'series-projection': {
+            showArea: true,
+            showPoint: false,
+            showLine: false
+          },
+        },
+        axisX: {
+          showGrid: false,
+
+        },
+        axisY: {
+          showGrid: false,
+          onlyInteger: true,
+          offset: 0,
+        },
+        chartPadding: {
+          left: 20,
+          right: 20
+        }
+      };
+
+      new Chartist.Line('#visits-trends-chart', data, options);
+
+
+      // visits chart
+      data = {
+        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        series: [
+          [6384, 6342, 5437, 2764, 3958, 5068, 7654]
+        ]
+      };
+
+      options = {
+        height: 300,
+        axisX: {
+          showGrid: false
+        },
+      };
+
+      new Chartist.Bar('#visits-chart', data, options);
+
+
+      // real-time pie chart
+      var sysLoad = $('#system-load').easyPieChart({
+        size: 130,
+        barColor: function(percent) {
+          return "rgb(" + Math.round(200 * percent / 100) + ", " + Math.round(200 * (1.1 - percent / 100)) + ", 0)";
+        },
+        trackColor: 'rgba(245, 245, 245, 0.8)',
+        scaleColor: false,
+        lineWidth: 5,
+        lineCap: "square",
+        animate: 800
+      });
+
+      var updateInterval = 3000; // in milliseconds
+
+      setInterval(function() {
+        var randomVal;
+        randomVal = getRandomInt(0, 100);
+
+        sysLoad.data('easyPieChart').update(randomVal);
+        sysLoad.find('.percent').text(randomVal);
+      }, updateInterval);
+
+      function getRandomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+      }
+
+    });
