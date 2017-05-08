@@ -96,16 +96,31 @@ module.exports = function Route(app, passport) {
         });
     })
 
-    app.get('/profile', function(req, res) {
-        res.render('layouts/profile/profile', {
-            title: "Profile",
-            message: null
-        });
+    app.get('/account/:username', function(req, res) {
+        var username = req.params.username
+        if (!username) {
+
+        } else {
+            if (username) {
+                migrator.getOneUser(username)
+                    .then(data => {
+                        res.render("layouts/profile/settings", {
+                            title: "Profile - RPiMonSys",
+                            user: data
+                        })
+                    })
+                    .catch(error => {
+                        console.error(error)
+                    })
+            } else {
+                res.redirect("/admin?error=permission_denied")
+            }
+        }
     })
 
-    app.get('/profile/setting', function(req, res) {
+    app.get('/account/preferences', function(req, res) {
         res.render('layouts/profile/setting', {
-            title: "Profile Setting",
+            title: "Setting",
             message: null
         });
     })

@@ -2,9 +2,9 @@
 
 $(function() {
     var socket = io("http://localhost:3927")
-    var _cpuAdmin = $("#cpuPercentChart"),
-        _cpuFreq = $("#cpuFreq"),
-        _cpuPercent = $("#cpuPercent"),
+    var _cpuAdmin = $("#cpu-usage-chart"),
+        _cpuFreq = $("#cpu-freq"),
+        _cpuPercent = $("#cpu-percent"),
         _memPercent = $("#memPercentChart"),
         _diskIo = $("#diskIoChart"),
         _killprocBtn = $("#killprocBtn"),
@@ -23,12 +23,18 @@ $(function() {
         socket.emit("processes", pid)
     })
 
-    socket.on("overload", function(data) {
+    socket.emit("overload", function(data) {
 
     })
 
     socket.on("cpu", function(cpu) {
 
+    })
+
+    socket.on('logical', function(logical) {
+        for (let i = 0; i <= logical.length; i++) {
+
+        }
     })
 
     socket.on("memory", function(cpu) {
@@ -50,4 +56,5 @@ $(function() {
     socket.on("gpio", function(cpu) {
 
     })
+
 })

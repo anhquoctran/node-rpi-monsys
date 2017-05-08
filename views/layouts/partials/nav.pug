@@ -36,7 +36,7 @@ nav.navbar.navbar-default.navbar-fixed-top
             li
               a.notification-item(href='#')
                 span.dot.bg-success
-                | Joined on #{user.CreateAt}
+                | Joined on #{user.CreatedAt}
             li
               a.more(href='#') See all notifications
         li.dropdown
@@ -46,14 +46,14 @@ nav.navbar.navbar-default.navbar-fixed-top
             i.icon-submenu.lnr.lnr-chevron-down
           ul.dropdown-menu
             li
-              a(href='#')
+              a(href='/account/#{user.Username}')
                 i.lnr.lnr-user
                 span My Profile
             li
-              a(href='#')
+              a(href='/account/preferences')
                 i.lnr.lnr-cog
                 span Preferences
             li
-              a(href='#')
+              a(href='/logout')
                 i.lnr.lnr-exit
                 span Logout

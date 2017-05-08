@@ -19,7 +19,7 @@ module.exports = function OAuth2(router) {
         tokenURL: "http://localhost:3927/api/oauth2/token",
         clientID: "clientID",
         clientSecret: "clientSecret",
-        callbackURL: "/oauth/callback",
+        callbackURL: "http://localhost:3927api/oauth2/callback",
         passReqToCallback: false
     }, refreshStrategy.getOAuth2StrategyCallback())
 
