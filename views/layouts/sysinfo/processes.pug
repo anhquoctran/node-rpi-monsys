@@ -1,4 +1,4 @@
-extends layouts/layout.pug
+extends ../../layouts/layout.pug
 
 block content
 
@@ -51,7 +51,7 @@ block content
           .row
             .col-md-12
               .clearfix
-              table.table.table-striped(style='margin-top: 10px')
+              table#table-rpi.table.table-striped(style='margin-top: 10px')
                 thead
                   tr
                     th Select
@@ -84,7 +84,7 @@ block content
                   tr
                     td
                       input(type='checkbox')
-                    td 0
+                    td 1
                     td sdfsdf
                     td sdfdsfsdf
                     td sfsdfawqr
@@ -98,7 +98,7 @@ block content
                   tr
                     td
                       input(type='checkbox')
-                    td 0
+                    td 2
                     td sdfsdf
                     td sdfdsfsdf
                     td sfsdfawqr
@@ -112,7 +112,7 @@ block content
                   tr
                     td
                       input(type='checkbox')
-                    td 0
+                    td 3
                     td sdfsdf
                     td sdfdsfsdf
                     td sfsdfawqr
@@ -138,3 +138,16 @@ block content
                     a(href='#') High
                   li
                     a(href='#') Low
+
+block scripts
+
+  // todo
+  script.
+    var arr;
+    $('button').click(function(){
+      arr = $('#table-rpi').find('[type="checkbox"]:checked').map(function(){
+          return $(this).closest('tr').find('td:nth-child(2)').text();
+      }).get();
+
+      console.log(arr);
+    });

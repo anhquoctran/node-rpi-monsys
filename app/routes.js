@@ -269,6 +269,10 @@ module.exports = function Route(app, passport) {
     })
 
     app.get('/admin/processes', function(req, res) {
+        res.render('layouts/sysinfo/processes', {
+            title: "Process Manager",
+            message: null
+        });
         sysinfo.processes()
             .then(processes => {
                 res.json({
