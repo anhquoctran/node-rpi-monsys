@@ -1,0 +1,153 @@
+extends ../../layouts/layout.pug
+
+block content
+
+  .main-content
+    .container-fluid
+      .panel.panel-headline
+        .panel-heading
+          h3.heading
+            b Processes Manager
+        .panel-body
+          .row(style='margin-bottom: 10px')
+            .col-md-3
+              h4.heading
+                b Statistic
+              ul.list-unstyled.list-justify
+                li
+                  | All 
+                  span 203
+                li
+                  | Running 
+                  span 198
+                li
+                  | Blocked 
+                  span 2
+                li
+                  | Sleeping 
+                  span 0
+          .row
+            .col-md-4
+              button.btn.btn-primary Refresh
+              button.btn-danger.btn(disabled='') End process
+              .btn-group
+                button.btn.btn-default.dropdown-toggle(disabled='', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+                  | Set priority 
+                  span.caret
+                ul.dropdown-menu
+                  li
+                    a(href='#') Normal
+                  li
+                    a(href='#') High
+                  li
+                    a(href='#') Low
+          .row
+            .col-md-4
+              h4.heading Find process
+              .input-group
+                input.form-control(placeholder='Type PID or Name to find...', type='text')
+                span.input-group-btn
+                  button.btn.btn-primary(type='button') Search
+          .row
+            .col-md-12
+              .clearfix
+              table#table-rpi.table.table-striped(style='margin-top: 10px')
+                thead
+                  tr
+                    th Select
+                    th PID
+                    th Name
+                    th CPU
+                    th Memory
+                    th Priority
+                    th TTY
+                    th User
+                    th State
+                    th Memory Rss
+                    th Memory Vsz
+                    th Started
+                tbody
+                  tr
+                    td
+                      input(type='checkbox')
+                    td 0
+                    td sdfsdf
+                    td sdfdsfsdf
+                    td sfsdfawqr
+                    td sfdf
+                    td sdfdf
+                    td sfdsf
+                    td sfddsf
+                    td sewrgsd
+                    td sfgdgdf
+                    td efsdsdff
+                  tr
+                    td
+                      input(type='checkbox')
+                    td 1
+                    td sdfsdf
+                    td sdfdsfsdf
+                    td sfsdfawqr
+                    td sfdf
+                    td sdfdf
+                    td sfdsf
+                    td sfddsf
+                    td sewrgsd
+                    td sfgdgdf
+                    td efsdsdff
+                  tr
+                    td
+                      input(type='checkbox')
+                    td 2
+                    td sdfsdf
+                    td sdfdsfsdf
+                    td sfsdfawqr
+                    td sfdf
+                    td sdfdf
+                    td sfdsf
+                    td sfddsf
+                    td sewrgsd
+                    td sfgdgdf
+                    td efsdsdff
+                  tr
+                    td
+                      input(type='checkbox')
+                    td 3
+                    td sdfsdf
+                    td sdfdsfsdf
+                    td sfsdfawqr
+                    td sfdf
+                    td sdfdf
+                    td sfdsf
+                    td sfddsf
+                    td sewrgsd
+                    td sfgdgdf
+                    td efsdsdff
+          .row
+            .col-md-4
+              button.btn.btn-primary Refresh
+              button.btn-danger.btn(disabled='') End process
+              .btn-group
+                button.btn.btn-default.dropdown-toggle(disabled='', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+                  | Set priority 
+                  span.caret
+                ul.dropdown-menu
+                  li
+                    a(href='#') Normal
+                  li
+                    a(href='#') High
+                  li
+                    a(href='#') Low
+
+block scripts
+
+  // todo
+  script.
+    var arr;
+    $('button').click(function(){
+      arr = $('#table-rpi').find('[type="checkbox"]:checked').map(function(){
+          return $(this).closest('tr').find('td:nth-child(2)').text();
+      }).get();
+
+      console.log(arr);
+    });

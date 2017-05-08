@@ -97,14 +97,17 @@ module.exports = function Route(app, passport) {
     })
 
     app.get('/profile', function(req, res) {
-        res.render('profile', {
+        res.render('layouts/profile/profile', {
             title: "Profile",
             message: null
         });
     })
 
     app.get('/profile/setting', function(req, res) {
-
+        res.render('layouts/profile/setting', {
+            title: "Profile Setting",
+            message: null
+        });
     })
 
     app.get('/sysinfo/terminal/ssh', function(req, res) {
@@ -160,7 +163,10 @@ module.exports = function Route(app, passport) {
     })
 
     app.get("/admin/overview", function(req, res) {
-
+        res.render('layouts/sysinfo/overview', {
+            title: "Overview System Information",
+            message: null
+        });
         Promise.all([
                 sysinfo.osInfo(), sysinfo.cpu(), sysinfo.cpuCache(), sysinfo.cpuCurrentspeed(),
                 sysinfo.mem(), sysinfo.disksIO(), sysinfo.networkConnections(), sysinfo.networkInterfaces(), sysinfo.networkInterfaceDefault()
@@ -184,6 +190,10 @@ module.exports = function Route(app, passport) {
     })
 
     app.get('/admin/cpu', function(req, res) {
+        res.render('layouts/sysinfo/cpu', {
+            title: "CPU",
+            message: null
+        });
         Promise.all([
                 sysinfo.cpu(), sysinfo.cpuCache(), sysinfo.cpuCurrentspeed(), sysinfo.cpuFlags()
             ])
@@ -199,6 +209,10 @@ module.exports = function Route(app, passport) {
     })
 
     app.get('/admin/memory', function(req, res) {
+        res.render('layouts/sysinfo/memory', {
+            title: "Memory Usage Statistic",
+            message: null
+        });
         sysinfo.mem()
             .then(memory => {
                 res.json({
@@ -265,6 +279,10 @@ module.exports = function Route(app, passport) {
     })
 
     app.get('/admin/processes', function(req, res) {
+        res.render('layouts/sysinfo/processes', {
+            title: "Process Manager",
+            message: null
+        });
         sysinfo.processes()
             .then(processes => {
                 res.json({
