@@ -160,7 +160,10 @@ module.exports = function Route(app, passport) {
     })
 
     app.get("/admin/overview", function(req, res) {
-
+        res.render('layouts/sysinfo/overview', {
+            title: "Overview System Information",
+            message: null
+        });
         Promise.all([
                 sysinfo.osInfo(), sysinfo.cpu(), sysinfo.cpuCache(), sysinfo.cpuCurrentspeed(),
                 sysinfo.mem(), sysinfo.disksIO(), sysinfo.networkConnections(), sysinfo.networkInterfaces(), sysinfo.networkInterfaceDefault()
