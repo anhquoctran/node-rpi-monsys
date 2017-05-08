@@ -104,7 +104,10 @@ module.exports = function Route(app, passport) {
     })
 
     app.get('/profile/setting', function(req, res) {
-
+        res.render('layouts/profile/setting', {
+            title: "Profile Setting",
+            message: null
+        });
     })
 
     app.get('/sysinfo/terminal/ssh', function(req, res) {
