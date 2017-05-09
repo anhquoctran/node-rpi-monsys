@@ -1,0 +1,65 @@
+doctype html
+html.fullscreen-bg(lang='en')
+  head
+    title #{title}
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge,chrome=1')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0')
+    link(rel='stylesheet', href='../public/stylesheets/bootstrap.min.css')
+    link(rel='stylesheet', href='../public/vendor/font-awesome/css/font-awesome.min.css')
+    link(rel='stylesheet', href='../public/vendor/linearicons/style.css')
+    link(rel='stylesheet', href='../public/stylesheets/main.css')
+    link(href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700', rel='stylesheet')    
+    link(rel='apple-touch-icon', sizes='76x76', href='../public/img/apple-icon.png')
+    link(rel='icon', type='image/png', sizes='96x96', href='../public/img/favicon.png')
+  body
+    // WRAPPER
+    #wrapper
+      .vertical-align-wrap
+        .vertical-align-middle
+          .header
+            .logo.text-center
+              h3 Raspberry Pi Monitor System
+              p.lead #{title}
+            form(action='/register', method='post')
+              .auth-box
+                .left
+                    .content
+                        .form-group
+                            label.control-label.sr-only(for='signin-email') Email or username
+                            input#signin-email.form-control(type='email', value='', name='password' placeholder='Email or username')
+                        .form-group
+                            label.control-label.sr-only(for='signin-password') Password
+                            input#signin-password.form-control(type='password', name='password' placeholder='Password')
+                        .form-group
+                            label.control-label.sr-only(for='signin-password') Password
+                            input#signin-password.form-control(type='password', name='password' placeholder='Password')
+                        
+                        
+                .right(style="background-image: none")
+                  .content
+                    
+                    .form-group
+                        label.control-label.sr-only(for='signin-email') Email or username
+                        input#signin-email.form-control(type='email', value='', name='password' placeholder='Email or username')
+                    .form-group
+                        label.control-label.sr-only(for='signin-password') Password
+                        input#signin-password.form-control(type='password', name='password' placeholder='Password')
+                    .form-group.clearfix
+                        label.fancy-checkbox.element-left
+                        input#chkSaveCredential(type='checkbox', name='chkSaveCredential')
+                        span Remember me
+                    button#btnSubmit.btn.btn-primary.btn-lg.btn-block(type='submit') LOGIN
+                    .bottom
+                        span.helper-text
+                            i.fa.fa-lock
+                                a(href='/forgot') Forgot password?
+                .clearfix
+    // END WRAPPER
+    block scripts
+        script.
+            var chck = $("#chkSaveCredential")
+            var btnSubmit = $("#btnSubmit")
+            btnSubmit.on("click", function() {
+
+            })
