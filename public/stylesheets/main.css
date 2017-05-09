@@ -427,6 +427,7 @@ html.fullscreen-bg #wrapper {
     height: 10px;
     content: '';
     margin-right: 8px;
+    text-overflow: ellipsis;
 }
 
 ul.notifications>li {

@@ -12,33 +12,12 @@ nav.navbar.navbar-default.navbar-fixed-top
           a.dropdown-toggle.icon-menu(href='#', data-toggle='dropdown')
             i.lnr.lnr-alarm
           ul.dropdown-menu.notifications
+            each item in Notify.list
             li
-              a.notification-item(href='#')
+              a.notification-item(href='/account/notification/#{item.Id}')
                 span.dot.bg-warning
-                | 
-            li
-              a.notification-item(href='#')
-                span.dot.bg-login
-                | First visited Dashboard on #{user.FirstVisitedDashboard}
-            li
-              a.notification-item(href='#')
-                span.dot.bg-success
-                | First login on #{user.FirstLogin}
-            li
-              a.notification-item(href='#')
-                if user.isverfied == true
-                  span.dot.bg-success Account has been verified at #{user.VerifiedAt}
-                else
-                  span.dot.bg-warning Your account has not been verified. Please click
-                    a(href='/verify') here 
-                  | to verify.
-                    
-            li
-              a.notification-item(href='#')
-                span.dot.bg-success
-                | Joined on #{user.CreatedAt}
-            li
-              a.more(href='#') See all notifications
+                | item.Content
+
         li.dropdown
           a.dropdown-toggle(href='#', data-toggle='dropdown')
             img.img-circle(src='#{user.AvatarPath}', alt='Avatar')
@@ -49,6 +28,16 @@ nav.navbar.navbar-default.navbar-fixed-top
               a(href='/account/#{user.Username}')
                 i.lnr.lnr-user
                 span My Profile
+            if currentUser.RoleName == 'Admin'
+                li
+                  a(href='/admin/admin_cp')
+                  i.lnr.lnr-home
+                  span AdminCP
+            else
+                li(display='none')
+                  a(href='/admin/admin_cp')
+                  i.lnr.lnr-home
+                  span AdminCP
             li
               a(href='/account/preferences')
                 i.lnr.lnr-cog

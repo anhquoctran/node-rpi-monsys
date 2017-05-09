@@ -31,40 +31,31 @@ function getStaticData(callback) {
             var data = {};
 
             data.version = version();
-
-            system().then(res => {
-                data.system = res;
-                osInfo.osInfo().then(res => {
-                    data.os = res;
-                    osInfo.versions().then(res => {
-                        data.versions = res;
-                        cpu.cpu().then(res => {
-                            data.cpu = res;
-                            graphics.graphics().then(res => {
-                                data.graphics = res;
-                                network.networkInterfaces().then(res => {
-                                    data.net = res;
-                                    if (callback) { callback(data) }
-                                    resolve(data);
-                                })
-                            })
-                        })
-                    })
+            Promise.all([
+                    system(), osInfo.osInfo(), osInfo.versions(), cpu.cpu(), network.networkInterfaces()
+                ])
+                .then(result => {
+                    data.system = result[0]
+                    data.os = result[1]
+                    data.versions = result[2]
+                    data.cpu = result[3]
+                    data.net = result[4]
+                    resolve(data)
                 })
-            })
-        });
-    });
+                .catch(error => reject(error))
+        })
+    })
 }
 
 function getDynamicData(srv, iface, callback) {
 
     if (util.isFunction(iface)) {
-        callback = iface;
-        iface = '';
+        callback = iface
+        iface = ''
     }
     if (util.isFunction(srv)) {
-        callback = srv;
-        srv = '';
+        callback = srv
+        srv = ''
     }
 
     return new Promise((resolve, reject) => {
@@ -191,18 +182,18 @@ function getAllData(srv, iface, callback) {
             }
 
             var data = {};
-
-            getStaticData().then(res => {
-                data = res;
-                getDynamicData(srv, iface).then(res => {
-                    for (var key in res) {
-                        if (res.hasOwnProperty(key)) {
-                            data[key] = res[key];
-                        }
+            Promse.all([
+                getStaticData(), getDynamicData(srv, iface)
+            ])
+            then(res => {
+                data = res
+                for (var key in res) {
+                    if (res.hasOwnProperty(key)) {
+                        data[key] = res[key]
                     }
-                    if (callback) { callback(data) }
-                    resolve(data);
-                });
+                }
+                if (callback) { callback(data) }
+                resolve(data)
             })
         });
     });

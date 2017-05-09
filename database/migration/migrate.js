@@ -21,10 +21,7 @@ function Migrate() {
                                     mysql.connector.query("INSERT INTO rpi_verification(idUser, isverified, createdAt) VALUES(?, ?, ?)", [result.insertId, 0, getDateTimeLocal()], function(error, response) {
                                         if (error) reject(error)
                                         else {
-                                            if (response.affectedRows >= 0)
-                                                resolve(true)
-                                            else
-                                                resolve(false)
+                                            resolve((response.affectedRows >= 0) ? true : false)
                                         }
                                     })
                                 } else {
@@ -40,16 +37,22 @@ function Migrate() {
         })
     }
 
+    this.checkUsername = function(username) {
+        return new Promise(function(resolve, reject) {
+            mysql.connector.query("select username from rpi_user where username like ?", username, function(err, result) {
+                if (err) reject(err)
+                else {
+                    resolve((result.length > 0) ? false : true)
+                }
+            })
+        })
+    }
     this.verify = function(userid) {
         return new Promise(function(resolve, reject) {
             mysql.connector.query("update rpi_verification set isverified = ?, verifiedAt = ?", [userid, datetime.getDateTimeNow()], function(error, result) {
                 if (error) reject(error)
                 else {
-                    if (result.affectedRows >= 0) {
-                        resolve(true)
-                    } else {
-                        resolve(true)
-                    }
+                    resolve((result.affectedRows >= 0) ? true : false)
                 }
             })
         })
@@ -60,11 +63,7 @@ function Migrate() {
             mysql.connector.query("call procGetUsernameOrEmail(?, ?)", [usernameOrEmail, password], function(error, user) {
                 if (error) reject(error)
                 else {
-                    if (!user) {
-                        resolve(null)
-                    } else {
-                        resolve(user)
-                    }
+                    resolve((!user) ? null : user)
                 }
             })
         })
@@ -75,11 +74,7 @@ function Migrate() {
             mysql.connector.query("call procGetOneUserByUsername(?)", username, function(error, result) {
                 if (error) reject(error)
                 else {
-                    if (result.length > 0) {
-                        resolve(result)
-                    } else {
-                        resolve(null)
-                    }
+                    resolve((result.length > 0) ? result : null)
                 }
             })
         })
@@ -90,11 +85,7 @@ function Migrate() {
             mysql.connector.query("call getUserIfAdmin()", function(error, users) {
                 if (error) reject(error)
                 else {
-                    if (!users || users.length < 0) {
-                        resolve(null)
-                    } else {
-                        resolve(users)
-                    }
+                    resolve((!users || users.length < 0) ? null : users)
                 }
             })
         })
@@ -105,13 +96,7 @@ function Migrate() {
             mysql.connector.query("call procGetAllUsers()", function(error, users) {
                 if (error) reject(error)
                 else {
-                    if (!users) {
-                        resolve(null)
-                    } else {
-                        if (users.length > 0) {
-                            resolve(users)
-                        }
-                    }
+                    resolve((users.length > 0) ? users : null)
                 }
             })
         })
@@ -122,9 +107,7 @@ function Migrate() {
             mysql.connector.query("update from rpi_user set isdeleted = 1 where username = ?", userame, function(error, result) {
                 if (error) reject(error)
                 else {
-                    if (result.affectedRows >= 0) {
-                        resolve(true)
-                    } else resolve(false)
+                    resolve((result.affectedRows >= 0) ? true : false)
                 }
             })
         })
@@ -135,10 +118,7 @@ function Migrate() {
             mysql.connector.query("update rpi_user set fullname = ?, email = ?, phone = ?, birthdate = ?, hometown = ?, wherenow = ?, bio = ?, description = ?", [fullname, email, phone, birthdate, hometown, wherenow, bio, description], function(error, result) {
                 if (error) resolve(error)
                 else {
-                    if (result.affectedRows >= 0)
-                        resolve(true)
-                    else
-                        resolve(false)
+                    resolve((result.affectedRows >= 0) ? true : false)
                 }
             })
         })
@@ -149,11 +129,7 @@ function Migrate() {
             mysql.connector.query("insert rpi_avatar(filename, filesize, dateupload, path, userId, inused) values(?, ?, ?, ?, ?, ?)", [filename, filesize, dateupload, path, userId, 1], function(er, result) {
                 if (er) reject(er)
                 else {
-                    if (result.affectedRows >= 0) {
-                        resolve(true)
-                    } else {
-                        resolve(false)
-                    }
+                    resolve((result.affectedRows >= 0) ? true : false)
                 }
             })
         })
@@ -165,9 +141,7 @@ function Migrate() {
             mysql.connector.query("update rpi_user set password = ? where username like ?", [newpassword, username], function(error, result) {
                 if (error) reject(error)
                 else {
-                    if (result.affectedRows >= 0) {
-                        resolve(true)
-                    } else resolve(false)
+                    resolve((result.affectedRows >= 0) ? true : false)
                 }
             })
         })
@@ -178,11 +152,7 @@ function Migrate() {
             mysql.connector.query("insert into rpi_session(name, key, token, datetime, client, mac, path) values(?, ?, ?, ?, ?, ?, ?)", [name, key, token, datetime, client, mac, path], function(error, result) {
                 if (error) reject(error)
                 else {
-                    if (result.affectedRows >= 0) {
-                        resolve(true)
-                    } else {
-                        resolve(false)
-                    }
+                    resolve((result.affectedRows >= 0) ? true : false)
                 }
             });
         })
@@ -193,11 +163,7 @@ function Migrate() {
             mysql.connector.query("call procGetSessionFromDateToDate(?, ?)", [datefrom, getDateTimeLocal()], function(error, result) {
                 if (error) reject(error)
                 else {
-                    if (result.length > 0) {
-                        resolve(result)
-                    } else {
-                        resolve(null)
-                    }
+                    resolve((result.length > 0) ? result : null)
                 }
             })
         })
@@ -208,9 +174,7 @@ function Migrate() {
             mysql.connector.query("call procGetSessionFromDateToDate(?, ?)", [from, to], function(error, result) {
                 if (error) reject(error)
                 else {
-                    if (result.length > 0) {
-                        resolve(result)
-                    } else resolve(null)
+                    resolve((result.length > 0) ? result : null)
                 }
             })
         })

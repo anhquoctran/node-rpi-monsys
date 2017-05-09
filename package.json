@@ -32,6 +32,8 @@
         "multer": "^1.3.0",
         "node-uuid-generator": "^1.0.0",
         "email-verification": "^0.4.6",
-        "nodemailer": "^4.0.1"
+        "nodemailer": "^4.0.1",
+        "push-notify": "^1.1.1",
+        "typescript": "^2.3.2"
     }
 }

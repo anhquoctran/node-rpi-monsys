@@ -67,21 +67,20 @@ module.exports = function Route(app, passport) {
             wherenow = req.body.wherenow,
             phone = req.body.phone,
             bio = req.body.bio,
-            description = req.body.description
 
-        if (username || fullname || email || password || birthdate || hometown || wherenow || phone || bio || description) {
-            migrator.register(username, password, email, fullname, phone, hometown, wherenow, bio, description)
-                .then(result => {
-                    if (result == true) {
+            if (username || fullname || email || password || birthdate || hometown || wherenow || phone || bio || description) {
+                migrator.register(username, password, email, fullname, phone, hometown, wherenow, bio)
+                    .then(result => {
+                        if (result == true) {
 
-                    } else {
+                        } else {
 
-                    }
-                })
-                .catch(error => console.error(error))
-        } else {
+                        }
+                    })
+                    .catch(error => console.error(error))
+            } else {
 
-        }
+            }
     })
 
     app.get('/forgot', function(req, res) {
@@ -153,6 +152,13 @@ module.exports = function Route(app, passport) {
         res.redirect('/login')
     })
 
+    app.get('/admin/admin_cp', function(req, res) {
+        res.render("admin_cp", {
+            title: "Administrator Control Panel",
+            data: null
+        })
+    })
+
     app.get('/admin', function(req, res) {
 
         Promise.all([
@@ -174,14 +180,10 @@ module.exports = function Route(app, passport) {
     })
 
     app.get('/sysinfo/terminal/ssh', function(req, res) {
-
+        res.json({ message: "OK" })
     })
 
     app.get("/admin/overview", function(req, res) {
-        res.render('layouts/sysinfo/overview', {
-            title: "Overview System Information",
-            message: null
-        });
         Promise.all([
                 sysinfo.osInfo(), sysinfo.cpu(), sysinfo.cpuCache(), sysinfo.cpuCurrentspeed(),
                 sysinfo.mem(), sysinfo.disksIO(), sysinfo.networkConnections(), sysinfo.networkInterfaces(), sysinfo.networkInterfaceDefault(), sysinfo.fsSize()

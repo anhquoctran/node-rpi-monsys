@@ -89,7 +89,7 @@ block content
               #tab-bottom-left1.tab-pane.fade.in.active
                 ul.list-unstyled.activity-timeline
                   li
-                    i.fa.fa-comment.activity-icon
+                    i.fa.fa-check.activity-icon
                     p
                       | You have visited 
                       a(href='/admin') Dashboard
@@ -97,13 +97,13 @@ block content
                       a #{user.FirstVisited}
                       span.timeago.timestamp(datetime='#{user.FirstVisited}')
                   li
-                    i.fa.fa-cloud-upload.activity-icon
+                    i.fa.fa-check.activity-icon
                     p
                       | First login at
                       a #{user.FirstLogin}
                       span.timeago.timestamp(datetime='#{user.FirstLogin}')
                   li
-                    i.fa.fa-plus.activity-icon
+                    i.fa.fa-check.activity-icon
                     if user.IsVerified == true
                       p
                         | Account has been verified at #{user.VerifiedAt}
