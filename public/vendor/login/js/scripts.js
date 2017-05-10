@@ -54,9 +54,22 @@ jQuery(document).ready(function() {
     
     // submit
     $('.registration-form').on('submit', function(e) {
+
+		var formPassword = $("#form-password").val();
+		var formPasswordRepeat = $("#form-repeat-password").val();
     	
     	$(this).find('input[type="text"], input[type="password"], textarea').each(function() {
     		if( $(this).val() == "" ) {
+    			e.preventDefault();
+    			$(this).addClass('input-error');
+    		}
+    		else {
+    			$(this).removeClass('input-error');
+    		}
+    	});
+
+    	$(this).find('input[type="password"]').each(function() {
+    		if( formPassword != formPasswordRepeat ) {
     			e.preventDefault();
     			$(this).addClass('input-error');
     		}
