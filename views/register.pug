@@ -42,7 +42,9 @@ html(lang='en')
                     .form-group
                       label(for='form-about-yourself') About yourself
                       textarea#form-about-yourself.form-about-yourself.form-control(name='form-about-yourself', placeholder='About yourself...')
-                    button.btn.btn-next(type='button') Next
+                    .pull-right
+                      button.btn.btn-next(type='button') Next
+                    .clearfix
                 fieldset
                   .form-top
                     .form-top-left
@@ -60,8 +62,10 @@ html(lang='en')
                     .form-group
                       label(for='form-repeat-password') Repeat password
                       input#form-repeat-password.form-repeat-password.form-control(type='password', name='form-repeat-password', placeholder='Repeat password...')
-                    button.btn.btn-previous(type='button') Previous
-                    button.btn(type='submit') Sign me up!
+                    .pull-right
+                      button.btn.btn-previous(type='button') Previous
+                      button.btn(type='submit') Sign me up!
+                    .clearfix
     // Javascript
     script(src='../public/vendor/login/js/jquery-1.11.1.min.js')
     script(src='../public/vendor/bootstrap/js/bootstrap.min.js')
