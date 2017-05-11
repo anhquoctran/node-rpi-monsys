@@ -10,6 +10,7 @@ var redistStore = require('connect-redis')(session)
 var config = require("./config/config")
 var multer = require('multer')
 var uuid = require("node-uuid-generator")
+var morgan = require("morgan")
 
 module.exports = function Configuration(app) {
 
@@ -23,6 +24,7 @@ module.exports = function Configuration(app) {
     app.set("view engine", "pug")
     app.set('views', __dirname + '/views')
     app.use('/public', express.static(__dirname + '/public'))
+    app.use(morgan('dev'))
     app.use(bodyparser.json())
     app.use(bodyparser.urlencoded({
         extended: true

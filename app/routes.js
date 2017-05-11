@@ -1,12 +1,26 @@
 var express = require('express')
 var sysinfo = require('../app/models/sysinfo')
-var localStrategy = require("passport-local")
+var localStrategy = require("passport-local").Strategy
 var migrator = require('../database/migration/migrate')
 var file = require('../app/middleware/file')
 var datetime = require("../app/middleware/datetime")
 var mail = require("../app/middleware/mail")
+var JwtStrategy = require("passport-jwt").Strategy,
+    ExtractJwt = require('passport-jwt').ExtractJwt
 
 module.exports = function Route(app, passport) {
+
+    passport.serializeUser(function(user, done) {
+        done(null, user.id)
+    })
+
+    passport.deserializeUser(function(id, done) {
+        migrator.getUserById(id)
+            .then(data => {
+                done(null, data[0])
+            })
+            .catch(error => done(error, null))
+    })
 
     /*passport.use(new localStrategy({
         function(username, password, done) {
@@ -26,36 +40,56 @@ module.exports = function Route(app, passport) {
         }
     }))
 */
-    function authenticationMiddleware() {
-        return function(req, res, next) {
-            if (req.isAuthenticated()) {
-                return next()
-            }
-            res.redirect('/login')
+    passport.use('login', new localStrategy({
+        usernameField: "usernameOrEmail",
+        passwordField: "password",
+        passReqToCallback: true
+    }, function(usernameOrEmail, password, done) {
+        migrator.login(usernameOrEmail, passport)
+            .then(result => {
+                if (!result.length) return done(null, false, req.flash('loginMessage', 'No user found.'))
+
+                if (!(rows[0].password == password)) return done(null, false, req.flash('loginMessage', 'Oops! Wrong password.'))
+
+                return done(null, rows[0]);
+            })
+            .catch(error => {
+                return done(error)
+            })
+    }))
+
+    passport.use("register", new localStrategy({
+        usernameField: "username",
+        passwordField: "password",
+        passReqToCallback: true
+    }, function(req, username, email, password, fullname, done) {
+        migrator.register(username, passport, email, fullname)
+            .then(data => {
+
+            })
+            .catch(error => {
+                done(error)
+            })
+    }))
+
+    function isLoggedIn(req, res, next) {
+        if (req.isAuthenticated()) {
+            return next()
         }
+        res.redirect('/')
     }
 
     app.get('/', function(req, res) {
-        console.log("GET " + req.originalUrl + " 200 OK from " + req.ip)
         res.redirect("/login")
     })
 
     app.get('/login', function(req, res) {
-        console.log("GET " + req.originalUrl + " 200 OK from " + req.ip)
         res.render('login', {
             title: "Login to your system - RPiMonSys"
         })
     })
 
-    app.post('/login', function(req, res) {
-        var username = req.body.username,
-            password = req.body.password;
-        if (!username || !password) {
-
-        } else {
-
-        }
-    })
+    //app.post('/login', passport.authenticate('local-signin'), { successRedirect: '/admin', failureRedirect: '/login' })
 
     app.post('/register', function(req, res) {
         var username = req.body.username,
@@ -66,21 +100,21 @@ module.exports = function Route(app, passport) {
             hometown = req.body.hometown,
             wherenow = req.body.wherenow,
             phone = req.body.phone,
-            bio = req.body.bio,
+            bio = req.body.bio
 
-            if (username || fullname || email || password || birthdate || hometown || wherenow || phone || bio || description) {
-                migrator.register(username, password, email, fullname, phone, hometown, wherenow, bio)
-                    .then(result => {
-                        if (result == true) {
+        if (username || fullname || email || password || birthdate || hometown || wherenow || phone || bio || description) {
+            migrator.register(username, password, email, fullname, phone, hometown, wherenow, bio)
+                .then(result => {
+                    if (result == true) {
 
-                        } else {
+                    } else {
 
-                        }
-                    })
-                    .catch(error => console.error(error))
-            } else {
+                    }
+                })
+                .catch(error => console.error(error))
+        } else {
 
-            }
+        }
     })
 
     app.get('/forgot', function(req, res) {
@@ -148,7 +182,7 @@ module.exports = function Route(app, passport) {
     })
 
     app.get('/logout', function(req, res) {
-        req.session.destroy();
+        req.logout();
         res.redirect('/login')
     })
 

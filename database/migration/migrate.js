@@ -37,23 +37,33 @@ function Migrate() {
         })
     }
 
+    this.getUserById = function(id) {
+        return new Promise(function(resolve, reject) {
+            mysql.connector.query("select * from rpi_user where id = ?", id, function(error, result) {
+                (error) ? reject(error): resolve(result)
+            })
+        })
+    }
+
+    this.getUserByEmail = function(email) {
+        return new Promise(function(resolve, reject) {
+            mysql.connector.query("select * from rpi_user where email = ?", email, function(error, result) {
+                (error) ? reject(error): resolve(result)
+            })
+        })
+    }
+
     this.checkUsername = function(username) {
         return new Promise(function(resolve, reject) {
             mysql.connector.query("select username from rpi_user where username like ?", username, function(err, result) {
-                if (err) reject(err)
-                else {
-                    resolve((result.length > 0) ? false : true)
-                }
+                (err) ? reject(err): resolve((result.length < 0) ? true : false)
             })
         })
     }
     this.verify = function(userid) {
         return new Promise(function(resolve, reject) {
             mysql.connector.query("update rpi_verification set isverified = ?, verifiedAt = ?", [userid, datetime.getDateTimeNow()], function(error, result) {
-                if (error) reject(error)
-                else {
-                    resolve((result.affectedRows >= 0) ? true : false)
-                }
+                (error) ? reject(error): resolve((result.length >= 0) ? true : false)
             })
         })
     }
@@ -61,10 +71,7 @@ function Migrate() {
     this.login = function(usernameOrEmail, password) {
         return new Promise(function(resolve, reject) {
             mysql.connector.query("call procGetUsernameOrEmail(?, ?)", [usernameOrEmail, password], function(error, user) {
-                if (error) reject(error)
-                else {
-                    resolve((!user) ? null : user)
-                }
+                (error) ? reject(error): resolve((!user) ? null : user)
             })
         })
     }
@@ -72,10 +79,7 @@ function Migrate() {
     this.getOneUser = function(username) {
         return new Promise(function(resolve, reject) {
             mysql.connector.query("call procGetOneUserByUsername(?)", username, function(error, result) {
-                if (error) reject(error)
-                else {
-                    resolve((result.length > 0) ? result : null)
-                }
+                (error) ? reject(error): resolve((result.length > 0) ? result : null)
             })
         })
     }
@@ -83,10 +87,7 @@ function Migrate() {
     this.getAdmin = function() {
         return new Promise(function(resolve, reject) {
             mysql.connector.query("call getUserIfAdmin()", function(error, users) {
-                if (error) reject(error)
-                else {
-                    resolve((!users || users.length < 0) ? null : users)
-                }
+                (error) ? reject(error): resolve((!users || users.length < 0) ? null : uses)
             })
         })
     }
@@ -94,10 +95,7 @@ function Migrate() {
     this.getAllUser = function() {
         return new Promise(function(resolve, reject) {
             mysql.connector.query("call procGetAllUsers()", function(error, users) {
-                if (error) reject(error)
-                else {
-                    resolve((users.length > 0) ? users : null)
-                }
+                (error) ? reject(error): resolve((users.length > 0) ? users : null)
             })
         })
     }
@@ -105,10 +103,7 @@ function Migrate() {
     this.deleteUser = function(username) {
         return new Promise(function(resolve, reject) {
             mysql.connector.query("update from rpi_user set isdeleted = 1 where username = ?", userame, function(error, result) {
-                if (error) reject(error)
-                else {
-                    resolve((result.affectedRows >= 0) ? true : false)
-                }
+                (error) ? reject(error): resolve((result.affectedRows >= 0) ? true : false)
             })
         })
     }
@@ -116,10 +111,7 @@ function Migrate() {
     this.updateUser = function(fullname, email, phone, birthdate, hometown, wherenow, bio, description) {
         return new Promise(function(resolve, reject) {
             mysql.connector.query("update rpi_user set fullname = ?, email = ?, phone = ?, birthdate = ?, hometown = ?, wherenow = ?, bio = ?, description = ?", [fullname, email, phone, birthdate, hometown, wherenow, bio, description], function(error, result) {
-                if (error) resolve(error)
-                else {
-                    resolve((result.affectedRows >= 0) ? true : false)
-                }
+                (error) ? reject(error): resolve((result.affectedRows >= 0) ? true : false)
             })
         })
     }
@@ -127,10 +119,7 @@ function Migrate() {
     this.uploadAvatar = function(filename, filesize, dateupload, path, userId) {
         return new Promise(function(resolve, reject) {
             mysql.connector.query("insert rpi_avatar(filename, filesize, dateupload, path, userId, inused) values(?, ?, ?, ?, ?, ?)", [filename, filesize, dateupload, path, userId, 1], function(er, result) {
-                if (er) reject(er)
-                else {
-                    resolve((result.affectedRows >= 0) ? true : false)
-                }
+                (er) ? reject(er): resolve((result.affectedRows >= 0) ? true : false)
             })
         })
     }
@@ -139,10 +128,7 @@ function Migrate() {
         return new Promise((resolve, reject) => {
             newpassword = security.encryptPassword(newpassword)
             mysql.connector.query("update rpi_user set password = ? where username like ?", [newpassword, username], function(error, result) {
-                if (error) reject(error)
-                else {
-                    resolve((result.affectedRows >= 0) ? true : false)
-                }
+                (error) ? reject(error): resolve((result.affectedRows >= 0) ? true : false)
             })
         })
     }
@@ -150,10 +136,7 @@ function Migrate() {
     this.saveSession = function(name, key, token, datetime, client, mac, path) {
         return new Promise(function(resolve, reject) {
             mysql.connector.query("insert into rpi_session(name, key, token, datetime, client, mac, path) values(?, ?, ?, ?, ?, ?, ?)", [name, key, token, datetime, client, mac, path], function(error, result) {
-                if (error) reject(error)
-                else {
-                    resolve((result.affectedRows >= 0) ? true : false)
-                }
+                (error) ? reject(error): resolve((result.affectedRows >= 0) ? true : false)
             });
         })
     }
@@ -161,10 +144,7 @@ function Migrate() {
     this.listSessionFromDate = function(datefrom) {
         return new Promise(function(resolve, reject) {
             mysql.connector.query("call procGetSessionFromDateToDate(?, ?)", [datefrom, getDateTimeLocal()], function(error, result) {
-                if (error) reject(error)
-                else {
-                    resolve((result.length > 0) ? result : null)
-                }
+                (error) ? reject(error): resolve((result.length > 0) ? result : null)
             })
         })
     }
@@ -172,10 +152,7 @@ function Migrate() {
     this.listSessionFromDateToDate = function(from, to) {
         return new Promise(function(resolve, reject) {
             mysql.connector.query("call procGetSessionFromDateToDate(?, ?)", [from, to], function(error, result) {
-                if (error) reject(error)
-                else {
-                    resolve((result.length > 0) ? result : null)
-                }
+                (error) ? reject(error): resolve((result.length > 0) ? result : null)
             })
         })
     }

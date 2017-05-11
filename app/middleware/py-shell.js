@@ -9,10 +9,7 @@ function PythonExecution() {
                 resolve(message)
             })
 
-            pyshell.end(function(error) {
-                if (error) reject(error)
-                console.log("Finished execution")
-            })
+
         })
     }
 
@@ -22,12 +19,6 @@ function PythonExecution() {
             pyshell.on('message', function(message) {
                 resolve(message)
             })
-
-            pyshell.end(function(error) {
-                if (error) reject(error)
-                console.log("Finished execution")
-            })
-
         })
     }
 
@@ -38,12 +29,6 @@ function PythonExecution() {
             pyshell.on('message', function(message) {
                 resolve(message)
             })
-
-            pyshell.end(function(error) {
-                if (error) reject(error)
-                console.log("Finished execution")
-            })
-
         })
     }
 
@@ -54,26 +39,21 @@ function PythonExecution() {
             pyshell.on('message', function(message) {
                 resolve(message)
             })
-
-            pyshell.end(function(error) {
-                if (error) reject(error)
-                console.log("Finished execution")
-            })
         })
     }
 
     this.killProcess = function(pid) {
         return new Promise((resolve, reject) => {
-            var pyshell = new PythonShell('../../python/process_kill.py')
-
-            pyshell.send("-pid " + pid);
-            pyshell.on("message", function(message) {
-                resolve(message)
-            })
-
-            pyshell.end(function(error) {
-                if (error) reject(error)
-                console.log("Finished execution")
+            var options = {
+                mode: 'text',
+                pythonOptions: ['-p'],
+                args: [pid]
+            };
+            PythonShell.run('../../python/process_kill.py', options, function(err, results) {
+                if (err) reject(err)
+                else {
+                    resolve(results)
+                }
             })
         })
     }
@@ -84,11 +64,6 @@ function PythonExecution() {
 
             pyshell.on("message", function(message) {
                 resolve(message)
-            })
-
-            pyshell.end(function(error) {
-                if (error) reject(error)
-                console.log("Finished execution")
             })
         })
     }
