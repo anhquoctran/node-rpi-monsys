@@ -36,6 +36,19 @@ jQuery(document).ready(function() {
     			$(this).removeClass('input-error');
     		}
     	});
+
+		var formPassword = $("#form-password").val();
+		var formPasswordRepeat = $("#form-repeat-password").val();
+
+		parent_fieldset.find('input[type="password"]').each(function() {
+    		if( formPassword != formPasswordRepeat ) {
+    			$(this).addClass('input-error');
+    			next_step = false;
+    		}
+    		else {
+    			$(this).removeClass('input-error');
+    		}
+    	});
     	
     	if( next_step ) {
     		parent_fieldset.fadeOut(400, function() {
@@ -55,21 +68,10 @@ jQuery(document).ready(function() {
     // submit
     $('.registration-form').on('submit', function(e) {
 
-		var formPassword = $("#form-password").val();
-		var formPasswordRepeat = $("#form-repeat-password").val();
+		
     	
     	$(this).find('input[type="text"], input[type="password"], textarea').each(function() {
     		if( $(this).val() == "" ) {
-    			e.preventDefault();
-    			$(this).addClass('input-error');
-    		}
-    		else {
-    			$(this).removeClass('input-error');
-    		}
-    	});
-
-    	$(this).find('input[type="password"]').each(function() {
-    		if( formPassword != formPasswordRepeat ) {
     			e.preventDefault();
     			$(this).addClass('input-error');
     		}

@@ -32,6 +32,29 @@ html(lang='en')
                   .form-top
                     .form-top-left
                       h3 Step 1 / 2
+                      p Set up your account:
+                    .form-top-right
+                      i.fa.fa-key
+                  .form-bottom
+                    .form-group
+                      label(for='form-username') Username
+                      input#form-username.form-username.form-control(type='text', name='form-username', placeholder='Username...')
+                    .form-group
+                      label(for='form-email') Email
+                      input#form-email.form-email.form-control(type='text', name='form-email', placeholder='Email...')
+                    .form-group
+                      label(for='form-password') Password
+                      input#form-password.form-password.form-control(type='password', name='form-password', placeholder='Password...')
+                    .form-group
+                      label(for='form-repeat-password') Repeat password
+                      input#form-repeat-password.form-repeat-password.form-control(type='password', name='form-repeat-password', placeholder='Repeat password...')
+                    .pull-right
+                      button.btn.btn-next(type='button') Next
+                    .clearfix
+                fieldset
+                  .form-top
+                    .form-top-left
+                      h3 Step 2 / 2
                       p About:
                     .form-top-right
                       i.fa.fa-user
@@ -42,29 +65,6 @@ html(lang='en')
                     .form-group
                       label(for='form-about-yourself') About yourself
                       textarea#form-about-yourself.form-about-yourself.form-control(name='form-about-yourself', placeholder='About yourself...')
-                    .pull-right
-                      button.btn.btn-next(type='button') Next
-                    .clearfix
-                fieldset
-                  .form-top
-                    .form-top-left
-                      h3 Step 2 / 2
-                      p Set up your account:
-                    .form-top-right
-                      i.fa.fa-key
-                  .form-bottom
-                    .form-group
-                      label(for='form-email') Email
-                      input#form-email.form-email.form-control(type='text', name='form-email', placeholder='Email...')
-                    .form-group
-                      label(for='form-username') Username
-                      input#form-username.form-username.form-control(type='text', name='form-username', placeholder='Username...')
-                    .form-group
-                      label(for='form-password') Password
-                      input#form-password.form-password.form-control(type='password', name='form-password', placeholder='Password...')
-                    .form-group
-                      label(for='form-repeat-password') Repeat password
-                      input#form-repeat-password.form-repeat-password.form-control(type='password', name='form-repeat-password', placeholder='Repeat password...')
                     .pull-right
                       button.btn.btn-previous(type='button') Previous
                       button.btn(type='submit') Sign me up!
