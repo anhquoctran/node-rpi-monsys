@@ -13,10 +13,10 @@ nav.navbar.navbar-default.navbar-fixed-top
             i.lnr.lnr-alarm
           ul.dropdown-menu.notifications
             each item in Notify.list
-            li
-              a.notification-item(href='/account/notification/#{item.Id}')
-                span.dot.bg-warning
-                | item.Content
+              li
+                a.notification-item(href='/account/notification/#{item.Id}')
+                  span.dot.bg-warning
+                  | item.Content
 
         li.dropdown
           a.dropdown-toggle(href='#', data-toggle='dropdown')
