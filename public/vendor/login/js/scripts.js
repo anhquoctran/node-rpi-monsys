@@ -100,12 +100,14 @@ jQuery(document).ready(function() {
 
 		$(this).find('input[name="form-username"]').each(function() {
 
-    		if( userName > 6 && userName < 24 ) {
+    		if( userName.length < 6 && userName.length < 24 ) {
 				e.preventDefault();
     			$(this).addClass('input-error');
+				alert(userName.length);
 			}
 			else {
     			$(this).removeClass('input-error');
+				alert(userName.length + "Pass");
 			}
     	});
     	
