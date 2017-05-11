@@ -29,15 +29,15 @@ nav.navbar.navbar-default.navbar-fixed-top
                 i.lnr.lnr-user
                 span My Profile
             if currentUser.RoleName == 'Admin'
-                li
-                  a(href='/admin/admin_cp')
-                  i.lnr.lnr-home
-                  span AdminCP
+              li
+                a(href='/admin/admin_cp')
+                i.lnr.lnr-home
+                span AdminCP
             else
-                li(display='none')
-                  a(href='/admin/admin_cp')
-                  i.lnr.lnr-home
-                  span AdminCP
+              li(display='none')
+                a(href='/admin/admin_cp')
+                i.lnr.lnr-home
+                span AdminCP
             li
               a(href='/account/preferences')
                 i.lnr.lnr-cog
