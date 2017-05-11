@@ -95,6 +95,19 @@ jQuery(document).ready(function() {
     			$(this).removeClass('input-error');
     		}
     	});
+
+		var userName = $("#form-username").val();
+
+		$(this).find('input[name="form-username"]').each(function() {
+
+    		if( userName > 6 && userName < 24 ) {
+				e.preventDefault();
+    			$(this).addClass('input-error');
+			}
+			else {
+    			$(this).removeClass('input-error');
+			}
+    	});
     	
     });
     

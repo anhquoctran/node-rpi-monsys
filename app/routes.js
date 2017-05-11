@@ -58,29 +58,29 @@ module.exports = function Route(app, passport) {
     })
 
     app.post('/register', function(req, res) {
-        var username = req.body.username,
-            fullname = req.body.fullname,
-            email = req.body.email,
-            password = req.body.password,
-            birthdate = req.body.birthdate,
-            hometown = req.body.hometown,
-            wherenow = req.body.wherenow,
-            phone = req.body.phone,
-            bio = req.body.bio,
+        // var username = req.body.username,
+        //     fullname = req.body.fullname,
+        //     email = req.body.email,
+        //     password = req.body.password,
+        //     birthdate = req.body.birthdate,
+        //     hometown = req.body.hometown,
+        //     wherenow = req.body.wherenow,
+        //     phone = req.body.phone,
+        //     bio = req.body.bio,
 
-            if (username || fullname || email || password || birthdate || hometown || wherenow || phone || bio || description) {
-                migrator.register(username, password, email, fullname, phone, hometown, wherenow, bio)
-                    .then(result => {
-                        if (result == true) {
+        //     if (username || fullname || email || password || birthdate || hometown || wherenow || phone || bio || description) {
+        //         migrator.register(username, password, email, fullname, phone, hometown, wherenow, bio)
+        //             .then(result => {
+        //                 if (result == true) {
 
-                        } else {
+        //                 } else {
 
-                        }
-                    })
-                    .catch(error => console.error(error))
-            } else {
+        //                 }
+        //             })
+        //             .catch(error => console.error(error))
+        //     } else {
 
-            }
+        //     }
     })
 
     app.get('/forgot', function(req, res) {
