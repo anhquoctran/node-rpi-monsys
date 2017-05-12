@@ -22,25 +22,6 @@ module.exports = function Route(app, passport) {
             })
             .catch(error => done(error, null))
     })
-
-    /*passport.use(new localStrategy({
-        function(username, password, done) {
-            return new Promise(function(resolve, reject) {
-                migrate.getOneUser(username)
-                    .then(user => {
-                        if (!user) {
-                            resolve(null)
-                        } else if (passport !== user.password) {
-                            resolve(null)
-                        } else {
-                            resolve(user)
-                        }
-                    })
-                    .catch(error => console.error(error))
-            })
-        }
-    }))
-*/
     passport.use('login', new localStrategy({
         usernameField: "usernameOrEmail",
         passwordField: "password",
@@ -89,7 +70,11 @@ module.exports = function Route(app, passport) {
         })
     })
 
+<<<<<<< HEAD
     // app.post('/login', passport.authenticate('login'), { successRedirect: '/admin', failureRedirect: '/login' })
+=======
+    //app.post('/login', passport.authenticate('login'), { successRedirect: '/admin', failureRedirect: '/login' })
+>>>>>>> 6a7f6b86fe1acf4cbfa585e9d9b465c2fc79b029
 
     app.post('/register', function(req, res) {
 
@@ -134,7 +119,7 @@ module.exports = function Route(app, passport) {
     app.get('/account/:username', ensure_login.ensureLoggedIn(), function(req, res) {
         var username = req.params.username
         if (!username) {
-
+            res.redirect("/admin")
         } else {
             if (username) {
                 migrator.getOneUser(username)
@@ -195,7 +180,7 @@ module.exports = function Route(app, passport) {
         })
     })
 
-    app.get('/admin', function(req, res) {
+    app.get('/admin', ensure_login.ensureLoggedIn(), function(req, res) {
 
         Promise.all([
                 sysinfo.mem(), ensure_login.ensureLoggedIn(), sysinfo.disksIO(), sysinfo.networkConnections(), sysinfo.processes()
