@@ -185,7 +185,11 @@ form .form-bottom button.btn {
 }
 
 form .form-bottom .input-error {
-	border-color: #19b9e7;
+	border-color: red;
+}
+
+.form-group label {
+	width: 100%;
 }
 
 form.registration-form fieldset {

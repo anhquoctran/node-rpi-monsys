@@ -70,7 +70,7 @@ module.exports = function Route(app, passport) {
         })
     })
 
-    //app.post('/login', passport.authenticate('login'), { successRedirect: '/admin', failureRedirect: '/login' })
+    // app.post('/login', passport.authenticate('login'), { successRedirect: '/admin', failureRedirect: '/login' })
 
     app.post('/register', function(req, res) {
 
