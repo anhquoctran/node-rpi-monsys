@@ -67,6 +67,7 @@ function Migrate() {
 
     this.login = function(usernameOrEmail, password) {
         return new Promise(function(resolve, reject) {
+            password = security.encryptPassword(password)
             mysql.connector.query("call procGetUsernameOrEmail(?, ?)", [usernameOrEmail, password], function(error, user) {
                 (error) ? reject(error): resolve((!user) ? null : user)
             })
