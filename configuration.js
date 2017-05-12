@@ -24,7 +24,7 @@ module.exports = function Configuration(app) {
     app.set("view engine", "pug")
     app.set('views', __dirname + '/views')
     app.use('/public', express.static(__dirname + '/public'))
-    app.use(morgan('dev'))
+    app.use(morgan('combined'))
     app.use(bodyparser.json())
     app.use(bodyparser.urlencoded({
         extended: true

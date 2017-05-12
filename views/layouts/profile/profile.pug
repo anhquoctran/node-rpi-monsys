@@ -15,7 +15,7 @@ block content
               .profile-main
                 img.img-circle(src='#{user.AvatarPath}', alt='Avatar')
                 h3.name #{user.Fullname}
-                span.online-status.status-available #{user.Rolename}
+                span.online-status.status-available @#{user.Username}
               .profile-stat
                 .row
                   .col-md-4.stat-item

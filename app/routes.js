@@ -7,6 +7,7 @@ var datetime = require("../app/middleware/datetime")
 var mail = require("../app/middleware/mail")
 var JwtStrategy = require("passport-jwt").Strategy,
     ExtractJwt = require('passport-jwt').ExtractJwt
+var ensure_login = require("connect-ensure-login")
 
 module.exports = function Route(app, passport) {
 
@@ -115,29 +116,7 @@ module.exports = function Route(app, passport) {
         } else {
 
         }
-        // var username = req.body.username,
-        //     fullname = req.body.fullname,
-        //     email = req.body.email,
-        //     password = req.body.password,
-        //     birthdate = req.body.birthdate,
-        //     hometown = req.body.hometown,
-        //     wherenow = req.body.wherenow,
-        //     phone = req.body.phone,
-        //     bio = req.body.bio,
 
-        //     if (username || fullname || email || password || birthdate || hometown || wherenow || phone || bio || description) {
-        //         migrator.register(username, password, email, fullname, phone, hometown, wherenow, bio)
-        //             .then(result => {
-        //                 if (result == true) {
-
-        //                 } else {
-
-        //                 }
-        //             })
-        //             .catch(error => console.error(error))
-        //     } else {
-
-        //     }
     })
 
     app.get('/forgot', function(req, res) {
@@ -152,7 +131,7 @@ module.exports = function Route(app, passport) {
         });
     })
 
-    app.get('/account/:username', function(req, res) {
+    app.get('/account/:username', ensure_login.ensureLoggedIn(), function(req, res) {
         var username = req.params.username
         if (!username) {
 
@@ -174,7 +153,7 @@ module.exports = function Route(app, passport) {
         }
     })
 
-    app.get('/account/preferences', function(req, res) {
+    app.get('/account/preferences', ensure_login.ensureLoggedIn(), function(req, res) {
         res.render('layouts/profile/setting', {
             title: "Setting",
             message: null
@@ -209,7 +188,7 @@ module.exports = function Route(app, passport) {
         res.redirect('/login')
     })
 
-    app.get('/admin/admin_cp', function(req, res) {
+    app.get('/admin/admin_cp', ensure_login.ensureLoggedIn(), function(req, res) {
         res.render("admin_cp", {
             title: "Administrator Control Panel",
             data: null
@@ -219,7 +198,7 @@ module.exports = function Route(app, passport) {
     app.get('/admin', function(req, res) {
 
         Promise.all([
-                sysinfo.mem(), sysinfo.disksIO(), sysinfo.networkConnections(), sysinfo.processes()
+                sysinfo.mem(), ensure_login.ensureLoggedIn(), sysinfo.disksIO(), sysinfo.networkConnections(), sysinfo.processes()
             ])
             .then(result => {
                 res.render("layouts/sysinfo/general", {
@@ -236,11 +215,11 @@ module.exports = function Route(app, passport) {
             })
     })
 
-    app.get('/sysinfo/terminal/ssh', function(req, res) {
+    app.get('/sysinfo/terminal/ssh', ensure_login.ensureLoggedIn(), function(req, res) {
         res.json({ message: "OK" })
     })
 
-    app.get("/admin/overview", function(req, res) {
+    app.get("/admin/overview", ensure_login.ensureLoggedIn(), function(req, res) {
         Promise.all([
                 sysinfo.osInfo(), sysinfo.cpu(), sysinfo.cpuCache(), sysinfo.cpuCurrentspeed(),
                 sysinfo.mem(), sysinfo.disksIO(), sysinfo.networkConnections(), sysinfo.networkInterfaces(), sysinfo.networkInterfaceDefault(), sysinfo.fsSize()
@@ -264,7 +243,7 @@ module.exports = function Route(app, passport) {
             })
     })
 
-    app.get('/admin/cpu', function(req, res) {
+    app.get('/admin/cpu', ensure_login.ensureLoggedIn(), function(req, res) {
         Promise.all([
                 sysinfo.cpu(), sysinfo.cpuCache(), sysinfo.cpuCurrentspeed(), sysinfo.cpuFlags()
             ])
@@ -279,7 +258,7 @@ module.exports = function Route(app, passport) {
             })
     })
 
-    app.get('/admin/memory', function(req, res) {
+    app.get('/admin/memory', ensure_login.ensureLoggedIn(), function(req, res) {
         sysinfo.mem()
             .then(memory => {
                 res.render("/layouts/sysinfo/memory", {
@@ -298,7 +277,7 @@ module.exports = function Route(app, passport) {
             .catch(error => console.error(error))
     })
 
-    app.get('/admin/network', function(req, res) {
+    app.get('/admin/network', ensure_login.ensureLoggedIn(), function(req, res) {
         Promise.all([
                 sysinfo.networkInterfaces(), sysinfo.networkInterfaceDefault(), sysinfo.networkConnections()
             ])
@@ -310,7 +289,7 @@ module.exports = function Route(app, passport) {
             })
     })
 
-    app.get('/admin/disk', function(req, res) {
+    app.get('/admin/disk', ensure_login.ensureLoggedIn(), function(req, res) {
         Promise.all([
                 sysinfo.disksIO(), sysinfo.blockDevices()
             ])
@@ -324,7 +303,7 @@ module.exports = function Route(app, passport) {
             })
     })
 
-    app.get('/admin/filesystem', function(req, res) {
+    app.get('/admin/filesystem', ensure_login.ensureLoggedIn(), function(req, res) {
         sysinfo.fsSize()
             .then(fs => {
                 res.render("layouts/sysinfo/filesytem", {
@@ -335,7 +314,7 @@ module.exports = function Route(app, passport) {
             .catch(error => console.error)
     })
 
-    app.get('/admin/sysuser', function(req, res) {
+    app.get('/admin/sysuser', ensure_login.ensureLoggedIn(), function(req, res) {
         sysinfo.users()
             .then(users => {
                 res.render("layouts/sysinfo/sysuser", {
@@ -345,7 +324,7 @@ module.exports = function Route(app, passport) {
             .catch(error => console.error(error))
     })
 
-    app.get('/admin/processes', function(req, res) {
+    app.get('/admin/processes', ensure_login.ensureLoggedIn(), function(req, res) {
         sysinfo.processes()
             .then(processes => {
                 res.render("layouts/sysinfo/processes", {
