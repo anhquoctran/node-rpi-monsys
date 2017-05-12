@@ -40,7 +40,7 @@ jQuery(document).ready(function() {
 		let formPassword = $("#form-password").val();
 		let formPasswordRepeat = $("#form-repeat-password").val();
 
-		$(this).find('input[type="password"]').each(function() {
+		parent_fieldset.find('input[type="password"]').each(function() {
     		if( formPassword != formPasswordRepeat ) {
     			$(this).addClass('input-error');
 				$("label[for=form-password] > span").html( "" );
@@ -54,7 +54,7 @@ jQuery(document).ready(function() {
 
 		let userName = $("#form-username").val();
 
-		$(this).find('input[name="form-username"]').each(function() {
+		parent_fieldset.find('input[name="form-username"]').each(function() {
 
     		if( userName.length < 6 && userName.length < 24 ) {
 				e.preventDefault();
@@ -67,7 +67,7 @@ jQuery(document).ready(function() {
 
 		let emailAddress = $("#form-email").val();
 
-		$(this).find('input[name="form-email"]').each(function() {
+		parent_fieldset.find('input[name="form-email"]').each(function() {
 
 			function validateEmail($email) {
 				var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
