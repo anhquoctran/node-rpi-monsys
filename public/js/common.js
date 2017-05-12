@@ -11,7 +11,7 @@ $(document).ready(function() {
             }
         })*/
 
-    $.each(".root .data", function(i, val) {
+    $('.data').each(function() {
         let text = $(this).text();
         $(this).text(convertSizeData(text))
     });

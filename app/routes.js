@@ -65,7 +65,7 @@ module.exports = function Route(app, passport) {
     }, function(req, username, email, password, fullname, done) {
         migrator.register(username, passport, email, fullname)
             .then(data => {
-
+                (data === true) ? val:
             })
             .catch(error => {
                 done(error)
@@ -89,7 +89,7 @@ module.exports = function Route(app, passport) {
         })
     })
 
-    //app.post('/login', passport.authenticate('local-signin'), { successRedirect: '/admin', failureRedirect: '/login' })
+    app.post('/login', passport.authenticate('login'), { successRedirect: '/admin', failureRedirect: '/login' })
 
     app.post('/register', function(req, res) {
         var username = req.body.username,
