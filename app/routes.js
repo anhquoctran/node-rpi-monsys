@@ -11,11 +11,11 @@ var JwtStrategy = require("passport-jwt").Strategy,
 module.exports = function Route(app, passport) {
 
     passport.serializeUser(function(user, done) {
-        done(null, user.id)
+        done(null, user.username)
     })
 
-    passport.deserializeUser(function(id, done) {
-        migrator.getUserById(id)
+    passport.deserializeUser(function(username, done) {
+        migrator.getOneUser(username)
             .then(data => {
                 done(null, data[0])
             })

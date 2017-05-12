@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    $.ajax({
+    /*$.ajax({
             type: "HEAD",
             url: "/api/oauth2",
             dataType: "application/json",
@@ -9,10 +9,25 @@ $(document).ready(function() {
             error: function(response) {
                 return false
             }
-        })
-        /*-----------------------------------/
-        /*	TOP NAVIGATION AND LAYOUT
-        /*----------------------------------*/
+        })*/
+
+    $.each(".root .data", function(i, val) {
+        let text = $(this).text();
+        $(this).text(convertSizeData(text))
+    });
+
+    function convertSizeData(filesize, options) {
+        if (0 == a) return "0 Bytes"
+        var c = 1e3,
+            d = options || 2,
+            e = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"],
+            f = Math.floor(Math.log(a) / Math.log(c));
+        return parseFloat((a / Math.pow(c, f)).toFixed(d)) + " " + e[f]
+    }
+
+    /*-----------------------------------/
+    /*	TOP NAVIGATION AND LAYOUT
+    /*----------------------------------*/
 
     $('.btn-toggle-fullwidth').on('click', function() {
         if (!$('body').hasClass('layout-fullwidth')) {

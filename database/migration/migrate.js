@@ -7,22 +7,19 @@ function Migrate() {
         return new Date().toLocaleDateString() + " " + new Date().toLocaleTimeString()
     }
 
-    this.register = function(username, password, email, fullname, phone, hometown, wherenow, bio, description) {
+    this.register = function(username, password, email, fullname) {
         return new Promise(function(resolve, reject) {
             mysql.connector.query("SELECT COUNT(U.username) FROM rpi_user U WHERE U.username = ?", [username], function(error, result) {
                 if (error) reject(error);
                 else {
                     if (result["COUNT(U.username)"] == 0) {
                         password = security.encryptPassword(password)
-                        mysql.connector.query("INSERT INTO rpi_user(username, password, email, fullname, phone, hometown, wherenow, bio, description) VALUES(?, ?, ?, ?, ?, ?, ?, ?)", [username, password, email, fullname, phone, hometown, wherenow, bio], function(error, result) {
+                        mysql.connector.query("INSERT INTO rpi_user(username, password, email, fullname) VALUES(?, ?, ?, ?)", [username, password, email, fullname], function(error, result) {
                             if (error) reject(error);
                             else {
                                 if (result.affectedRows >= 0) {
                                     mysql.connector.query("INSERT INTO rpi_verification(idUser, isverified, createdAt) VALUES(?, ?, ?)", [result.insertId, 0, getDateTimeLocal()], function(error, response) {
-                                        if (error) reject(error)
-                                        else {
-                                            resolve((response.affectedRows >= 0) ? true : false)
-                                        }
+                                        (error) ? reject(error): resolve((response.affectedRows >= 0) ? true : false)
                                     })
                                 } else {
                                     reject(false)

@@ -16,106 +16,106 @@ block content
                 ul.list-unstyled.list-justify
                   li
                     | Platform 
-                    span #{osInfo.platform}
+                    span #{osinfo.platform}
                   li
                     | Distro 
-                    span #{osInfo.distro}
+                    span #{osinfo.distro}
                   li
                     | Release 
-                    span #{osInfo.release}
+                    span #{osinfo.release}
                   li
                     | Code name 
-                    span #{osInfo.codename}
+                    span #{osinfo.codename}
                   li
                     | Kernel 
-                    span #{osInfo.kernel}
+                    span #{osinfo.kernel}
                   li
                     | Architecture 
-                    span #{osInfo.arch}
+                    span #{osinfo.arch}
                   li
                     | Hostname 
-                    span #{osInfo.hostname}
+                    span #{osinfo.hostname}
                   li
                     | Logo file 
-                    span #{osInfo.logofile}
+                    span #{osinfo.logofile}
               .col-md-4
                 h4.heading
                   b Central Processor Unit
                 ul.list-unstyled.list-justify
                   li
                     | Manufacturer 
-                    span #{cpuInfo.manufacturer}
+                    span #{cpuinfo.manufacturer}
                   li
                     | Brand 
-                    span #{cpuInfo.brand}
+                    span #{cpuinfo.brand}
                   li
                     | Speed 
-                    span #{cpuInfo.speed}
+                    span #{cpuinfo.speed}
                   li
                     | Total cores 
-                    span #{cpuInfo.cores}
+                    span #{cpuinfo.cores}
                   li
                     | Minimum speed 
-                    span #{cpuCurrentSpeed.min}
+                    span #{cpuCurrentspeed.min}
                   li
                     | Maximum speed 
-                    span #{cpuCurrentSpeed.max}
+                    span #{cpuCurrentspeed.max}
                   li
                     | Average speed 
-                    span #{cpuCurrentSpeed.avg}
+                    span #{cpuCurrentspeed.avg}
                   li
                     | Temperature 
                     span Not available
               .col-md-4
                 h4.heading
                   b Memory
-                ul.list-unstyled.list-justify
+                ul.list-unstyled.list-justify.root
                   li
                     | Total 
-                    span #{mem.total}
+                    span.data #{mem.total}
                   li
                     | Free 
-                    span #{mem.free}
+                    span.data #{mem.free}
                   li
                     | In used 
-                    span #{mem.used}
+                    span.data #{mem.used}
                   li
                     | Active 
-                    span #{mem.active}
+                    span.data #{mem.active}
                   li
                     | Available 
-                    span #{mem.available}
+                    span.data #{mem.available}
                   li
                     | Buffer cache 
-                    span #{mem.buffcache}
+                    span.data #{mem.buffcache}
                   li
                     | Swap total 
-                    span #{mem.swaptotal}
+                    span.data #{mem.swaptotal}
                   li
                     | Swap use 
-                    span #{mem.swapuse}
+                    span.data #{mem.swapuse}
                   li
                     | Swap free 
-                    span #{mem.swapfree}
+                    span.data #{mem.swapfree}
               .col-md-4
                 h4.heading
                   b Disk IO activities
-                ul.list-unstyled.list-justify
+                ul.list-unstyled.list-justify.root
                   li
                     | Read IO 
-                    span #{diskIO.rio}
+                    span.data #{diskIO.rio}
                   li
                     | Write IO 
-                    span #{diskIO.wio}
+                    span.data #{diskIO.wio}
                   li
                     | Transfer IO 
-                    span #{diskIO.tio}
+                    span.data #{diskIO.tio}
                   li
                     | Read per second 
-                    span #{diskIO.rio_sec}
+                    span.data #{diskIO.rio_sec}
                   li
                     | Write per second 
-                    span #{diskIO.wio_sec}
+                    span.data #{diskIO.wio_sec}
               .col-md-4
                 h4.heading
                   b Networking
