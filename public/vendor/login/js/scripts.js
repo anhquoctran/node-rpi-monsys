@@ -37,8 +37,8 @@ jQuery(document).ready(function() {
     		}
     	});
 
-		var formPassword = $("#form-password").val();
-		var formPasswordRepeat = $("#form-repeat-password").val();
+		let formPassword = $("#form-password").val();
+		let formPasswordRepeat = $("#form-repeat-password").val();
 
 		parent_fieldset.find('input[type="password"]').each(function() {
     		if( formPassword != formPasswordRepeat ) {
