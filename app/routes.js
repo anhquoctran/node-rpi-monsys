@@ -63,9 +63,8 @@ module.exports = function Route(app, passport) {
         passwordField: "password",
         passReqToCallback: true
     }, function(req, username, email, password, fullname, done) {
-        migrator.register(username, passport, email, fullname)
-            .then(data => {
-                (data === true) ? val:
+        migrator.register(username, passport, email, fullname).then(data => {
+                (data === true) ? true: false
             })
             .catch(error => {
                 done(error)
@@ -92,7 +91,7 @@ module.exports = function Route(app, passport) {
     app.post('/login', passport.authenticate('login'), { successRedirect: '/admin', failureRedirect: '/login' })
 
     app.post('/register', function(req, res) {
-<<<<<<< HEAD
+
         var username = req.body.username,
             fullname = req.body.fullname,
             email = req.body.email,
@@ -116,7 +115,6 @@ module.exports = function Route(app, passport) {
         } else {
 
         }
-=======
         // var username = req.body.username,
         //     fullname = req.body.fullname,
         //     email = req.body.email,
@@ -140,7 +138,6 @@ module.exports = function Route(app, passport) {
         //     } else {
 
         //     }
->>>>>>> 2648eb6043b88548dd5c9d7971f261cc41342789
     })
 
     app.get('/forgot', function(req, res) {
