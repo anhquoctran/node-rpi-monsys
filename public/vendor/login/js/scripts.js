@@ -50,6 +50,19 @@ jQuery(document).ready(function() {
     		}
     	});
 
+		let userName = $("#form-username").val();
+
+		$(this).find('input[name="form-username"]').each(function() {
+
+    		if( userName.length < 6 && userName.length < 24 ) {
+				e.preventDefault();
+    			$(this).addClass('input-error');
+			}
+			else {
+    			$(this).removeClass('input-error');
+			}
+    	});
+
 		let emailAddress = $("#form-email").val();
 
 		$(this).find('input[name="form-email"]').each(function() {
@@ -96,21 +109,6 @@ jQuery(document).ready(function() {
     		else {
     			$(this).removeClass('input-error');
     		}
-    	});
-
-		var userName = $("#form-username").val();
-
-		$(this).find('input[name="form-username"]').each(function() {
-
-    		if( userName.length < 6 && userName.length < 24 ) {
-				e.preventDefault();
-    			$(this).addClass('input-error');
-				alert(userName.length);
-			}
-			else {
-    			$(this).removeClass('input-error');
-				alert(userName.length + "Pass");
-			}
     	});
     	
     });
