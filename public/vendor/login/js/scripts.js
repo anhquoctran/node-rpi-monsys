@@ -98,8 +98,6 @@ jQuery(document).ready(function() {
     
     // submit
     $('.registration-form').on('submit', function(e) {
-
-		
     	
     	$(this).find('input[type="text"], input[type="password"], textarea').each(function() {
     		if( $(this).val() == "" ) {
@@ -109,6 +107,47 @@ jQuery(document).ready(function() {
     		else {
     			$(this).removeClass('input-error');
     		}
+    	});
+    	
+    });
+
+	// Login submit
+    $('.login-form').on('submit', function(e) {
+    	
+    	$(this).find('input[type="text"], input[type="password"], textarea').each(function() {
+    		if( $(this).val() == "" ) {
+    			e.preventDefault();
+    			$(this).addClass('input-error');
+    		}
+    		else {
+    			$(this).removeClass('input-error');
+    		}
+    	});
+
+		let formPassword = $("#form-password").val();
+		let formPasswordRepeat = $("#form-repeat-password").val();
+
+		$(this).find('input[type="password"]').each(function() {
+    		if( formPassword != formPasswordRepeat ) {
+    			$(this).addClass('input-error');
+    			next_step = false;
+    		}
+    		else {
+    			$(this).removeClass('input-error');
+    		}
+    	});
+
+		let userName = $("#form-username").val();
+
+		$(this).find('input[name="form-username"]').each(function() {
+
+    		if( userName.length < 6 && userName.length < 24 ) {
+				e.preventDefault();
+    			$(this).addClass('input-error');
+			}
+			else {
+    			$(this).removeClass('input-error');
+			}
     	});
     	
     });
