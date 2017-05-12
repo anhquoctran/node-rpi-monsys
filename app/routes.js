@@ -71,7 +71,11 @@ module.exports = function Route(app, passport) {
     })
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     // app.post('/login', passport.authenticate('login'), { successRedirect: '/admin', failureRedirect: '/login' })
+=======
+    //app.post('/login', passport.authenticate('login'), { successRedirect: '/admin', failureRedirect: '/login' })
+>>>>>>> 6a7f6b86fe1acf4cbfa585e9d9b465c2fc79b029
 =======
     //app.post('/login', passport.authenticate('login'), { successRedirect: '/admin', failureRedirect: '/login' })
 >>>>>>> 6a7f6b86fe1acf4cbfa585e9d9b465c2fc79b029
