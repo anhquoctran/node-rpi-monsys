@@ -92,6 +92,7 @@ module.exports = function Route(app, passport) {
     app.post('/login', passport.authenticate('login'), { successRedirect: '/admin', failureRedirect: '/login' })
 
     app.post('/register', function(req, res) {
+<<<<<<< HEAD
         var username = req.body.username,
             fullname = req.body.fullname,
             email = req.body.email,
@@ -115,6 +116,31 @@ module.exports = function Route(app, passport) {
         } else {
 
         }
+=======
+        // var username = req.body.username,
+        //     fullname = req.body.fullname,
+        //     email = req.body.email,
+        //     password = req.body.password,
+        //     birthdate = req.body.birthdate,
+        //     hometown = req.body.hometown,
+        //     wherenow = req.body.wherenow,
+        //     phone = req.body.phone,
+        //     bio = req.body.bio,
+
+        //     if (username || fullname || email || password || birthdate || hometown || wherenow || phone || bio || description) {
+        //         migrator.register(username, password, email, fullname, phone, hometown, wherenow, bio)
+        //             .then(result => {
+        //                 if (result == true) {
+
+        //                 } else {
+
+        //                 }
+        //             })
+        //             .catch(error => console.error(error))
+        //     } else {
+
+        //     }
+>>>>>>> 2648eb6043b88548dd5c9d7971f261cc41342789
     })
 
     app.get('/forgot', function(req, res) {
