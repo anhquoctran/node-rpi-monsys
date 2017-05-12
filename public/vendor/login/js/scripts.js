@@ -49,6 +49,24 @@ jQuery(document).ready(function() {
     			$(this).removeClass('input-error');
     		}
     	});
+
+		let emailAddress = $("#form-email").val();
+
+		$(this).find('input[name="form-email"]').each(function() {
+
+			function validateEmail($email) {
+				var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+				return emailReg.test( $email );
+			}
+
+    		if( !validateEmail(emailAddress) ) {
+				e.preventDefault();
+    			$(this).addClass('input-error');
+			}
+			else {
+    			$(this).removeClass('input-error');
+    		}
+    	});
     	
     	if( next_step ) {
     		parent_fieldset.fadeOut(400, function() {
@@ -76,24 +94,6 @@ jQuery(document).ready(function() {
     			$(this).addClass('input-error');
     		}
     		else {
-    			$(this).removeClass('input-error');
-    		}
-    	});
-
-		var emailAddress = $("#form-email").val();
-
-		$(this).find('input[name="form-email"]').each(function() {
-
-			function validateEmail($email) {
-				var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
-				return emailReg.test( $email );
-			}
-
-    		if( !validateEmail(emailAddress) ) {
-				e.preventDefault();
-    			$(this).addClass('input-error');
-			}
-			else {
     			$(this).removeClass('input-error');
     		}
     	});
