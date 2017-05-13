@@ -5,12 +5,8 @@ function Security() {
         return crypto.createHash("sha512").update(password.toString()).digest('hex').toUpperCase()
     }
 
-    this.createHash = function() {
-
-    }
-
-    this.createRSA = function() {
-
+    this.hash = function(string) {
+        return crypto.createHash("sha512").update(string.toString()).digest("hex").toLowerCase()
     }
 
 }

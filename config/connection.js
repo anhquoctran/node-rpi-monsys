@@ -15,6 +15,7 @@ module.exports = {
         host: '203.113.167.3',
         user: 'root',
         password: '@Hueic2016',
+        database: "rpi-monsys",
         multipleStatements: true,
         charset: 'utf8_general_ci'
     }

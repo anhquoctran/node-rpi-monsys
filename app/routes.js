@@ -11,7 +11,7 @@ var ensure_login = require("connect-ensure-login")
 
 module.exports = function Route(app, passport) {
 
-    passport.serializeUser(function(user, done) {
+    /*passport.serializeUser(function(user, done) {
         done(null, user.username)
     })
 
@@ -20,125 +20,131 @@ module.exports = function Route(app, passport) {
             .then(data => {
                 done(null, data[0])
             })
-            .catch(error => done(error, null))
+            .catch(error => { return done(error) })
     })
+
     passport.use('login', new localStrategy({
-        usernameField: "usernameOrEmail",
-        passwordField: "password",
         passReqToCallback: true
     }, function(usernameOrEmail, password, done) {
-        migrator.login(usernameOrEmail, passport)
+        migrator.getUserByEmail(usernameOrEmail, passport)
             .then(result => {
-                if (!result.length) return done(null, false, req.flash('loginMessage', 'No user found.'))
+                if (!result) return done(null, false)
 
-                if (!(rows[0].password == password)) return done(null, false, req.flash('loginMessage', 'Oops! Wrong password.'))
+                if (!(rows[0].password == password)) return done(null, false)
 
-                return done(null, rows[0]);
+                return done(null, true);
             })
             .catch(error => {
                 return done(error)
             })
-    }))
-
-    passport.use("register", new localStrategy({
-        usernameField: "username",
-        passwordField: "password",
-        passReqToCallback: true
-    }, function(req, username, email, password, fullname, done) {
-        migrator.register(username, passport, email, fullname).then(data => {
-                (data === true) ? true: false
-            })
-            .catch(error => {
-                done(error)
-            })
-    }))
-
-    function isLoggedIn(req, res, next) {
-        if (req.isAuthenticated()) {
-            return next()
-        }
-        res.redirect('/')
-    }
+    }))*/
 
     app.get('/', function(req, res) {
-        res.redirect("/login")
+        if (req.session.user) {
+            res.redirect("/admin")
+        } else res.redirect("/login")
     })
 
     app.get('/login', function(req, res) {
-        res.render('login', {
-            title: "Login to your system - RPiMonSys"
-        })
+        if (req.session.user) {
+            res.redirect("/admin")
+        } else {
+            res.render('login', {
+                title: "Login to your system - RPiMonSys"
+            })
+        }
     })
 
-    // app.post('/login', passport.authenticate('login'), { successRedirect: '/admin', failureRedirect: '/login' })
-
-    app.post('/register', function(req, res) {
-
-        var username = req.body.username,
-            fullname = req.body.fullname,
-            email = req.body.email,
-            password = req.body.password,
-            birthdate = req.body.birthdate,
-            hometown = req.body.hometown,
-            wherenow = req.body.wherenow,
-            phone = req.body.phone,
-            bio = req.body.bio
-
-        if (username || fullname || email || password || birthdate || hometown || wherenow || phone || bio || description) {
-            migrator.register(username, password, email, fullname, phone, hometown, wherenow, bio)
-                .then(result => {
-                    if (result == true) {
-
+    app.post('/login', function(req, res) {
+        var usernameOrEmail = req.body.usernameOrEmail;
+        var password = req.body.password;
+        if (!usernameOrEmail || !password) {
+            res.redirect("/login")
+        } else {
+            migrator.getUserByEmail(usernameOrEmail)
+                .then(data => {
+                    if (data) {
+                        req.session.user = data
+                        res.redirect("/admin?login=success&token=" + require("../app/middleware/security").hash(datetime.getDateTimeNow()))
                     } else {
-
+                        redirect("/login")
                     }
                 })
                 .catch(error => console.error(error))
-        } else {
-
         }
-
     })
 
+    app.post('/register', passport.authenticate("register", {
+        successRedirect: '/login',
+        failureRedirect: '/register',
+        failureFlash: true
+    }))
+
     app.get('/forgot', function(req, res) {
-        res.render('forgot', {
-            title: "Forgot your password - RPiMonSys"
-        })
+        if (req.session.user) {
+            res.redirect("/admin")
+        } else {
+            res.render('forgot', {
+                title: "Forgot your password - RPiMonSys"
+            })
+        }
     })
 
     app.get('/register', function(req, res) {
-        res.render('register', {
-            title: "Create an account to access our system"
-        });
-    })
-
-    app.get('/account/:username', ensure_login.ensureLoggedIn(), function(req, res) {
-        var username = req.params.username
-        if (!username) {
+        if (req.session.user) {
             res.redirect("/admin")
         } else {
-            if (username) {
-                migrator.getOneUser(username)
-                    .then(data => {
-                        res.render("layouts/profile/settings", {
-                            title: "Profile - RPiMonSys",
-                            user: data
-                        })
-                    })
-                    .catch(error => {
-                        console.error(error)
-                    })
-            } else {
-                res.redirect("/admin?error=permission_denied")
-            }
+            res.render('register', {
+                title: "Create an account to access our system"
+            });
         }
+
     })
 
-    app.get('/account/preferences', ensure_login.ensureLoggedIn(), function(req, res) {
-        res.render('layouts/profile/setting', {
-            title: "Setting",
-            message: null
-        });
+    app.get('/account/:username', function(req, res) {
+        if (req.session.user) {
+            var username = req.params.username
+            if (!username) {
+                res.redirect("/admin")
+            } else {
+                if (username === req.session.user.username) {
+                    Promise.all([
+                            migrator.getOneUser(username), migrator.getNotification(username), migrator.getFirstActivities(username)
+                        ])
+                        .then(data => {
+                            res.render("layouts/profile/settings", {
+                                title: "Profile - RPiMonSys",
+                                user: data[0],
+                                notification: data[1],
+                                first_activities: data[2]
+                            })
+                        })
+                        .catch(error => {
+                            console.error(error)
+                        })
+                } else {
+                    res.redirect("/admin?error=permission_denied")
+                }
+            }
+        } else res.redirect("/login")
+    })
+
+    app.get('/account/preferences', function(req, res) {
+        if (req.session.user) {
+            Promise.all([
+                    migrator.getOneUser(req.session.user.username), migrator.getNotification(req.session.user.username)
+                ])
+                .then(result => {
+                    res.render('layouts/profile/setting', {
+                        title: "Setting",
+                        user: result[0],
+                        notification: result[1]
+                    });
+                })
+        } else {
+            res.redirect("/login")
+        }
+
     })
 
     app.post('/upload', function(req, res) {
@@ -165,158 +171,224 @@ module.exports = function Route(app, passport) {
     })
 
     app.get('/logout', function(req, res) {
-        req.logout();
+        req.session.destroy();
         res.redirect('/login')
     })
 
-    app.get('/admin/admin_cp', ensure_login.ensureLoggedIn(), function(req, res) {
-        res.render("admin_cp", {
-            title: "Administrator Control Panel",
-            data: null
-        })
-    })
-
-    app.get('/admin', ensure_login.ensureLoggedIn(), function(req, res) {
-
-        Promise.all([
-                sysinfo.mem(), ensure_login.ensureLoggedIn(), sysinfo.disksIO(), sysinfo.networkConnections(), sysinfo.processes()
-            ])
-            .then(result => {
-                res.render("layouts/sysinfo/general", {
-                    title: "Dashboard",
-                    mem: result[0],
-                    disk: result[1],
-                    network: result[2],
-                    processes: result[3]
+    app.get('/admin/admin_cp', function(req, res) {
+        if (req.session.user) {
+            Promise.all([
+                    migrator.getOneUser(req.session.user.username), migrator.getNotification(req.session.user.username)
+                ])
+                .then(data => {
+                    res.render("admin_cp", {
+                        title: "Administrator Control Panel",
+                        user: data[0],
+                        notification: data[1]
+                    })
                 })
 
-            })
-            .catch(error => {
-                console.error(error)
-            })
+        } else res.redirect("/login")
     })
 
-    app.get('/sysinfo/terminal/ssh', ensure_login.ensureLoggedIn(), function(req, res) {
-        res.json({ message: "OK" })
-    })
-
-    app.get("/admin/overview", ensure_login.ensureLoggedIn(), function(req, res) {
-        Promise.all([
-                sysinfo.osInfo(), sysinfo.cpu(), sysinfo.cpuCache(), sysinfo.cpuCurrentspeed(),
-                sysinfo.mem(), sysinfo.disksIO(), sysinfo.networkConnections(), sysinfo.networkInterfaces(), sysinfo.networkInterfaceDefault(), sysinfo.fsSize()
-            ])
-            .then(result => {
-                res.render("layouts/sysinfo/overview", {
-                    title: "Overview System Information",
-                    osInfo: result[0],
-                    cpuinfo: result[1],
-                    cpuCache: result[2],
-                    cpuCurrentspeed: result[3],
-                    mem: result[4],
-                    disksIO: result[5],
-                    networkConnections: result[6],
-                    networkInterfaces: result[7],
-                    networkInterfaceDefault: result[8],
-                    filesystem: result[9]
+    app.get('/admin', function(req, res) {
+        if (req.session.user) {
+            Promise.all([
+                    sysinfo.mem(), sysinfo.disksIO(), sysinfo.networkConnections(), sysinfo.processes(), migrator.getOneUser(req.session.user.username), migrator.getNotification(req.session.user.username)
+                ])
+                .then(result => {
+                    res.render("layouts/sysinfo/general", {
+                        title: "Dashboard",
+                        mem: result[0],
+                        disk: result[1],
+                        network: result[2],
+                        processes: result[3],
+                        user: result[4],
+                        notification: result[5]
+                    })
                 })
-            }).catch(error => {
-                console.error(error)
-            })
+                .catch(error => {
+                    console.error(error)
+                })
+        } else res.redirect("/login")
     })
 
-    app.get('/admin/cpu', ensure_login.ensureLoggedIn(), function(req, res) {
-        Promise.all([
-                sysinfo.cpu(), sysinfo.cpuCache(), sysinfo.cpuCurrentspeed(), sysinfo.cpuFlags()
-            ])
-            .then(result => {
-                res.render("layouts/sysinfo/cpu", {
-                    title: 'CPU Usage Statistic',
-                    cpu: result[0],
-                    cpuCache: result[1],
-                    cpuCurrentspeed: result[2],
-                    cpuFlags: result[3]
-                })
-            })
+    app.get('/sysinfo/terminal/ssh', function(req, res) {
+        res.json({ message: "Coming soon", your_ip: req.host })
     })
 
-    app.get('/admin/memory', ensure_login.ensureLoggedIn(), function(req, res) {
-        sysinfo.mem()
-            .then(memory => {
-                res.render("/layouts/sysinfo/memory", {
-                    title: "Memory Usage Statistic",
-                    total: memory.total,
-                    free: memory.free,
-                    inuse: memory.used,
-                    active: memory.active,
-                    available: memory.available,
-                    buffer_cache: memory.buffcache,
-                    swap_total: memory.swaptotal,
-                    swap_use: memory.swapused,
-                    swap_free: memory.swapfree
+    app.get("/admin/overview", function(req, res) {
+        if (req.session.user) {
+            Promise.all([
+                    sysinfo.osInfo(), sysinfo.cpu(), sysinfo.cpuCache(), sysinfo.cpuCurrentspeed(),
+                    sysinfo.mem(), sysinfo.disksIO(), sysinfo.networkConnections(), sysinfo.networkInterfaces(), sysinfo.networkInterfaceDefault(), sysinfo.fsSize(), migrator.getOneUser(req.session.user.username), migrator.getNotification(req.session.user.username)
+                ])
+                .then(result => {
+                    res.render("layouts/sysinfo/overview", {
+                        title: "Overview System Information",
+                        osInfo: result[0],
+                        cpuinfo: result[1],
+                        cpuCache: result[2],
+                        cpuCurrentspeed: result[3],
+                        mem: result[4],
+                        disksIO: result[5],
+                        networkConnections: result[6],
+                        networkInterfaces: result[7],
+                        networkInterfaceDefault: result[8],
+                        filesystem: result[9],
+                        user: result[10],
+                        notification: result[11]
+                    })
+                }).catch(error => {
+                    console.error(error)
                 })
-            })
-            .catch(error => console.error(error))
+        } else {
+            res.redirect("/login")
+        }
+
     })
 
-    app.get('/admin/network', ensure_login.ensureLoggedIn(), function(req, res) {
-        Promise.all([
-                sysinfo.networkInterfaces(), sysinfo.networkInterfaceDefault(), sysinfo.networkConnections()
-            ])
-            .then(result => {
-                res.render("layout/sysinfo/network", {
-                    title: "Network Statistic",
-                    result: result
+    app.get('/admin/cpu', function(req, res) {
+        if (req.session.user) {
+            Promise.all([
+                    sysinfo.cpu(), sysinfo.cpuCache(), sysinfo.cpuCurrentspeed(), sysinfo.cpuFlags(), migrator.getOneUser(req.session.user.username), migrator.getNotification(req.session.user.username)
+                ])
+                .then(result => {
+                    res.render("layouts/sysinfo/cpu", {
+                        title: 'CPU Usage Statistic',
+                        cpu: result[0],
+                        cpuCache: result[1],
+                        cpuCurrentspeed: result[2],
+                        cpuFlags: result[3],
+                        user: result[4],
+                        notification: result[5]
+                    })
                 })
-            })
+        } else {
+            res.redirect("/login")
+        }
     })
 
-    app.get('/admin/disk', ensure_login.ensureLoggedIn(), function(req, res) {
-        Promise.all([
-                sysinfo.disksIO(), sysinfo.blockDevices()
-            ])
-            .then(result => {
-                res.render("layouts/sysinfo/disk", {
-                    title: "Disk I/O and Block Device Statistic",
-                    io: result[0],
-                    device: result[1]
+    app.get('/admin/memory', function(req, res) {
+        if (req.session.user) {
+            Promise.all([
+                    sysinfo.mem(), migrator.getOneUser(req.session.user.userame), migrator.getNotification(req.session.user.username)
+                ])
+                .then(data => {
+                    res.render("/layouts/sysinfo/memory", {
+                        title: "Memory Usage Statistic",
+                        total: data[0].total,
+                        free: data[0].free,
+                        inuse: data[0].used,
+                        active: data[0].active,
+                        available: data[0].available,
+                        buffer_cache: data[0].buffcache,
+                        swap_total: data[0].swaptotal,
+                        swap_use: data[0].swapused,
+                        swap_free: data[0].swapfree,
+                        user: data[1],
+                        notification: data[2]
+                    })
                 })
-
-            })
+                .catch(error => console.error(error))
+        } else res.redirect("/login")
     })
 
-    app.get('/admin/filesystem', ensure_login.ensureLoggedIn(), function(req, res) {
-        sysinfo.fsSize()
-            .then(fs => {
-                res.render("layouts/sysinfo/filesytem", {
-                    title: "Linux Filesystem Statistic",
-                    filesystem: fs
+    app.get('/admin/network', function(req, res) {
+        if (req.session.user) {
+            Promise.all([
+                    sysinfo.networkInterfaces(), sysinfo.networkInterfaceDefault(), sysinfo.networkConnections(), migrator.getOneUser(req.session.user.username), migrator.getNotification(req.session.user.username)
+                ])
+                .then(result => {
+                    res.render("layout/sysinfo/network", {
+                        title: "Network Statistic",
+                        networkInterfaces: result[0],
+                        networkInterfaceDefault: result[1],
+                        networkConnections: result[2],
+                        user: result[3],
+                        notification: result[4]
+                    })
                 })
-            })
-            .catch(error => console.error)
+                .catch(error => console.error(error))
+        } else {
+            res.redirect("/login")
+        }
     })
 
-    app.get('/admin/sysuser', ensure_login.ensureLoggedIn(), function(req, res) {
-        sysinfo.users()
-            .then(users => {
-                res.render("layouts/sysinfo/sysuser", {
-                    users: users
+    app.get('/admin/disk', function(req, res) {
+        if (req.session.user) {
+            Promise.all([
+                    sysinfo.disksIO(), sysinfo.blockDevices(), migrator.getOneUser(req.session.user.username), migrator.getNotification(req.session.user.username)
+                ])
+                .then(result => {
+                    res.render("layouts/sysinfo/disk", {
+                        title: "Disk I/O and Block Device Statistic",
+                        io: result[0],
+                        device: result[1],
+                        user: result[2],
+                        notification: result[3]
+                    })
                 })
-            })
-            .catch(error => console.error(error))
+        } else {
+            res.redirect("/login")
+        }
     })
 
-    app.get('/admin/processes', ensure_login.ensureLoggedIn(), function(req, res) {
-        sysinfo.processes()
-            .then(processes => {
-                res.render("layouts/sysinfo/processes", {
-                    title: "Process Manager",
-                    all: processes.all,
-                    running: processes.running,
-                    blocked: processes.blocked,
-                    sleeping: processes.sleeping,
-                    list: processes.list
+    app.get('/admin/filesystem', function(req, res) {
+        if (req.session.user) {
+            Promise.all([
+                    sysinfo.fsSize(), migrator.getOneUser(req.session.user.username), migrator.getNotification(req.session.user.username)
+                ])
+                .then(data => {
+                    res.render("layouts/sysinfo/filesytem", {
+                        title: "Linux Filesystem Statistic",
+                        filesystem: data[0],
+                        user: data[1],
+                        notification: data[2]
+                    })
                 })
-            })
-            .catch(error => console.error(error))
+                .catch(error => console.error(error))
+        } else res.redirect("/login")
+    })
+
+    app.get('/admin/sysuser', function(req, res) {
+        if (req.session.user) {
+            Promise.all([
+                    sysinfo.users(), migrator.getOneUser(req.session.user.username), migrator.getNotification(req.session.user.username)
+                ])
+                .then(data => {
+                    res.render("layouts/sysinfo/sysuser", {
+                        sysuser: data[0],
+                        user: data[1],
+                        notification: data[2]
+                    })
+                })
+                .catch(error => console.error(error))
+        } else {
+            res.redirect("/login")
+        }
+    })
+
+    app.get('/admin/processes', function(req, res) {
+        if (req.session.user) {
+            Promise.all([
+                    sysinfo.processes(), migrator.getOneUser(req.session.user.username), migrator.getNotification(req.session.user.username)
+                ])
+                .then(result => {
+                    res.render("layouts/sysinfo/processes", {
+                        title: "Process Manager",
+                        all: result[0].all,
+                        running: result[0].running,
+                        blocked: result[0].blocked,
+                        sleeping: result[0].sleeping,
+                        list: result[0].list,
+                        user: result[1],
+                        notification: result[2]
+                    })
+                })
+                .catch(error => console.error(error))
+        } else {
+            res.redirect("/login")
+        }
     })
 }

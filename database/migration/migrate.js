@@ -37,15 +37,15 @@ function Migrate() {
     this.getUserById = function(id) {
         return new Promise(function(resolve, reject) {
             mysql.connector.query("select * from rpi_user where id = ?", id, function(error, result) {
-                (error) ? reject(error): resolve(result)
+                (error) ? reject(error): resolve((result.length > 0) ? true : false)
             })
         })
     }
 
-    this.getUserByEmail = function(email) {
+    this.getUserByEmail = function(usernameOrEmail) {
         return new Promise(function(resolve, reject) {
-            mysql.connector.query("select * from rpi_user where email = ?", email, function(error, result) {
-                (error) ? reject(error): resolve(result)
+            mysql.connector.query("select * from rpi_user where email like ? or username like ?", [usernameOrEmail, usernameOrEmail], function(error, result) {
+                (error) ? reject(error): resolve((result.length > 0) ? result[0] : null)
             })
         })
     }
@@ -69,7 +69,7 @@ function Migrate() {
         return new Promise(function(resolve, reject) {
             password = security.encryptPassword(password)
             mysql.connector.query("call procGetUsernameOrEmail(?, ?)", [usernameOrEmail, password], function(error, user) {
-                (error) ? reject(error): resolve((!user) ? null : user)
+                (error) ? reject(error): resolve((!user) ? null : user[0])
             })
         })
     }
@@ -77,15 +77,30 @@ function Migrate() {
     this.getOneUser = function(username) {
         return new Promise(function(resolve, reject) {
             mysql.connector.query("call procGetOneUserByUsername(?)", username, function(error, result) {
-                (error) ? reject(error): resolve((result.length > 0) ? result : null)
+                (error) ? reject(error): resolve((result.length > 0) ? result[0] : null)
             })
         })
     }
 
     this.getAdmin = function() {
         return new Promise(function(resolve, reject) {
-            mysql.connector.query("call getUserIfAdmin()", function(error, users) {
-                (error) ? reject(error): resolve((!users || users.length < 0) ? null : uses)
+            mysql.connector.query("call procGetUserIfAdmin()", function(error, users) {
+                (error) ? reject(error): resolve((!users || users.length < 0) ? null : users[0])
+            })
+        })
+    }
+
+    this.getFirstActivities = function(username) {
+        return new Promise(function(resolve, reject) {
+            mysql.connector.query("call procGetActivities(?)", function(error, activities) {
+                (error) ? reject(error): resolve((!activities || activities.length < 0) ? null : activities[0])
+            })
+        })
+    }
+    this.getNotification = function(username) {
+        return new Promise(function(resolve, reject) {
+            mysql.connector.query("call procGetNotificationOfUser(?)", username, function(error, result) {
+                (error) ? reject(error): resolve((result.length > 0) ? result[0] : null)
             })
         })
     }
@@ -93,7 +108,7 @@ function Migrate() {
     this.getAllUser = function() {
         return new Promise(function(resolve, reject) {
             mysql.connector.query("call procGetAllUsers()", function(error, users) {
-                (error) ? reject(error): resolve((users.length > 0) ? users : null)
+                (error) ? reject(error): resolve((users.length > 0) ? users[0] : null)
             })
         })
     }
@@ -142,7 +157,7 @@ function Migrate() {
     this.listSessionFromDate = function(datefrom) {
         return new Promise(function(resolve, reject) {
             mysql.connector.query("call procGetSessionFromDateToDate(?, ?)", [datefrom, getDateTimeLocal()], function(error, result) {
-                (error) ? reject(error): resolve((result.length > 0) ? result : null)
+                (error) ? reject(error): resolve((result.length > 0) ? result[0] : null)
             })
         })
     }
@@ -150,7 +165,7 @@ function Migrate() {
     this.listSessionFromDateToDate = function(from, to) {
         return new Promise(function(resolve, reject) {
             mysql.connector.query("call procGetSessionFromDateToDate(?, ?)", [from, to], function(error, result) {
-                (error) ? reject(error): resolve((result.length > 0) ? result : null)
+                (error) ? reject(error): resolve((result.length > 0) ? result[0] : null)
             })
         })
     }

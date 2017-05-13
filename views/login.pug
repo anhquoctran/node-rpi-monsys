@@ -27,7 +27,7 @@ html(lang='en')
                   | #{title}
           .row
             .col-sm-6.col-sm-offset-3.form-box
-              form.login-form(role='form', action='', method='post')
+              form.login-form(role='form', action='/login', method='post')
                 fieldset
                   .form-top
                     .form-top-left
@@ -36,12 +36,12 @@ html(lang='en')
                       i.fa.fa-user
                   .form-bottom
                     .form-group
-                      label(for='form-username') Username
-                      input#form-username.form-username.form-control(type='text', name='form-username', placeholder='Username...')
+                      label(for='form-username') Username or Email
+                      input#form-username.form-username.form-control(type='text', name='usernameOrEmail', placeholder='Username...')
                       
                     .form-group
                       label(for='form-password') Password
-                      input#form-password.form-password.form-control(type='password', name='form-password', placeholder='Password...')
+                      input#form-password.form-password.form-control(type='password', name='password', placeholder='Password...')
                     .pull-left
                       a.btn.btn-lg.btn-success(href="/register") Đăng ký
                     .pull-right

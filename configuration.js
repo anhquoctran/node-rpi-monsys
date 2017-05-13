@@ -24,23 +24,17 @@ module.exports = function Configuration(app) {
     app.set("view engine", "pug")
     app.set('views', __dirname + '/views')
     app.use('/public', express.static(__dirname + '/public'))
-    app.use(morgan('combined'))
+    app.use(morgan('dev'))
     app.use(bodyparser.json())
     app.use(bodyparser.urlencoded({
         extended: true
     }))
-    app.use(session({
-        cookie: 'session',
-        secret: 'userlogin',
-        resave: false,
-        saveUninitialized: true,
-        duration: 30 * 60 * 1000,
-        activeDuration: 5 * 60 * 1000
-    }))
+    app.use(session({ secret: 'keyboard cat', resave: false, saveUninitialized: false }))
 
     app.use(passport.initialize())
     app.use(passport.session())
     var router = express.Router()
+
     require("./app/routes")(app, passport)
     require('./app/controllers/RestController')(app, router)
 }
