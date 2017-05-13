@@ -1,43 +1,12 @@
 var express = require('express')
 var sysinfo = require('../app/models/sysinfo')
-var localStrategy = require("passport-local").Strategy
 var migrator = require('../database/migration/migrate')
 var file = require('../app/middleware/file')
 var datetime = require("../app/middleware/datetime")
 var mail = require("../app/middleware/mail")
-var JwtStrategy = require("passport-jwt").Strategy,
-    ExtractJwt = require('passport-jwt').ExtractJwt
-var ensure_login = require("connect-ensure-login")
+var multer = require("multer")
 
 module.exports = function Route(app, passport) {
-
-    /*passport.serializeUser(function(user, done) {
-        done(null, user.username)
-    })
-
-    passport.deserializeUser(function(username, done) {
-        migrator.getOneUser(username)
-            .then(data => {
-                done(null, data[0])
-            })
-            .catch(error => { return done(error) })
-    })
-
-    passport.use('login', new localStrategy({
-        passReqToCallback: true
-    }, function(usernameOrEmail, password, done) {
-        migrator.getUserByEmail(usernameOrEmail, passport)
-            .then(result => {
-                if (!result) return done(null, false)
-
-                if (!(rows[0].password == password)) return done(null, false)
-
-                return done(null, true);
-            })
-            .catch(error => {
-                return done(error)
-            })
-    }))*/
 
     app.get('/', function(req, res) {
         if (req.session.user) {
@@ -74,11 +43,23 @@ module.exports = function Route(app, passport) {
         }
     })
 
-    app.post('/register', passport.authenticate("register", {
-        successRedirect: '/login',
-        failureRedirect: '/register',
-        failureFlash: true
-    }))
+    var storage = multer.diskStorage({
+        filename: function(req, file, cb) {
+            cb(null, "rpi_" + uuid.generate())
+        }
+    })
+
+    var upload = multer({ storage: storage })
+
+    app.post('/register', upload.single("avatar"), function(req, res) {
+        var username = req.body.username,
+            email = req.body.email,
+            fullname = req.body.fullname,
+            password = req.body.passwor,
+            avatar = req.file
+
+
+    })
 
     app.get('/forgot', function(req, res) {
         if (req.session.user) {
@@ -189,6 +170,51 @@ module.exports = function Route(app, passport) {
                 })
 
         } else res.redirect("/login")
+    })
+
+    app.get("/account/notification/:id", function(req, res) {
+        if (req.session.user) {
+            var id = req.params.id
+            if (!id) {
+                res.redirect("/admin")
+            } else {
+                var currentUserId = req.session.user.id
+                migrator.getNotificationById(id)
+                    .then(data => {
+                        if (data.idUser == currentUserId) {
+                            //res.redirect("/")
+                        } else {
+                            res.redirect("/admin?error=permission_denied")
+                        }
+                    })
+            }
+        } else {
+            res.redirect("/login")
+        }
+    })
+
+    app.get("/secret/notifications", function(req, res) {
+        if (req.sesion.user) {
+            var userid = req.query.userid
+            migrator.countUnreadNotification(userid)
+                .then(data => {
+                    if (data == 0) {
+                        res.json({
+                            count: 0,
+                            message: "There are nothing to count"
+                        })
+                    } else
+                        res.json({
+                            count: data,
+                            message: null
+                        })
+                })
+                .catch(error => {
+                    console.error(error)
+                })
+        } else {
+            res.redirect("/login")
+        }
     })
 
     app.get('/admin', function(req, res) {
@@ -358,6 +384,7 @@ module.exports = function Route(app, passport) {
                 ])
                 .then(data => {
                     res.render("layouts/sysinfo/sysuser", {
+                        title: "System Users",
                         sysuser: data[0],
                         user: data[1],
                         notification: data[2]

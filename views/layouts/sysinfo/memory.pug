@@ -22,16 +22,16 @@ block content
                   #memory-usage-chart.ct-chart
                 .col-md-3
                   .weekly-summary.text-right.bottom
-                    span#memPercent.number 40% (398.8 MB)
+                    span#memPercent.data.number 40% (398.8 MB)
                     span.info-label In use
                   .weekly-summary.text-right.bottom
-                    span#memUsage.number 997 MB
+                    span#memUsage.data.number 997 MB
                     span.info-label Total
                   .weekly-summary.text-right.bottom
-                    span#swapUsage.number 20 MB
+                    span#swapUsage.data.number 20 MB
                     span.info-label Swap in used
                   .weekly-summary.text-right.bottom
-                    span#swapTotal.number 10 GB
+                    span#swapTotal.data.number 10 GB
                     span.info-label Swap total
               .row.container-fluid
                 .col-md-3
@@ -40,31 +40,31 @@ block content
                   ul.list-unstyled.list-justify
                     li
                     | Total 
-                    span #{mem.total}
+                    span.data #{mem.total}
                   li
                     | Free 
-                    span #{mem.free}
+                    span.data #{mem.free}
                   li
                     | In used 
-                    span #{mem.used}
+                    span.data #{mem.used}
                   li
                     | Active 
-                    span #{mem.active}
+                    span.data #{mem.active}
                   li
                     | Available 
-                    span #{mem.available}
+                    span.data #{mem.available}
                   li
                     | Buffer cache 
-                    span #{mem.buffcache}
+                    span.data #{mem.buffcache}
                   li
                     | Swap total 
-                    span #{mem.swaptotal}
+                    span.data #{mem.swaptotal}
                   li
                     | Swap use 
-                    span #{mem.swapuse}
+                    span.data #{mem.swapuse}
                   li
                     | Swap free 
-                    span #{mem.swapfree}
+                    span.data #{mem.swapfree}
 
 block scripts
 

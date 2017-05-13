@@ -8,17 +8,10 @@ var passport = require('passport')
 var path = require('path')
 var redistStore = require('connect-redis')(session)
 var config = require("./config/config")
-var multer = require('multer')
 var uuid = require("node-uuid-generator")
 var morgan = require("morgan")
 
 module.exports = function Configuration(app) {
-
-    var storage = multer.diskStorage({
-        filename: function(req, file, cb) {
-            cb(null, "rpi_" + uuid.generate())
-        }
-    })
 
     //app.engine('pug', pug.renderFile)
     app.set("view engine", "pug")

@@ -97,10 +97,37 @@ function Migrate() {
             })
         })
     }
+
     this.getNotification = function(username) {
         return new Promise(function(resolve, reject) {
             mysql.connector.query("call procGetNotificationOfUser(?)", username, function(error, result) {
                 (error) ? reject(error): resolve((result.length > 0) ? result[0] : null)
+            })
+        })
+    }
+
+    this.getNotificationById = function(id) {
+        return new Promise(function(resolve, reject) {
+            mysql.connector.query("select * from rpi_notifications where id = ?", id, function(err, res) {
+                (error) ? reject(error): resolve((res.length > 0) ? res[0] : null)
+            })
+        })
+    }
+
+    this.countUnreadNotification = function(iduser) {
+        return new Promise(function(resolve, reject) {
+            mysql.connector.query("select count(id) from rpi_notification where idUser = ?", id, function(error, result) {
+                (error) ? reject(error): resolve((result["COUNT(id)"] > 0) ? result["COUNT(id)"] : 0)
+            })
+        })
+    }
+
+    this.markAsRead = function(...ids) {
+        return new Promise(function(resolve, reject) {
+            ids.forEach(function(val, index) {
+                mysql.connector.query("call procMarkAsRead(?)", val, function(err, res) {
+                    (err) ? reject(err): resolve((res.affectedRows >= 0) ? true : false)
+                })
             })
         })
     }
