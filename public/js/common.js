@@ -11,7 +11,11 @@ $(document).ready(function() {
             }
         })*/
 
+<<<<<<< b7d2218d726494e92289bc6f8604f2d56fa90f96
     $('.data').each(function() {
+=======
+    $.each(".root .data", function(i, val) {
+>>>>>>> fixed routes and convert size to readable format
         let text = $(this).text();
         $(this).text(convertSizeData(text))
     });
