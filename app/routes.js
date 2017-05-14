@@ -285,7 +285,7 @@ module.exports = function Route(app, passport) {
                         filesystem: result[9],
                         user: result[10],
                         notification: result[11],
-                        cpuTemp: result[12].main
+                        cpuTemp: parseFloat(result[12].main).toFixed(1)
                     })
                 }).catch(error => {
                     console.error(error)
@@ -310,7 +310,7 @@ module.exports = function Route(app, passport) {
                         cpuFlags: result[3],
                         user: result[4],
                         notification: result[5],
-                        temp: result[6].main
+                        temp: parseFloat(result[6].main).toFixed(1)
                     })
                 })
         } else {
