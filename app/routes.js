@@ -309,7 +309,7 @@ module.exports = function Route(app, passport) {
         if (req.session.user) {
             console.log(req.session.user)
             Promise.all([
-                    sysinfo.mem(), migrator.getOneUser(req.session.user.userame), migrator.getNotification(req.session.user.username)
+                    sysinfo.mem(), migrator.getOneUser(req.session.user.username), migrator.getNotification(req.session.user.username)
                 ])
                 .then(data => {
                     res.render("/layouts/sysinfo/memory", {
