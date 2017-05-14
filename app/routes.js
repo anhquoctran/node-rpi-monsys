@@ -312,7 +312,7 @@ module.exports = function Route(app, passport) {
                     sysinfo.mem(), migrator.getOneUser(req.session.user.username), migrator.getNotification(req.session.user.username)
                 ])
                 .then(data => {
-                    res.render("/layouts/sysinfo/memory", {
+                    res.render("layouts/sysinfo/memory", {
                         title: "Memory Usage Statistic",
                         total: data[0].total,
                         free: data[0].free,
