@@ -266,7 +266,7 @@ module.exports = function Route(app, passport) {
         if (req.session.user) {
             Promise.all([
                     sysinfo.osInfo(), sysinfo.cpu(), sysinfo.cpuCache(), sysinfo.cpuCurrentspeed(),
-                    sysinfo.mem(), sysinfo.disksIO(), sysinfo.networkConnections(), sysinfo.networkInterfaces(), sysinfo.networkInterfaceDefault(), sysinfo.fsSize(), migrator.getOneUser(req.session.user.username), migrator.getNotification(req.session.user.username)
+                    sysinfo.mem(), sysinfo.disksIO(), sysinfo.networkConnections(), sysinfo.networkInterfaces(), sysinfo.networkInterfaceDefault(), sysinfo.fsSize(), migrator.getOneUser(req.session.user.username), migrator.getNotification(req.session.user.username), sysinfo.cpuTemperature()
                 ])
                 .then(result => {
                     res.render("layouts/sysinfo/overview", {
@@ -284,7 +284,8 @@ module.exports = function Route(app, passport) {
                         networkInterfaceDefault: result[8],
                         filesystem: result[9],
                         user: result[10],
-                        notification: result[11]
+                        notification: result[11],
+                        cpuTemp: result[12].main
                     })
                 }).catch(error => {
                     console.error(error)
@@ -298,7 +299,7 @@ module.exports = function Route(app, passport) {
     app.get('/admin/cpu', function(req, res) {
         if (req.session.user) {
             Promise.all([
-                    sysinfo.cpu(), sysinfo.cpuCache(), sysinfo.cpuCurrentspeed(), sysinfo.cpuFlags(), migrator.getOneUser(req.session.user.username), migrator.getNotification(req.session.user.username)
+                    sysinfo.cpu(), sysinfo.cpuCache(), sysinfo.cpuCurrentspeed(), sysinfo.cpuFlags(), migrator.getOneUser(req.session.user.username), migrator.getNotification(req.session.user.username), sysinfo.cpuTemperature()
                 ])
                 .then(result => {
                     res.render("layouts/sysinfo/cpu", {
@@ -308,7 +309,8 @@ module.exports = function Route(app, passport) {
                         cpuCurrentspeed: convertSpeedToReadableFormat(result[2].avg),
                         cpuFlags: result[3],
                         user: result[4],
-                        notification: result[5]
+                        notification: result[5],
+                        temp: result[6].main
                     })
                 })
         } else {
