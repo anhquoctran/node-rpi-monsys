@@ -18,10 +18,10 @@ nav.navbar.navbar-default.navbar-fixed-top
                   li
                     a.notification-item(href='/account/notification/#{item.IDNotification}')
                       span.dot.bg-info= item.Content
-                  else
-                    li
-                      a.notification-item.unread(href='/account/notification/#{item.IDNotification}')
-                        span.dot.bg-info= item.Content
+                else
+                  li
+                    a.notification-item.unread(href='/account/notification/#{item.IDNotification}')
+                      span.dot.bg-info= item.Content
             else
               li
                 a.notification-item
