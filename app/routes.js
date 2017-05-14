@@ -230,6 +230,7 @@ module.exports = function Route(app, passport) {
                     sysinfo.mem(), sysinfo.disksIO(), sysinfo.networkConnections(), sysinfo.processes(), migrator.getOneUser(req.session.user.username), migrator.getNotification(req.session.user.username)
                 ])
                 .then(result => {
+                    console.log(result[4])
                     res.render("layouts/sysinfo/general", {
                         title: "Dashboard",
                         mem: result[0],
