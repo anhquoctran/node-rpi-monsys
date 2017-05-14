@@ -218,7 +218,9 @@ module.exports = function Route(app, passport) {
     })
 
     app.get("/test", function(req, res) {
-        sysinfo.processes()
+        Promise.all([
+                sysinfo.processes(), sysinfo.disksIO()
+            ])
             .then(data => {
                 res.json(data)
             }).catch(error => console.error(error))
