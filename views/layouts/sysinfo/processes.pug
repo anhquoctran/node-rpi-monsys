@@ -113,22 +113,4 @@ block scripts
 
       console.log(arr);
     });
-  script.
-    $("input[type='checkbox']").change(function () {
-      if ($(this).is(":checked")) {
-		    $('.end').each(function(){
-			    $(this).attr('disabled',false)
-		    })
-        $('.priority').each(function(){
-			    $(this).attr('disabled',false)
-		    })
-        $("input[type='checkbox']").prop("checked", false);
-        $(this).prop("checked", true);
-      } else {
-		    $('.end').each(function(){
-			    $(this).attr('disabled',true)
-        $('.priority').each(function(){
-			    $(this).attr('disabled',true)
-		    })
-	  }  
-  });
+    
