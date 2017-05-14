@@ -232,7 +232,7 @@ module.exports = function Route(app, passport) {
                     sysinfo.mem(), sysinfo.disksIO(), sysinfo.networkConnections(), sysinfo.processes(), migrator.getOneUser(req.session.user.username), migrator.getNotification(req.session.user.username), sysinfo.cpu()
                 ])
                 .then(result => {
-                    console.log(result[4])
+                    var speed = convertSpeedToReadableFormat(result[6].speed.avg)
                     res.render("layouts/sysinfo/general", {
                         title: "Dashboard",
                         mem: result[0],
@@ -242,12 +242,7 @@ module.exports = function Route(app, passport) {
                         user: result[4],
                         notification: result[5],
                         cores: result[6].cores,
-                        speed: function() {
-                            var speed = parseFloat(result[6].speed.avg)
-                            if (speed < 1) {
-                                return (speed * 1000) + " MHz"
-                            } else return speed + " GHz"
-                        }
+                        speed: speed
                     })
                 })
                 .catch(error => {
@@ -255,6 +250,13 @@ module.exports = function Route(app, passport) {
                 })
         } else res.redirect("/login")
     })
+
+    function convertSpeedToReadableFormat(speed) {
+        var result = parseFloat(speed)
+        if (result < 1) {
+            return (result * 1000) + " MHz"
+        } else return result + " GHz"
+    }
 
     app.get('/sysinfo/terminal/ssh', function(req, res) {
         res.json({ message: "Coming soon", your_ip: req.host })
