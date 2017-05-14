@@ -76,41 +76,14 @@ block content
                     th Priority
                     th User
                 tbody
-                  tr
-                    td 1356
-                    td apache
-                    td 03
-                    td 28472
-                    td Normal
-                    td root
-                  tr
-                    td 334
-                    td hwins
-                    td 12
-                    td 5847
-                    td Normal
-                    td root
-                  tr
-                    td 22
-                    td mysql
-                    td 01
-                    td 5842
-                    td Normal
-                    td root
-                  tr
-                    td 92
-                    td mongodb
-                    td 02
-                    td 485
-                    td Normal
-                    td root
-                  tr
-                    td 45302
-                    td networking
-                    td 00
-                    td 214
-                    td Normal
-                    td root
+                  each val in processes
+                    tr
+                      td= val.pid
+                      td= val.nice
+                      td= val.pcpu
+                      td= val.pmem
+                      td= val.priority
+                      td= val.user
             .panel-footer
               .row
                 .col-md-6

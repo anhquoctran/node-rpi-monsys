@@ -35,8 +35,7 @@ nav.navbar.navbar-default.navbar-fixed-top
               img.img-circle(src='#{user.AvatarPath}', alt='Avatar')
             else
               img.img-circle(src='../../../public/images/nullAvatar.png', alt='Avatar')
-            span 
-            | #{user.Fullname}
+            span= user.Fullname
             i.icon-submenu.lnr.lnr-chevron-down
           ul.dropdown-menu
             li
