@@ -76,7 +76,7 @@ function Migrate() {
 
     this.getOneUser = function(username) {
         return new Promise(function(resolve, reject) {
-            mysql.connector.query("call procGetOneUserByUsername(?)", username, function(error, result) {
+            mysql.connector.query("call procGetOneUsers(?)", username, function(error, result) {
                 (error) ? reject(error): resolve((result.length > 0) ? result[0] : null)
             })
         })
