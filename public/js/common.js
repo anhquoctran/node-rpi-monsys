@@ -15,6 +15,8 @@ $(document).ready(function() {
         return parseFloat((filesize / Math.pow(c, f)).toFixed(d)) + " " + e[f]
     }
 
+
+
     /*-----------------------------------/
     /*	TOP NAVIGATION AND LAYOUT
     /*----------------------------------*/
