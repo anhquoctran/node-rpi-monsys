@@ -229,7 +229,7 @@ module.exports = function Route(app, passport) {
     app.get('/admin', function(req, res) {
         if (req.session.user) {
             Promise.all([
-                    sysinfo.mem(), sysinfo.disksIO(), sysinfo.networkConnections(), sysinfo.processes(), migrator.getOneUser(req.session.user.username), migrator.getNotification(req.session.user.username)
+                    sysinfo.mem(), sysinfo.disksIO(), sysinfo.networkConnections(), sysinfo.processes(), migrator.getOneUser(req.session.user.username), migrator.getNotification(req.session.user.username), sysinfo.cpu()
                 ])
                 .then(result => {
                     console.log(result[4])
@@ -240,7 +240,14 @@ module.exports = function Route(app, passport) {
                         network: result[2],
                         processes: result[3].list.slice(0, 5),
                         user: result[4],
-                        notification: result[5]
+                        notification: result[5],
+                        cores: result[6].cores,
+                        speed: function() {
+                            var speed = parseFloat(result[6].speed.avg)
+                            if (speed < 1) {
+                                return (speed * 1000) + " MHz"
+                            } else return speed + " GHz"
+                        }
                     })
                 })
                 .catch(error => {

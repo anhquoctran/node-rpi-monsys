@@ -41,20 +41,17 @@ block content
                 span.icon
                   i.fa.fa-wifi
                 p
-                  span.number 16
+                  span.number #{network.length}
                   span.title Active network connections
           .row
             .col-md-9
               #headline-chart.ct-chart
             .col-md-3
               .weekly-summary.text-right
-                span.number 4
-                span.info-label Logical processors
-              .weekly-summary.text-right
-                span.number 4
+                span.number #{cpu.cores}
                 span.info-label Cores
               .weekly-summary.text-right
-                span.number 620 MHz
+                span.number #{speed}
                 span.info-label Current speed
       // END OVERVIEW
       .row
