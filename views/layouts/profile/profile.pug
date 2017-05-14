@@ -13,7 +13,10 @@ block content
             .profile-header
               .overlay
               .profile-main
-                img.img-circle(src='#{user.AvatarPath}', alt='Avatar')
+                if user.AvatarPath
+                  img.img-circle(src='#{user.AvatarPath}', alt='Avatar')
+                else
+                  img.img-circle(src="../../../public/images/medium-avatar.jpg.png", alt='Avatar')
                 h3.name #{user.Fullname}
                 span.online-status.status-available @#{user.Username}
               .profile-stat
