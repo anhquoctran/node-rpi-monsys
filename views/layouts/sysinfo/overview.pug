@@ -106,41 +106,41 @@ block content
                 ul.list-unstyled.list-justify.root
                   li
                     | Read IO 
-                    span.data #{disksIO.rio}
+                    span #{disksIO.rio}
                   li
                     | Write IO 
-                    span.data #{disksIO.wio}
+                    span #{disksIO.wio}
                   li
                     | Transfer IO 
-                    span.data #{disksIO.tio}
+                    span #{disksIO.tio}
                   li
                     | Read per second 
-                    span.data #{disksIO.rio_sec}
+                    span #{disksIO.rio_sec}
                   li
                     | Write per second 
-                    span.data #{disksIO.wio_sec}
+                    span #{disksIO.wio_sec}
               .col-md-4
                 h4.heading
                   b Networking
                 ul.list-unstyled.list-justify
                   li
                     | Total interfaces 
-                    span Value 1
+                    span #{networkInterfaces.length}
                   li
                     | Default interface 
                     span #{networkInterfaceDefault}
                   li
                     | IPv4 address 
-                    span Value 3
+                    span #{networkInterfaces[1].ip4}
                   li
                     | IPv6 address 
-                    span Value 4
+                    span #{networkInterfaces[1].ip6}
                   li
                     | MAC address 
-                    span Value 5
+                    span #{networkInterfaces[1].mac}
                   li
                     | Total connnections 
-                    span Value 6
+                    span #{networkConnections.length}
               .col-md-4
                 h4.heading
                   b File system
