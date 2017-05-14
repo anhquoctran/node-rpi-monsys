@@ -307,6 +307,7 @@ module.exports = function Route(app, passport) {
 
     app.get('/admin/memory', function(req, res) {
         if (req.session.user) {
+            console.log(req.session.user)
             Promise.all([
                     sysinfo.mem(), migrator.getOneUser(req.session.user.userame), migrator.getNotification(req.session.user.username)
                 ])
