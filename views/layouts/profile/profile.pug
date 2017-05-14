@@ -16,7 +16,7 @@ block content
                 if user.AvatarPath
                   img.img-circle(src='#{user.AvatarPath}', alt='Avatar')
                 else
-                  img.img-circle(src="../../../public/images/medium-avatar.jpg.png", alt='Avatar')
+                  img.img-circle(src="../../../public/images/nullAvatar.png", alt='Avatar')
                 h3.name #{user.Fullname}
                 span.online-status.status-available @#{user.Username}
               .profile-stat
@@ -41,7 +41,7 @@ block content
                     span #{user.Birthdate}
                   li
                     | Hometown 
-                    span #{user.Hometown}
+                    span #{user.HomeTown}
                   li
                     | Current city 
                     span #{user.CurrentCity}
