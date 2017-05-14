@@ -8,7 +8,6 @@ var passport = require('passport')
 var path = require('path')
 var redistStore = require('connect-redis')(session)
 var config = require("./config/config")
-var uuid = require("node-uuid-generator")
 var morgan = require("morgan")
 
 module.exports = function Configuration(app) {

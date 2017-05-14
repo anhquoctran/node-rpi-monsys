@@ -140,6 +140,14 @@ function Migrate() {
         })
     }
 
+    this.updateFirstLogin = function(username, datetimeLogin) {
+        return new Promise(function(resolve, reject) {
+            mysql.connector.query("update from rpi_verification set firstLoginAt = ? where username = ?", [datetimeLogin, username], function(error, result) {
+                (error) ? reject(error): resolve((result.affectedRows >= 0) ? true : false)
+            })
+        })
+    }
+
     this.deleteUser = function(username) {
         return new Promise(function(resolve, reject) {
             mysql.connector.query("update from rpi_user set isdeleted = 1 where username = ?", userame, function(error, result) {
