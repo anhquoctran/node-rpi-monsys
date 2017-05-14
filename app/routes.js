@@ -217,6 +217,13 @@ module.exports = function Route(app, passport) {
         }
     })
 
+    app.get("/test", function(req, res) {
+        sysinfo.processes()
+            .then(data => {
+                res.json(data)
+            }).catch(error => console.error(error))
+    })
+
     app.get('/admin', function(req, res) {
         if (req.session.user) {
             Promise.all([
@@ -228,7 +235,7 @@ module.exports = function Route(app, passport) {
                         mem: result[0],
                         disk: result[1],
                         network: result[2],
-                        processes: result[3].slice(0, 5),
+                        processes: result[3],
                         user: result[4],
                         notification: result[5]
                     })
