@@ -235,7 +235,7 @@ module.exports = function Route(app, passport) {
                         mem: result[0],
                         disk: result[1],
                         network: result[2],
-                        processes: result[3],
+                        processes: result[3].list.slice(0, 5),
                         user: result[4],
                         notification: result[5]
                     })
