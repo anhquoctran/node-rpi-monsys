@@ -90,7 +90,7 @@ module.exports = function Route(app, passport) {
             } else {
                 if (username === req.session.user.username) {
                     Promise.all([
-                            migrator.getOneUser(username), migrator.getNotification(username), migrator.getFirstActivities(username)
+                            migrator.getOneUser(req.session.user.username), migrator.getNotification(req.session.user.username), migrator.getFirstActivities(req.session.user.username)
                         ])
                         .then(data => {
                             res.render("layouts/profile/settings", {
