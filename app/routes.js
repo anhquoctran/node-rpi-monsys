@@ -274,7 +274,7 @@ module.exports = function Route(app, passport) {
                         osInfo: result[0],
                         cpuinfo: result[1],
                         cpuCache: result[2],
-                        cpuCurrentspeed: result[3],
+                        cpuCurrentspeed: convertSpeedToReadableFormat(result[3]),
                         mem: result[4],
                         disksIO: result[5],
                         networkConnections: result[6],
@@ -303,7 +303,7 @@ module.exports = function Route(app, passport) {
                         title: 'CPU Usage Statistic',
                         cpu: result[0],
                         cpuCache: result[1],
-                        cpuCurrentspeed: result[2],
+                        cpuCurrentspeed: convertSpeedToReadableFormat(result[2]),
                         cpuFlags: result[3],
                         user: result[4],
                         notification: result[5]
