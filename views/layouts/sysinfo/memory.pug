@@ -46,7 +46,7 @@ block content
                     span.data #{mem.free}
                   li
                     | In used 
-                    span.data #{mem.used}
+                    span.data #{mem.inused}
                   li
                     | Active 
                     span.data #{mem.active}
@@ -55,16 +55,16 @@ block content
                     span.data #{mem.available}
                   li
                     | Buffer cache 
-                    span.data #{mem.buffcache}
+                    span.data #{mem.buffer_cache}
                   li
                     | Swap total 
-                    span.data #{mem.swaptotal}
+                    span.data #{mem.swap_total}
                   li
                     | Swap use 
-                    span.data #{mem.swapuse}
+                    span.data #{mem.swap_used}
                   li
                     | Swap free 
-                    span.data #{mem.swapfree}
+                    span.data #{mem.swap_free}
 
 block scripts
 
