@@ -40,7 +40,7 @@ nav.navbar.navbar-default.navbar-fixed-top
               a(href='/account/#{user.Username}')
                 i.lnr.lnr-user
                 span My Profile
-            if currentUser.RoleName == 'Admin'
+            if user.Role == 'Admin'
               li
                 a(href='/admin/admin_cp')
                 i.lnr.lnr-home
