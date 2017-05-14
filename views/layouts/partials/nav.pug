@@ -16,12 +16,12 @@ nav.navbar.navbar-default.navbar-fixed-top
               each item in notification
                 if item.IsRead == 0
                   li
-                    a.notification-item(href='/account/notification/#{item.IDNotification}')
+                    a.notification-item(href='/account/notification/#{item.ID}')
                       span.dot.bg-info 
                       | #{item.Content}
                 else
                   li
-                    a.notification-item.unread(href='/account/notification/#{item.IDNotification}')
+                    a.notification-item.unread(href='/account/notification/#{item.ID}')
                       span.dot.bg-info 
                       | #{item.Content}
             else
