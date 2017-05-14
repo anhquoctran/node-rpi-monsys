@@ -96,7 +96,7 @@ module.exports = function Route(app, passport) {
                             console.log(data[0])
                             res.render("layouts/profile/profile", {
                                 title: "Profile - RPiMonSys",
-                                user: data[0],
+                                user: data[0][0],
                                 notification: data[1],
                                 first_activities: data[2]
                             })
@@ -119,7 +119,7 @@ module.exports = function Route(app, passport) {
                 .then(result => {
                     res.render('layouts/profile/setting', {
                         title: "Setting",
-                        user: result[0],
+                        user: result[0][0],
                         notification: result[1]
                     });
                 })
@@ -165,7 +165,7 @@ module.exports = function Route(app, passport) {
                 .then(data => {
                     res.render("admin_cp", {
                         title: "Administrator Control Panel",
-                        user: data[0],
+                        user: data[0][0],
                         notification: data[1]
                     })
                 })
@@ -240,7 +240,7 @@ module.exports = function Route(app, passport) {
                         disk: result[1],
                         network: result[2],
                         processes: result[3].list.slice(0, 5),
-                        user: result[4],
+                        user: result[4][0],
                         notification: result[5],
                         cores: result[6].cores,
                         speed: speed
@@ -284,7 +284,7 @@ module.exports = function Route(app, passport) {
                         networkInterfaces: result[7],
                         networkInterfaceDefault: result[8],
                         filesystem: result[9],
-                        user: result[10],
+                        user: result[10][0],
                         notification: result[11],
                         cpuTemp: parseFloat(result[12].main).toFixed(1)
                     })
@@ -309,7 +309,7 @@ module.exports = function Route(app, passport) {
                         cpuCache: result[1],
                         cpuCurrentspeed: convertSpeedToReadableFormat(result[2].avg),
                         cpuFlags: result[3],
-                        user: result[4],
+                        user: result[4][0],
                         notification: result[5],
                         temp: parseFloat(result[6].main).toFixed(1)
                     })
@@ -337,7 +337,7 @@ module.exports = function Route(app, passport) {
                         swap_total: data[0].swaptotal,
                         swap_used: data[0].swapused,
                         swap_free: data[0].swapfree,
-                        user: data[1],
+                        user: data[1][0],
                         notification: data[2]
                     })
                 })
@@ -356,7 +356,7 @@ module.exports = function Route(app, passport) {
                         networkInterfaces: result[0],
                         networkInterfaceDefault: result[1],
                         networkConnections: result[2],
-                        user: result[3],
+                        user: result[3][0],
                         notification: result[4]
                     })
                 })
@@ -376,7 +376,7 @@ module.exports = function Route(app, passport) {
                         title: "Disk I/O and Block Device Statistic",
                         io: result[0],
                         device: result[1],
-                        user: result[2],
+                        user: result[2][0],
                         notification: result[3]
                     })
                 })
@@ -394,7 +394,7 @@ module.exports = function Route(app, passport) {
                     res.render("layouts/sysinfo/filesytem", {
                         title: "Linux Filesystem Statistic",
                         filesystem: data[0],
-                        user: data[1],
+                        user: data[1][0],
                         notification: data[2]
                     })
                 })
@@ -411,7 +411,7 @@ module.exports = function Route(app, passport) {
                     res.render("layouts/sysinfo/sysuser", {
                         title: "System Users",
                         sysuser: data[0],
-                        user: data[1],
+                        user: data[1][0],
                         notification: data[2]
                     })
                 })
@@ -434,7 +434,7 @@ module.exports = function Route(app, passport) {
                         blocked: result[0].blocked,
                         sleeping: result[0].sleeping,
                         list: result[0].list,
-                        user: result[1],
+                        user: result[1][0],
                         notification: result[2]
                     })
                 })
