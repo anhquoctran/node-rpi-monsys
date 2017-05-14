@@ -219,7 +219,7 @@ module.exports = function Route(app, passport) {
 
     app.get("/test", function(req, res) {
         Promise.all([
-                sysinfo.processes(), sysinfo.disksIO()
+                sysinfo.disksIO(), sysinfo.cpuTemperature()
             ])
             .then(data => {
                 res.json(data)
@@ -274,7 +274,9 @@ module.exports = function Route(app, passport) {
                         osInfo: result[0],
                         cpuinfo: result[1],
                         cpuCache: result[2],
-                        cpuCurrentspeed: convertSpeedToReadableFormat(result[3]),
+                        min: convertSpeedToReadableFormat(result[3].min),
+                        max: convertSpeedToReadableFormat(result[3].max),
+                        avg: convertSpeedToReadableFormat(result[3].avg),
                         mem: result[4],
                         disksIO: result[5],
                         networkConnections: result[6],
@@ -303,7 +305,7 @@ module.exports = function Route(app, passport) {
                         title: 'CPU Usage Statistic',
                         cpu: result[0],
                         cpuCache: result[1],
-                        cpuCurrentspeed: convertSpeedToReadableFormat(result[2]),
+                        cpuCurrentspeed: convertSpeedToReadableFormat(result[2].avg),
                         cpuFlags: result[3],
                         user: result[4],
                         notification: result[5]

@@ -22,13 +22,13 @@ block content
                   #cpu-usage-chart.ct-chart
                 .col-md-3
                   .weekly-summary.text-right.bottom
-                    span#cpu-freq.number 800MHz
-                    span.info-label Processes
+                    span#cpu-freq.number #{cpuCurrentspeed}
+                    span.info-label Speed
                   .weekly-summary.text-right.bottom
                     span#cpu-percent.number 16%
-                    span.info-label CPU Utilize
+                    span.info-label CPU Utilization
                   .weekly-summary.text-right.bottom
-                    span#total-processors.number 4
+                    span#total-processors.number #{cpu.cores}
                     span.info-label Logical Processors
               .row
                 .col-md-9
