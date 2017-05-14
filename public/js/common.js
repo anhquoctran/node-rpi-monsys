@@ -7,12 +7,12 @@ $(document).ready(function() {
     })
 
     function convertSizeData(filesize, options) {
-        if (0 == a) return "0 Bytes"
+        if (0 == filesize) return "0 Bytes"
         var c = 1e3,
             d = options || 2,
             e = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"],
-            f = Math.floor(Math.log(a) / Math.log(c));
-        return parseFloat((a / Math.pow(c, f)).toFixed(d)) + " " + e[f]
+            f = Math.floor(Math.log(filesize) / Math.log(c));
+        return parseFloat((filesize / Math.pow(c, f)).toFixed(d)) + " " + e[f]
     }
 
     /*-----------------------------------/
