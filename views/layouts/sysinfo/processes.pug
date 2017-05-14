@@ -32,8 +32,8 @@ block content
           .row
             .col-md-4
               button.btn.btn-primary Refresh
-              button.btn-danger.btn(disabled='') End process
-              .btn-group
+              button.btn-danger.btn.end(disabled='') End process
+              .btn-group.priority
                 button.btn.btn-default.dropdown-toggle(disabled='', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
                   | Set priority 
                   span.caret
@@ -88,8 +88,8 @@ block content
           .row
             .col-md-4
               button.btn.btn-primary Refresh
-              button.btn-danger.btn(disabled='') End process
-              .btn-group
+              button.btn-danger.btn.end(disabled='') End process
+              .btn-group.priority
                 button.btn.btn-default.dropdown-toggle(disabled='', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
                   | Set priority 
                   span.caret
@@ -115,5 +115,9 @@ block scripts
     });
   script.
     function checkOne(ele){
-        alert(ele.attr('type'))
+        if (ele.length > 0) {
+          $('div[class="end"]').each(function(){
+              $(this).attr('disabled',false)
+          })
+        }
     }
