@@ -21,9 +21,16 @@ block content
                 span.online-status.status-available @#{user.Username}
               .profile-stat
                 .row
-                  .col-md-4.stat-item
-                    | #{first_activities.length} 
-                    span Activies
+                  if user.Role = 'Admin'
+                    .col-md-4.stat-item
+                      | Admin
+                      span
+                        i.fa.fa-shield
+                  else
+                    .col-md-4.stat-item
+                      | Normal user
+                      span
+                        i.fa.fa-user-circle-o
                   .col-md-4.stat-item
                     | Joined on
                     span.dt #{first_activities.CreatedAt}
@@ -108,7 +115,7 @@ block content
                   li
                     i.fa.fa-check.activity-icon
                     if first_activities.Verified == true
-                      p
+                      p.dt
                         | Account has been verified at #{first_activities.VerifiedAt}
                         span.timeago.timestamp(datetime=first_activities.VerifiedAt)
                     else
