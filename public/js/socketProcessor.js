@@ -1,7 +1,7 @@
 "use strict"
 
 $(document).ready(function() {
-    var socket = io.connect("http://localhost:3927")
+    var socket = io()
     var _cpuAdmin = $("#cpu-usage-chart"),
         _cpuFreq = $("#cpu-freq"),
         _cpuPercent = $("#cpu-percent"),

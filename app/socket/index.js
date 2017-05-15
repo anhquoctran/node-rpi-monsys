@@ -7,6 +7,7 @@ var cpu = require('./cpu'),
 
 function SysInfoSocketHandle(server) {
     var io = require('socket.io')(server)
+    io.
     io.on('connection', function(socket) {
         console.log("Client connected")
 
