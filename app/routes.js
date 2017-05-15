@@ -219,7 +219,7 @@ module.exports = function Route(app, passport) {
 
     app.get("/test", function(req, res) {
         Promise.all([
-                sysinfo.getAllData()
+                sysinfo.getAllData(), sysinfo.getDynamicData(), sysinfo.getStaticData()
             ])
             .then(data => {
                 res.json(data)
