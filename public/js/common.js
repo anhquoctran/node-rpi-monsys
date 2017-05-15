@@ -15,6 +15,11 @@ $(document).ready(function() {
         return parseFloat((filesize / Math.pow(c, f)).toFixed(d)) + " " + e[f]
     }
 
+    $(".dt").each(function(val, text) {
+        var text = $(this).text()
+        $(this).text(new Date(text).toLocaleDateString())
+    })
+
     $("input[type='checkbox']").change(function() {
         if ($(this).is(":checked")) {
             $('.end').each(function() {
