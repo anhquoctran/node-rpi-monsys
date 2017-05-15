@@ -16,12 +16,12 @@ nav.navbar.navbar-default.navbar-fixed-top
               each item in notification
                 if item.IsRead == 0
                   li
-                    a.notification-item(href='/account/notification/#{item.ID}')
+                    a.notification-item(href='/account/notification/' + item.ID)
                       span.dot.bg-info 
                       | #{item.Content}
                 else
                   li
-                    a.notification-item.unread(href='/account/notification/#{item.ID}')
+                    a.notification-item.unread(href='/account/notification/' + item.ID)
                       span.dot.bg-info 
                       | #{item.Content}
             else
@@ -40,7 +40,7 @@ nav.navbar.navbar-default.navbar-fixed-top
               i.icon-submenu.lnr.lnr-chevron-down
           ul.dropdown-menu
             li
-              a(href='/account/#{user.Username}')
+              a(href='/account/' + user.Username)
                 i.lnr.lnr-user
                 span My Profile
             if user.Role == 'Admin'
