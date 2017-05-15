@@ -17,7 +17,8 @@ module.exports = {
         password: '@Hueic2016',
         database: "rpi-monsys",
         multipleStatements: true,
-        charset: 'utf8_general_ci'
+        charset: 'utf8_general_ci',
+        dateString: "date"
     }
 
 }
