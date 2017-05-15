@@ -1,4 +1,4 @@
-var pyshell = require("../middleware/py-shell")
+var pyshell = require("../middleware/python/py-shell")
 
 function MemoryShell() {
     this.getMemory = function(callback) {
