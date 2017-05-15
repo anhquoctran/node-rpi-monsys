@@ -218,10 +218,10 @@ module.exports = function Route(app, passport) {
 
     app.get("/test", function(req, res) {
         Promise.all([
-                sysinfo.disksIO(), sysinfo.cpuTemperature()
+                migrator.getFirstActivities("anhquoctran")
             ])
             .then(data => {
-                res.json(data)
+                res.json(data[0])
             }).catch(error => console.error(error))
     })
 

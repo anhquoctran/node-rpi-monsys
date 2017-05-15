@@ -93,7 +93,7 @@ function Migrate() {
     this.getFirstActivities = function(username) {
         return new Promise(function(resolve, reject) {
             mysql.connector.query("call procGetActivities(?)", username, function(error, activities) {
-                (error) ? reject(error): resolve((!activities || activities.length < 0) ? null : activities[0])
+                (error) ? reject(error): resolve((!activities || activities.length < 0) ? null : activities[0][0])
             })
         })
     }
