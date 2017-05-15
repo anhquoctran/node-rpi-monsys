@@ -55,8 +55,7 @@ module.exports = function Route(app, passport) {
         var username = req.body.username,
             email = req.body.email,
             fullname = req.body.fullname,
-            password = req.body.passwor,
-            avatar = req.file
+            password = req.body.password
 
 
     })

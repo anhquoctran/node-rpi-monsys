@@ -38,7 +38,7 @@ block content
                 ul.list-unstyled.list-justify
                   li
                     | Birthdate 
-                    span #{user.Birthdate}
+                    span.date #{user.Birthdate}
                   li
                     | Hometown 
                     span #{user.HomeTown}
@@ -69,19 +69,19 @@ block content
                     .hexagon
                       span.fa.fa-key.award-icon
                     span
-                      a(href='#') Change password
+                      a#lnk-change-pass(href='#') Change password
                 .col-md-3.col-sm-6
                   .award-item
                     .hexagon
                       span.fa.fa-user-circle.award-icon
                     span
-                      a(href='#') Change avatar
+                      a#lnk-change-avatar(href='#') Change avatar
                 .col-md-3.col-sm-6
                   .award-item
                     .hexagon
                       span.fa.fa-edit.award-icon
                     span
-                      a(href='/profile/edit/#{user.Username}') Edit profile
+                      a(href='/profile/edit/' + user.username) Edit profile
             // END AWARDS
             // TABBED CONTENT
             .custom-tabs-line.tabs-line-bottom.left-aligned
@@ -95,22 +95,22 @@ block content
                     i.fa.fa-check.activity-icon
                     p
                       | You have visited 
-                      a(href='/admin') Dashboard
-                      | for the first time at
+                      a(href='/admin') Dashboard 
+                      |  for the first time at
                       a #{first_activities.FirstVisited}
-                      span.timeago.timestamp(datetime='#{user.FirstVisited}')
+                      span.timeago.timestamp(datetime=user.FirstVisited)
                   li
                     i.fa.fa-check.activity-icon
                     p
                       | First login at
                       a #{first_activities.FirstLogin}
-                      span.timeago.timestamp(datetime='#{first_activities.FirstLogin}')
+                      span.timeago.timestamp(datetime=first_activities.FirstLogin)
                   li
                     i.fa.fa-check.activity-icon
                     if first_activities.Verified == true
                       p
                         | Account has been verified at #{first_activities.VerifiedAt}
-                        span.timeago.timestamp(datetime='#{first_activities.VerifiedAt}')
+                        span.timeago.timestamp(datetime=first_activities.VerifiedAt)
                     else
                       p
                         | Your account haven't been confirmed. Please check your email to verify this account
@@ -118,7 +118,7 @@ block content
                     i.fa.fa-check.activity-icon
                     p
                       | Joined on #{first_activities.CreatedAt} 
-                      span.timeago.timestamp(datetime='#{first_activities.CreatedAt}')
+                      span.timeago.timestamp(datetime=first_activities.CreatedAt)
                 .margin-top-30.text-center
             // END TABBED CONTENT
           // END RIGHT COLUMN
