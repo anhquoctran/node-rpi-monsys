@@ -92,6 +92,7 @@ module.exports = function Route(app, passport) {
                             migrator.getOneUser(req.session.user.username), migrator.getNotification(req.session.user.username), migrator.getFirstActivities(req.session.user.username)
                         ])
                         .then(data => {
+                            console.log(data[2])
                             res.render("layouts/profile/profile", {
                                 title: "Profile - RPiMonSys",
                                 user: data[0][0],
