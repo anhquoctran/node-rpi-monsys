@@ -18,7 +18,7 @@ module.exports = {
         database: "rpi-monsys",
         multipleStatements: true,
         charset: 'utf8_general_ci',
-        dateString: "date"
+        dateStrings: "date"
     }
 
 }
