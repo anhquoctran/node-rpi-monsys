@@ -100,71 +100,25 @@ function getDynamicData(srv, iface, callback) {
              */
             data.node = process.versions.node;
             data.v8 = process.versions.v8;
-
-            cpu.cpuCurrentspeed().then(res => {
-                data.cpuCurrentspeed = res;
-                functionProcessed();
-            });
-
-            users.users().then(res => {
-                data.users = res;
-                functionProcessed();
-            });
-
-            processes.processes().then(res => {
-                data.processes = res;
-                functionProcessed();
-            });
-
-            cpu.currentLoad().then(res => {
-                data.currentLoad = res;
-                functionProcessed();
-            });
-
-            cpu.cpuTemperature().then(res => {
-                data.temp = res;
-                functionProcessed();
-            });
-
-            network.networkStats(iface).then(res => {
-                data.networkStats = res;
-                functionProcessed();
-            });
-
-            network.networkConnections().then(res => {
-                data.networkConnections = res;
-                functionProcessed();
-            });
-
-            mem().then(res => {
-                data.mem = res;
-                functionProcessed();
-            });
-
-            processes.services(srv).then(res => {
-                data.services = res;
-                functionProcessed();
-            });
-
-            filesystem.fsSize().then(res => {
-                data.fsSize = res;
-                functionProcessed();
-            });
-
-            filesystem.fsStats().then(res => {
-                data.fsStats = res;
-                functionProcessed();
-            });
-
-            filesystem.disksIO().then(res => {
-                data.disksIO = res;
-                functionProcessed();
-            });
-
-            internet.inetLatency().then(res => {
-                data.inetLatency = res;
-                functionProcessed();
-            });
+            Promise.all([
+                    cpu.cpuCurrentspeed(), users.users(), processes.processes(), cpu.currentLoad(), cpu.cpuTemperature(), network.networkStats(iface), network.networkConnections(),
+                    mem(), processes.services(srv), filesystem.fsSize(), filesystem.fsStats(), filesystem.disksIO(), internet.inetLatency()
+                ])
+                .then(result => {
+                    data.cpuCurrentspeed = result[0]
+                    data.users = result[1]
+                    data.processes = result[2]
+                    data.currentLoad = result[3]
+                    data.temp = result[4]
+                    data.networkStats = result[5]
+                    data.networkConnections = result[6]
+                    data.mem = result[7]
+                    data.services = result[8]
+                    data.fsSize = result[9]
+                    data.fsStats = result[10]
+                    data.disksIO = result[111]
+                    data.inetLatency = result[12]
+                })
         });
     });
 }
