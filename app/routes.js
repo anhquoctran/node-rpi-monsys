@@ -219,11 +219,15 @@ module.exports = function Route(app, passport) {
 
     app.get("/test", function(req, res) {
         Promise.all([
-                migrator.getFirstActivities("anhquoctran")
+                sysinfo.processLoad()
             ])
             .then(data => {
-                res.json(data[0])
+                res.json(data)
             }).catch(error => console.error(error))
+    })
+
+    app.get("/demo/:a/:b", function(req, res) {
+        console.log(req.params)
     })
 
     app.get('/admin', function(req, res) {

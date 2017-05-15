@@ -24,7 +24,7 @@ nav.navbar.navbar-default.navbar-fixed-top
                     a.notification-item.unread(href='/account/notification/' + item.ID)
                       span.dot.bg-info 
                       | #{item.Content}
-            else
+            else if notification.length == 0
               li
                 a.notification-item
                 | There are no notifications
@@ -62,25 +62,25 @@ nav.navbar.navbar-default.navbar-fixed-top
               a(href='/logout')
                 i.lnr.lnr-exit
                 span Logout
-  #myModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel')
-    .modal-dialog(role='document')
-      .modal-content
-        .modal-header
-          h4#myModalLabel.modal-title Preferences
-        .modal-body
-          .row
-            .col-md-9
-              h4.heading
-                b Notifications
-              label.fancy-checkbox
-                input#chkNotification(type='checkbox')
-                span Allows push notification
-            .col-md-4
-              h4.heading
-                b Languages
-              select.form-control
-                option(value='en') English
-                option(value='vn') Tiếng Việt
-        .modal-footer
-          button.btn.btn-default(type='button', data-dismiss='modal') Cancel
-          button#btnSaveChanges.btn.btn-primary(type='button') Save changes
+#myModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel')
+  .modal-dialog(role='document')
+    .modal-content
+      .modal-header
+        h4#myModalLabel.modal-title Preferences
+      .modal-body
+        .row
+          .col-md-9
+            h4.heading
+              b Notifications
+            label.fancy-checkbox
+              input#chkNotification(type='checkbox')
+              span Allows push notification
+          .col-md-4
+            h4.heading
+              b Languages
+            select.form-control
+              option(value='en') English
+              option(value='vn') Tiếng Việt
+      .modal-footer
+        button.btn.btn-default(type='button', data-dismiss='modal') Cancel
+        button#btnSaveChanges.btn.btn-primary(type='button') Save changes
