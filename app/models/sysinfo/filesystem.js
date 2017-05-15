@@ -120,7 +120,7 @@ function parseDevices(lines) {
                     if ('MOUNTPOINT' == parts[0]) devices[i].mount = parts[1];
                     if ('VOLUMEUUID' == parts[0]) devices[i].uuid = parts[1];
                     if ('READ-ONLYMEDIA' == parts[0] && parts[1] == 'Yes') devices[i].physical = 'CD/DVD';
-                    if ('SOLIDSTATE' == parts[0] && parts[1] == 'Yes') devices[i].physical = 'SSD';
+                    if ('SOLIDSTATE' == parts[0] && parts[1] == 'Yes') devices[i].physical = 'FLASH DRIVE';
                     if ('VIRTUAL' == parts[0]) devices[i].type = 'virtual';
                     if ('REMOVABLEMEDIA' == parts[0]) devices[i].removable = (parts[1] == 'Removable');
                     if ('PARTITIONTYPE' == parts[0]) devices[i].type = 'part';
