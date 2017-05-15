@@ -182,7 +182,7 @@ function getAllData(srv, iface, callback) {
             }
 
             var data = {};
-            Promse.all([
+            Promise.all([
                 getStaticData(), getDynamicData(srv, iface)
             ])
             then(res => {
