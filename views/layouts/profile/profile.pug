@@ -104,7 +104,7 @@ block content
                     p
                       | First login at
                       a= first_activities.FirstLoginAt
-                      span.timeago.timestamp(datetime=first_activities.FirstLogin)
+                      span.timeago.timestamp(datetime=first_activities.FirstLoginAt)
                   li
                     i.fa.fa-check.activity-icon
                     if first_activities.Verified == true
