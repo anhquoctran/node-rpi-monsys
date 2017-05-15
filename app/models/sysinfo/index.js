@@ -183,18 +183,19 @@ function getAllData(srv, iface, callback) {
 
             var data = {};
             Promise.all([
-                getStaticData(), getDynamicData(srv, iface)
-            ])
-            then(res => {
-                data = res
-                for (var key in res) {
-                    if (res.hasOwnProperty(key)) {
-                        data[key] = res[key]
+                    getStaticData(), getDynamicData(srv, iface)
+                ])
+                .then(res => {
+                    data = res
+                    for (var key in res) {
+                        if (res.hasOwnProperty(key)) {
+                            data[key] = res[key]
+                        }
                     }
-                }
-                if (callback) { callback(data) }
-                resolve(data)
-            })
+                    if (callback) { callback(data) }
+                    resolve(data)
+                })
+                .catch(error => console.error(error))
         });
     });
 }
