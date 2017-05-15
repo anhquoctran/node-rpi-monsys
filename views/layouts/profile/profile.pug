@@ -97,13 +97,13 @@ block content
                       | You have visited 
                       a(href='/admin') Dashboard 
                       |  for the first time at
-                      a #{first_activities.FirstVisited}
+                      a= first_activities.FirstVisited
                       span.timeago.timestamp(datetime=user.FirstVisited)
                   li
                     i.fa.fa-check.activity-icon
                     p
                       | First login at
-                      a #{first_activities.FirstLogin}
+                      a= first_activities.FirstLogin
                       span.timeago.timestamp(datetime=first_activities.FirstLogin)
                   li
                     i.fa.fa-check.activity-icon
