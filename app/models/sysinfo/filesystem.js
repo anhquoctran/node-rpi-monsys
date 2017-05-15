@@ -143,7 +143,7 @@ function parseBlk(lines) {
             'fstype': disk.fstype,
             'mount': disk.mountpoint,
             'size': parseInt(disk.size),
-            'physical': (disk.type == 'disk' ? (disk.rota == '0' ? 'SSD' : 'HDD') : (disk.type == 'rom' ? 'CD/DVD' : '')),
+            'physical': (disk.type == 'disk' ? (disk.rota == '0' ? 'FLASH DRIVE' : 'HDD') : (disk.type == 'rom' ? 'CD/DVD' : '')),
             'uuid': disk.uuid,
             'label': disk.label,
             'model': disk.model,
