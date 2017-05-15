@@ -1,7 +1,7 @@
 "use strict"
 
-$(function() {
-    var socket = io("http://localhost:3927")
+$(document).ready(function() {
+    var socket = io.connect("http://localhost:3927")
     var _cpuAdmin = $("#cpu-usage-chart"),
         _cpuFreq = $("#cpu-freq"),
         _cpuPercent = $("#cpu-percent"),
@@ -16,6 +16,10 @@ $(function() {
         socket.emit("disk")
         socket.emit("network")
         socket.emit("gpio")
+    })
+
+    socket.on("test", function(data) {
+        console.log(data)
     })
 
     _killprocBtn.on("click", function() {

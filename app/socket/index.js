@@ -16,6 +16,8 @@ function SysInfoSocketHandle(server) {
             }
         })
 
+        socket.emit("test", "test only")
+
         socket.on("cpu", function(info) {
             cpu.getUsage(function(result) {
                 socket.emit("cpu", result)
