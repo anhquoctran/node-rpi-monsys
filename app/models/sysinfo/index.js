@@ -29,8 +29,6 @@ function getStaticData(callback) {
             }
 
             var data = {};
-
-            data.version = version();
             Promise.all([
                     system(), osInfo.osInfo(), osInfo.versions(), cpu.cpu(), network.networkInterfaces()
                 ])
