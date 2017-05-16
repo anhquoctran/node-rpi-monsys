@@ -6,8 +6,7 @@ $(document).ready(function() {
         _cpuFreq = $("#cpu-freq"),
         _cpuPercent = $("#cpu-percent"),
         _diskIo = $("#diskIoChart"),
-        _killprocBtn = $("#killprocBtn"),
-        _networkIo = $("#netioChart")
+        _killprocBtn = $("#killprocBtn")
 
     socket.on("connected", function(message) {
         console.log(message)

@@ -23,8 +23,15 @@ function SysInfoSocketHandle(server) {
         socket.emit("connected", "Start")
 
         cpu.getUsage(function(result) {
-            console.log(result)
             socket.emit("cpu", result)
+        })
+
+        cpu.getFreq(function(result) {
+            socket.emit("freq", result)
+        })
+
+        cpu.getLogicalProcessor(function(result) {
+            socket.emit("logical", result)
         })
 
         mem.getMemory(function(result) {

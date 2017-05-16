@@ -10,6 +10,26 @@ function PythonExecution() {
         })
     }
 
+    this.getLogical = function() {
+        return new Promise(function(req, res) {
+            var pyshell = new PythonShell.run("cpu_logical_processors.py", { scriptPath: __dirname }, function(err, r) {})
+
+            pyshell.on("message", function(message) {
+                resolve(message)
+            })
+        })
+    }
+
+    this.getFreq = function() {
+        return new Promise(function(req, res) {
+            var pyshell = new PythonShell.run("cpu_freq.py", { scriptPath: __dirname }, function(err, r) {})
+
+            pyshell.on("message", function(message) {
+                resolve(message)
+            })
+        })
+    }
+
     this.getDiskIo = function() {
         return new Promise((resolve, reject) => {
             var pyshell = new PythonShell.run('disk_io.py', { scriptPath: __dirname }, function(er, r) {})
