@@ -18,22 +18,16 @@ function SysInfoSocketHandle(server) {
 
         socket.emit("test", "test only")
 
-        socket.on("cpu", function(info) {
-            cpu.getUsage(function(result) {
-                socket.emit("cpu", result)
-            })
+        cpu.getUsage(function(result) {
+            socket.emit("cpu", result)
         })
 
-        socket.on("memory", function(info) {
-            mem.getMemory(function(result) {
-                socket.emit("memory", result)
-            })
+        mem.getMemory(function(result) {
+            socket.emit("memory", result)
         })
 
-        socket.on("disk", function(info) {
-            disk.getIo(function(result) {
-                socket.emit("disk", result)
-            })
+        disk.getIo(function(result) {
+            socket.emit("disk", result)
         })
 
         socket.on("processes", function(info) {
@@ -42,16 +36,12 @@ function SysInfoSocketHandle(server) {
             })
         })
 
-        socket.on("network", function(info) {
-            network.getTraffic(function(result) {
-                socket.emit('network', result)
-            })
+        network.getTraffic(function(result) {
+            socket.emit('network', result)
         })
 
-        socket.on("gpio", function(info) {
-            gpio.getGpioActivation(function(result) {
-                socket.emit('gpio', result)
-            })
+        gpio.getGpioActivation(function(result) {
+            socket.emit('gpio', result)
         })
     })
 
