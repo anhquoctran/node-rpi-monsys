@@ -3,38 +3,32 @@ var PythonShell = require("python-shell")
 function PythonExecution() {
     this.getCpuUsage = function() {
         return new Promise((resolve, reject) => {
-            var pyshell = new PythonShell.run("cpu_usage.py", { scriptPath: __dirname })
-            pyshell.on('message', function(message) {
-                resolve(message)
+            var pyshell = new PythonShell.run("cpu_usage.py", { scriptPath: __dirname }, function(error, result) {
+                (error) ? reject(error): resolve(result)
             })
         })
     }
 
     this.getDiskIo = function() {
         return new Promise((resolve, reject) => {
-            var pyshell = new PythonShell.run('disk_io.py', { scriptPath: __dirname })
-            pyshell.on('message', function(message) {
-                resolve(message)
+            var pyshell = new PythonShell.run('disk_io.py', { scriptPath: __dirname }, function(error, result) {
+                (error) ? reject(error): resolve(result)
             })
         })
     }
 
     this.getNetworkTraffic = function() {
         return new Promise((resolve, reject) => {
-            var pyshell = new PythonShell.run("network_traffic.py", { scriptPath: __dirname })
-
-            pyshell.on('message', function(message) {
-                resolve(message)
+            var pyshell = new PythonShell.run("network_traffic.py", { scriptPath: __dirname }, function(error, result) {
+                (error) ? reject(error): resolve(result)
             })
         })
     }
 
     this.getMemoryUsage = function() {
         return new Promise((resolve, reject) => {
-            var pyshell = new PythonShell.run("ram_usage.py", { scriptPath: __dirname })
-
-            pyshell.on('message', function(message) {
-                resolve(message)
+            var pyshell = new PythonShell.run("ram_usage.py", { scriptPath: __dirname }, function(error, result) {
+                (error) ? reject(error): resolve(result)
             })
         })
     }
@@ -58,10 +52,8 @@ function PythonExecution() {
 
     this.getGpio = function() {
         return new Promise((resolve, reject) => {
-            var pyshell = new PythonShell.run('gpio_usage.py', { scriptPath: __dirname })
-
-            pyshell.on("message", function(message) {
-                resolve(message)
+            var pyshell = new PythonShell.run('gpio_usage.py', { scriptPath: __dirname }, function(error, result) {
+                (error) ? reject(error): resolve(result)
             })
         })
     }
