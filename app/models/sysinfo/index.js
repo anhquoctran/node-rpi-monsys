@@ -1,34 +1,34 @@
 const os = require('os'),
-    fs = require('fs');
+    fs = require('fs')
 
-const util = require('./util');
-const system = require('./system');
-const osInfo = require('./osinfo');
-const cpu = require('./cpu');
-const mem = require('./memory');
-const filesystem = require('./filesystem');
-const network = require('./network');
-const processes = require('./processes');
-const users = require('./users');
-const internet = require('./internet');
-const docker = require('./dock');
+const util = require('./util')
+const system = require('./system')
+const osInfo = require('./osinfo')
+const cpu = require('./cpu')
+const mem = require('./memory')
+const filesystem = require('./filesystem')
+const network = require('./network')
+const processes = require('./processes')
+const users = require('./users')
+const internet = require('./internet')
+const docker = require('./dock')
 
-var _platform = os.type();
-var _windows = (_platform == 'Windows_NT');
+var _platform = os.type()
+var _windows = (_platform == 'Windows_NT')
 
-const NOT_SUPPORTED = 'not supported';
+const NOT_SUPPORTED = 'not supported'
 
 function getStaticData(callback) {
 
     return new Promise((resolve, reject) => {
         process.nextTick(() => {
             if (_windows) {
-                var error = new Error(NOT_SUPPORTED);
+                var error = new Error(NOT_SUPPORTED)
                 if (callback) { callback(NOT_SUPPORTED) }
-                reject(error);
+                reject(error)
             }
 
-            var data = {};
+            var data = {}
             Promise.all([
                     system(), osInfo.osInfo(), osInfo.versions(), cpu.cpu(), network.networkInterfaces()
                 ])
@@ -59,38 +59,38 @@ function getDynamicData(srv, iface, callback) {
     return new Promise((resolve, reject) => {
         process.nextTick(() => {
             if (_windows) {
-                var error = new Error(NOT_SUPPORTED);
+                var error = new Error(NOT_SUPPORTED)
                 if (callback) { callback(NOT_SUPPORTED) }
-                reject(error);
+                reject(error)
             }
 
-            iface = iface || network.getDefaultNetworkInterface();
-            srv = srv || '';
+            iface = iface || network.getDefaultNetworkInterface()
+            srv = srv || ''
 
             // use closure to track ƒ compvarion
             var functionProcessed = (function() {
-                var totalFunctions = 14;
+                var totalFunctions = 14
 
                 return function() {
                     if (--totalFunctions === 0) {
                         if (callback) { callback(data) }
-                        resolve(data);
+                        resolve(data)
                     }
-                };
-            })();
+                }
+            })()
 
-            // var totalFunctions = 14;
+            // var totalFunctions = 14
             // function functionProcessed() {
             //   if (--totalFunctions === 0) {
             //     if (callback) { callback(data) }
-            //     resolve(data);
+            //     resolve(data)
             //   }
             // }
 
-            var data = {};
+            var data = {}
 
             // get time
-            data.time = osInfo.time();
+            data.time = osInfo.time()
 
             /**
              * @namespace
@@ -98,8 +98,8 @@ function getDynamicData(srv, iface, callback) {
              * @property {string}  versions.node
              * @property {string}  versions.v8
              */
-            data.node = process.versions.node;
-            data.v8 = process.versions.v8;
+            data.node = process.versions.node
+            data.v8 = process.versions.v8
             Promise.all([
                     cpu.cpuCurrentspeed(), users.users(), processes.processes(), cpu.currentLoad(), cpu.cpuTemperature(), network.networkStats(iface), network.networkConnections(),
                     mem(), processes.services(srv), filesystem.fsSize(), filesystem.fsStats(), filesystem.disksIO(), internet.inetLatency()
@@ -119,8 +119,8 @@ function getDynamicData(srv, iface, callback) {
                     data.disksIO = result[111]
                     data.inetLatency = result[12]
                 })
-        });
-    });
+        })
+    })
 }
 
 function getAllData(srv, iface, callback) {
@@ -128,12 +128,12 @@ function getAllData(srv, iface, callback) {
     return new Promise((resolve, reject) => {
         process.nextTick(() => {
             if (_windows) {
-                var error = new Error(NOT_SUPPORTED);
+                var error = new Error(NOT_SUPPORTED)
                 if (callback) { callback(NOT_SUPPORTED) }
-                reject(error);
+                reject(error)
             }
 
-            var data = {};
+            var data = {}
             Promise.all([
                     getStaticData(), getDynamicData(srv, iface)
                 ])
@@ -148,41 +148,41 @@ function getAllData(srv, iface, callback) {
                     resolve(data)
                 })
                 .catch(error => console.error(error))
-        });
-    });
+        })
+    })
 }
 
-exports.system = system;
-exports.time = osInfo.time;
-exports.osInfo = osInfo.osInfo;
-exports.versions = osInfo.versions;
-exports.shell = osInfo.shell;
-exports.cpu = cpu.cpu;
-exports.cpuFlags = cpu.cpuFlags;
-exports.cpuCache = cpu.cpuCache;
-exports.cpuCurrentspeed = cpu.cpuCurrentspeed;
-exports.cpuTemperature = cpu.cpuTemperature;
-exports.currentLoad = cpu.currentLoad;
-exports.fullLoad = cpu.fullLoad;
-exports.mem = mem;
-exports.fsSize = filesystem.fsSize;
-exports.blockDevices = filesystem.blockDevices;
-exports.fsStats = filesystem.fsStats;
-exports.disksIO = filesystem.disksIO;
-exports.networkInterfaceDefault = network.networkInterfaceDefault;
-exports.networkInterfaces = network.networkInterfaces;
-exports.networkStats = network.networkStats;
-exports.networkConnections = network.networkConnections;
-exports.services = processes.services;
-exports.processes = processes.processes;
-exports.processLoad = processes.processLoad;
-exports.users = users.users;
-exports.inetChecksite = internet.inetChecksite;
-exports.inetLatency = internet.inetLatency;
-exports.dockerContainers = docker.dockerContainers;
-exports.dockerContainerStats = docker.dockerContainerStats;
-exports.dockerContainerProcesses = docker.dockerContainerProcesses;
-exports.dockerAll = docker.dockerAll;
-exports.getStaticData = getStaticData;
-exports.getDynamicData = getDynamicData;
-exports.getAllData = getAllData;
+exports.system = system
+exports.time = osInfo.time
+exports.osInfo = osInfo.osInfo
+exports.versions = osInfo.versions
+exports.shell = osInfo.shell
+exports.cpu = cpu.cpu
+exports.cpuFlags = cpu.cpuFlags
+exports.cpuCache = cpu.cpuCache
+exports.cpuCurrentspeed = cpu.cpuCurrentspeed
+exports.cpuTemperature = cpu.cpuTemperature
+exports.currentLoad = cpu.currentLoad
+exports.fullLoad = cpu.fullLoad
+exports.mem = mem
+exports.fsSize = filesystem.fsSize
+exports.blockDevices = filesystem.blockDevices
+exports.fsStats = filesystem.fsStats
+exports.disksIO = filesystem.disksIO
+exports.networkInterfaceDefault = network.networkInterfaceDefault
+exports.networkInterfaces = network.networkInterfaces
+exports.networkStats = network.networkStats
+exports.networkConnections = network.networkConnections
+exports.services = processes.services
+exports.processes = processes.processes
+exports.processLoad = processes.processLoad
+exports.users = users.users
+exports.inetChecksite = internet.inetChecksite
+exports.inetLatency = internet.inetLatency
+exports.dockerContainers = docker.dockerContainers
+exports.dockerContainerStats = docker.dockerContainerStats
+exports.dockerContainerProcesses = docker.dockerContainerProcesses
+exports.dockerAll = docker.dockerAll
+exports.getStaticData = getStaticData
+exports.getDynamicData = getDynamicData
+exports.getAllData = getAllData

@@ -1,17 +1,17 @@
-const os = require('os');
-const exec = require('child_process').exec;
-const fs = require('fs');
-const util = require('./util');
+const os = require('os')
+const exec = require('child_process').exec
+const fs = require('fs')
+const util = require('./util')
 
-var _platform = os.type();
+var _platform = os.type()
 
-const _linux = (_platform == 'Linux');
-const _darwin = (_platform == 'Darwin');
-const _windows = (_platform == 'Windows_NT');
-const NOT_SUPPORTED = 'not supported';
+const _linux = (_platform == 'Linux')
+const _darwin = (_platform == 'Darwin')
+const _windows = (_platform == 'Windows_NT')
+const NOT_SUPPORTED = 'not supported'
 
-var _fs_speed = {};
-var _disk_io = {};
+var _fs_speed = {}
+var _disk_io = {}
 
 // --------------------------
 // FS - mounted file systems
@@ -21,15 +21,15 @@ function fsSize(callback) {
     return new Promise((resolve, reject) => {
         process.nextTick(() => {
             if (_linux || _darwin) {
-                var cmd = (_darwin ? "df -lkP | grep ^/" : "df -lkPT | grep ^/");
+                var cmd = (_darwin ? "df -lkP | grep ^/" : "df -lkPT | grep ^/")
                 exec(cmd, function(error, stdout) {
-                    var data = [];
+                    var data = []
                     if (!error) {
-                        var lines = stdout.toString().split('\n');
-                        //lines.splice(0, 1);
+                        var lines = stdout.toString().split('\n')
+                            //lines.splice(0, 1)
                         lines.forEach(function(line) {
                             if (line != '') {
-                                line = line.replace(/ +/g, " ").split(' ');
+                                line = line.replace(/ +/g, " ").split(' ')
                                 data.push({
                                     'fs': line[0],
                                     'type': (_linux ? line[1] : 'HFS'),
@@ -39,20 +39,20 @@ function fsSize(callback) {
                                     'mount': line[line.length - 1]
                                 })
                             }
-                        });
+                        })
                     }
                     if (callback) {
                         callback(data)
                     }
-                    resolve(data);
-                });
+                    resolve(data)
+                })
             }
             if (_windows) {
                 exec('wmic logicaldisk get Caption,FileSystem,FreeSpace,Size', function(error, stdout) {
-                    var lines = stdout.split('\r\n').filter(line => line.trim() != '').filter((line, idx) => idx > 0);
+                    var lines = stdout.split('\r\n').filter(line => line.trim() != '').filter((line, idx) => idx > 0)
                     lines.forEach(function(line) {
                         if (line != '') {
-                            line = line.trim().split(/\s\s+/);
+                            line = line.trim().split(/\s\s+/)
                             data.push({
                                 'fs': line[0],
                                 'type': line[1],
@@ -62,18 +62,18 @@ function fsSize(callback) {
                                 'mount': line[0]
                             })
                         }
-                    });
+                    })
                     if (callback) {
                         callback(data)
                     }
-                    resolve(data);
-                });
+                    resolve(data)
+                })
             }
-        });
-    });
+        })
+    })
 }
 
-exports.fsSize = fsSize;
+exports.fsSize = fsSize
 
 // --------------------------
 // disks
@@ -83,14 +83,14 @@ function parseBytes(s) {
 }
 
 function parseDevices(lines) {
-    var devices = [];
-    var i = 0;
+    var devices = []
+    var i = 0
     lines.forEach(line => {
         if (line.length > 0) {
             if (line[0] == '*') {
-                i++;
+                i++
             } else {
-                var parts = line.split(':');
+                var parts = line.split(':')
                 if (parts.length > 1) {
                     if (!devices[i]) devices[i] = {
                         name: '',
@@ -106,37 +106,37 @@ function parseDevices(lines) {
                         serial: '',
                         removable: false,
                         protocol: ''
-                    };
-                    parts[0] = parts[0].trim().toUpperCase().replace(/ +/g, '');
-                    parts[1] = parts[1].trim();
-                    if ('DEVICEIDENTIFIER' == parts[0]) devices[i].identifier = parts[1];
-                    if ('DEVICENODE' == parts[0]) devices[i].name = parts[1];
-                    if ('VOLUMENAME' == parts[0]) {
-                        if (parts[1].indexOf('Not applicable') == -1) devices[i].label = parts[1];
                     }
-                    if ('PROTOCOL' == parts[0]) devices[i].protocol = parts[1];
-                    if ('DISKSIZE' == parts[0]) devices[i].size = parseBytes(parts[1]);
-                    if ('FILESYSTEMPERSONALITY' == parts[0]) devices[i].fstype = parts[1];
-                    if ('MOUNTPOINT' == parts[0]) devices[i].mount = parts[1];
-                    if ('VOLUMEUUID' == parts[0]) devices[i].uuid = parts[1];
-                    if ('READ-ONLYMEDIA' == parts[0] && parts[1] == 'Yes') devices[i].physical = 'CD/DVD';
-                    if ('SOLIDSTATE' == parts[0] && parts[1] == 'Yes') devices[i].physical = 'FLASH DRIVE';
-                    if ('VIRTUAL' == parts[0]) devices[i].type = 'virtual';
-                    if ('REMOVABLEMEDIA' == parts[0]) devices[i].removable = (parts[1] == 'Removable');
-                    if ('PARTITIONTYPE' == parts[0]) devices[i].type = 'part';
-                    if ('DEVICE/MEDIANAME' == parts[0]) devices[i].model = parts[1];
+                    parts[0] = parts[0].trim().toUpperCase().replace(/ +/g, '')
+                    parts[1] = parts[1].trim()
+                    if ('DEVICEIDENTIFIER' == parts[0]) devices[i].identifier = parts[1]
+                    if ('DEVICENODE' == parts[0]) devices[i].name = parts[1]
+                    if ('VOLUMENAME' == parts[0]) {
+                        if (parts[1].indexOf('Not applicable') == -1) devices[i].label = parts[1]
+                    }
+                    if ('PROTOCOL' == parts[0]) devices[i].protocol = parts[1]
+                    if ('DISKSIZE' == parts[0]) devices[i].size = parseBytes(parts[1])
+                    if ('FILESYSTEMPERSONALITY' == parts[0]) devices[i].fstype = parts[1]
+                    if ('MOUNTPOINT' == parts[0]) devices[i].mount = parts[1]
+                    if ('VOLUMEUUID' == parts[0]) devices[i].uuid = parts[1]
+                    if ('READ-ONLYMEDIA' == parts[0] && parts[1] == 'Yes') devices[i].physical = 'CD/DVD'
+                    if ('SOLIDSTATE' == parts[0] && parts[1] == 'Yes') devices[i].physical = 'FLASH DRIVE'
+                    if ('VIRTUAL' == parts[0]) devices[i].type = 'virtual'
+                    if ('REMOVABLEMEDIA' == parts[0]) devices[i].removable = (parts[1] == 'Removable')
+                    if ('PARTITIONTYPE' == parts[0]) devices[i].type = 'part'
+                    if ('DEVICE/MEDIANAME' == parts[0]) devices[i].model = parts[1]
                 }
             }
         }
-    });
-    return devices;
+    })
+    return devices
 }
 
 function parseBlk(lines) {
-    var data = [];
+    var data = []
 
     lines.filter(line => line != '').forEach((line) => {
-        var disk = JSON.parse(line);
+        var disk = JSON.parse(line)
         data.push({
             'name': disk.name,
             'type': disk.type,
@@ -151,11 +151,11 @@ function parseBlk(lines) {
             'removable': disk.rm == '1',
             'protocol': disk.tran
         })
-    });
+    })
 
-    data = util.unique(data);
-    data = util.sortByKey(data, ['type', 'name']);
-    return data;
+    data = util.unique(data)
+    data = util.sortByKey(data, ['type', 'name'])
+    return data
 }
 
 function blkStdoutToObject(stdout) {
@@ -174,7 +174,7 @@ function blkStdoutToObject(stdout) {
         .replace(/LABEL=/g, ',"label":')
         .replace(/MODEL=/g, ',"model":')
         .replace(/OWNER=/g, ',"owner":')
-        .replace(/\n/g, '}\n');
+        .replace(/\n/g, '}\n')
 }
 
 function blockDevices(callback) {
@@ -185,50 +185,50 @@ function blockDevices(callback) {
                 // see https://wiki.ubuntuusers.de/lsblk/
                 // exec("lsblk -bo NAME,TYPE,SIZE,FSTYPE,MOUNTPOINT,UUID,ROTA,RO,TRAN,SERIAL,LABEL,MODEL,OWNER,GROUP,MODE,ALIGNMENT,MIN-IO,OPT-IO,PHY-SEC,LOG-SEC,SCHED,RQ-SIZE,RA,WSAME", function (error, stdout) {
                 exec("lsblk -bPo NAME,TYPE,SIZE,FSTYPE,MOUNTPOINT,UUID,ROTA,RO,RM,TRAN,SERIAL,LABEL,MODEL,OWNER", function(error, stdout) {
-                    var data = [];
+                    var data = []
                     if (!error) {
-                        var lines = blkStdoutToObject(stdout).split('\n');
-                        data = parseBlk(lines);
+                        var lines = blkStdoutToObject(stdout).split('\n')
+                        data = parseBlk(lines)
                         if (callback) {
                             callback(data)
                         }
-                        resolve(data);
+                        resolve(data)
                     } else {
                         exec("lsblk -bPo NAME,TYPE,SIZE,FSTYPE,MOUNTPOINT,UUID,ROTA,RO,RM,LABEL,MODEL,OWNER", function(error, stdout) {
                             if (!error) {
-                                var lines = blkStdoutToObject(stdout).split('\n');
-                                data = parseBlk(lines);
+                                var lines = blkStdoutToObject(stdout).split('\n')
+                                data = parseBlk(lines)
                             }
                             if (callback) {
                                 callback(data)
                             }
-                            resolve(data);
-                        });
+                            resolve(data)
+                        })
                     }
-                });
+                })
             }
             if (_darwin) {
                 exec("diskutil info -all", function(error, stdout) {
-                    var data = [];
+                    var data = []
                     if (!error) {
-                        var lines = stdout.toString().split('\n');
-                        // parse lines into temp array of devices
-                        data = parseDevices(lines);
+                        var lines = stdout.toString().split('\n')
+                            // parse lines into temp array of devices
+                        data = parseDevices(lines)
                     }
                     if (callback) {
                         callback(data)
                     }
-                    resolve(data);
-                });
+                    resolve(data)
+                })
             }
             if (_windows) {
                 exec('wmic logicaldisk get Caption,Description,DeviceID,DriveType,FileSystem,FreeSpace,Name,Size,VolumeName,VolumeSerialNumber /format:csv', function(error, stdout) {
-                    var data = [];
+                    var data = []
                     if (!error) {
-                        var lines = stdout.split('\r\n').filter(line => line.trim() != '').filter((line, idx) => idx > 0);
+                        var lines = stdout.split('\r\n').filter(line => line.trim() != '').filter((line, idx) => idx > 0)
                         lines.forEach(function(line) {
                             if (line != '') {
-                                line = line.replace('\r', '').split(',');
+                                line = line.replace('\r', '').split(',')
                                 data.push({
                                     name: line[7],
                                     identifier: line[1],
@@ -243,21 +243,21 @@ function blockDevices(callback) {
                                     serial: line[10],
                                     removable: line[4] == '2',
                                     protocol: ''
-                                });
+                                })
                             }
-                        });
+                        })
                     }
                     if (callback) {
                         callback(data)
                     }
-                    resolve(data);
-                });
+                    resolve(data)
+                })
             }
-        });
-    });
+        })
+    })
 }
 
-exports.blockDevices = blockDevices;
+exports.blockDevices = blockDevices
 
 // --------------------------
 // FS - speed
@@ -271,38 +271,38 @@ function calcFsSpeed(rx, wx) {
         wx_sec: -1,
         tx_sec: -1,
         ms: 0
-    };
+    }
 
     if (_fs_speed && _fs_speed.ms) {
-        result.rx = rx;
-        result.wx = wx;
-        result.tx = result.rx + result.wx;
-        result.ms = Date.now() - _fs_speed.ms;
-        result.rx_sec = (result.rx - _fs_speed.bytes_read) / (result.ms / 1000);
-        result.wx_sec = (result.wx - _fs_speed.bytes_write) / (result.ms / 1000);
-        result.tx_sec = result.rx_sec + result.wx_sec;
-        _fs_speed.rx_sec = result.rx_sec;
-        _fs_speed.wx_sec = result.wx_sec;
-        _fs_speed.tx_sec = result.tx_sec;
-        _fs_speed.bytes_read = result.rx;
-        _fs_speed.bytes_write = result.wx;
-        _fs_speed.bytes_overall = result.rx + result.wx;
-        _fs_speed.ms = Date.now();
-        _fs_speed.last_ms = result.ms;
+        result.rx = rx
+        result.wx = wx
+        result.tx = result.rx + result.wx
+        result.ms = Date.now() - _fs_speed.ms
+        result.rx_sec = (result.rx - _fs_speed.bytes_read) / (result.ms / 1000)
+        result.wx_sec = (result.wx - _fs_speed.bytes_write) / (result.ms / 1000)
+        result.tx_sec = result.rx_sec + result.wx_sec
+        _fs_speed.rx_sec = result.rx_sec
+        _fs_speed.wx_sec = result.wx_sec
+        _fs_speed.tx_sec = result.tx_sec
+        _fs_speed.bytes_read = result.rx
+        _fs_speed.bytes_write = result.wx
+        _fs_speed.bytes_overall = result.rx + result.wx
+        _fs_speed.ms = Date.now()
+        _fs_speed.last_ms = result.ms
     } else {
-        result.rx = rx;
-        result.wx = wx;
-        result.tx = result.rx + result.wx;
-        _fs_speed.rx_sec = -1;
-        _fs_speed.wx_sec = -1;
-        _fs_speed.tx_sec = -1;
-        _fs_speed.bytes_read = result.rx;
-        _fs_speed.bytes_write = result.wx;
-        _fs_speed.bytes_overall = result.rx + result.wx;
-        _fs_speed.ms = Date.now();
-        _fs_speed.last_ms = 0;
+        result.rx = rx
+        result.wx = wx
+        result.tx = result.rx + result.wx
+        _fs_speed.rx_sec = -1
+        _fs_speed.wx_sec = -1
+        _fs_speed.tx_sec = -1
+        _fs_speed.bytes_read = result.rx
+        _fs_speed.bytes_write = result.wx
+        _fs_speed.bytes_overall = result.rx + result.wx
+        _fs_speed.ms = Date.now()
+        _fs_speed.last_ms = 0
     }
-    return result;
+    return result
 }
 
 function fsStats(callback) {
@@ -310,11 +310,11 @@ function fsStats(callback) {
     return new Promise((resolve, reject) => {
         process.nextTick(() => {
             if (_windows) {
-                var error = new Error(NOT_SUPPORTED);
+                var error = new Error(NOT_SUPPORTED)
                 if (callback) {
                     callback(NOT_SUPPORTED)
                 }
-                reject(error);
+                reject(error)
             }
 
             var result = {
@@ -325,91 +325,91 @@ function fsStats(callback) {
                 wx_sec: -1,
                 tx_sec: -1,
                 ms: 0
-            };
+            }
 
-            var rx = 0;
-            var wx = 0;
+            var rx = 0
+            var wx = 0
             if ((_fs_speed && !_fs_speed.ms) || (_fs_speed && _fs_speed.ms && Date.now() - _fs_speed.ms >= 500)) {
                 if (_linux) {
                     //  		  exec("df -k | grep /dev/", function(error, stdout) {
                     exec("lsblk | grep /", function(error, stdout) {
                         if (!error) {
-                            var lines = stdout.toString().split('\n');
-                            var fs_filter = [];
+                            var lines = stdout.toString().split('\n')
+                            var fs_filter = []
                             lines.forEach(function(line) {
                                 if (line != '') {
-                                    line = line.replace(/[├─│└]+/g, "").trim().split(' ');
+                                    line = line.replace(/[├─│└]+/g, "").trim().split(' ')
                                     if (fs_filter.indexOf(line[0]) == -1) fs_filter.push(line[0])
                                 }
-                            });
+                            })
 
-                            var output = fs_filter.join('|');
+                            var output = fs_filter.join('|')
                             exec("cat /proc/diskstats | egrep '" + output + "'", function(error, stdout) {
                                 if (!error) {
-                                    var lines = stdout.toString().split('\n');
+                                    var lines = stdout.toString().split('\n')
                                     lines.forEach(function(line) {
-                                        line = line.trim();
+                                        line = line.trim()
                                         if (line != '') {
-                                            line = line.replace(/ +/g, " ").split(' ');
+                                            line = line.replace(/ +/g, " ").split(' ')
 
-                                            rx += parseInt(line[5]) * 512;
-                                            wx += parseInt(line[9]) * 512;
+                                            rx += parseInt(line[5]) * 512
+                                            wx += parseInt(line[9]) * 512
                                         }
-                                    });
-                                    result = calcFsSpeed(rx, wx);
+                                    })
+                                    result = calcFsSpeed(rx, wx)
                                 }
                                 if (callback) {
                                     callback(result)
                                 }
-                                resolve(result);
+                                resolve(result)
                             })
                         } else {
                             if (callback) {
                                 callback(result)
                             }
-                            resolve(result);
+                            resolve(result)
                         }
                     })
                 }
                 if (_darwin) {
                     exec("ioreg -c IOBlockStorageDriver -k Statistics -r -w0 | sed -n '/IOBlockStorageDriver/,/Statistics/p' | grep 'Statistics' | tr -cd '01234567890,\n' | awk -F',' '{print $3, $10}'", function(error, stdout) {
                         if (!error) {
-                            var lines = stdout.toString().split('\n');
+                            var lines = stdout.toString().split('\n')
                             lines.forEach(function(line) {
-                                line = line.trim();
+                                line = line.trim()
                                 if (line != '') {
-                                    line = line.split(' ');
+                                    line = line.split(' ')
 
-                                    rx += parseInt(line[0]);
-                                    wx += parseInt(line[1]);
+                                    rx += parseInt(line[0])
+                                    wx += parseInt(line[1])
                                 }
-                            });
-                            result = calcFsSpeed(rx, wx);
+                            })
+                            result = calcFsSpeed(rx, wx)
                         }
                         if (callback) {
                             callback(result)
                         }
-                        resolve(result);
+                        resolve(result)
                     })
                 }
             } else {
-                result.ms = _fs_speed.last_ms;
-                result.rx = _fs_speed.bytes_read;
-                result.wx = _fs_speed.bytes_write;
-                result.tx = _fs_speed.bytes_read + _fs_speed.bytes_write;
-                result.rx_sec = _fs_speed.rx_sec;
-                result.wx_sec = _fs_speed.wx_sec;
-                result.tx_sec = _fs_speed.tx_sec;
+                result.ms = _fs_speed.last_ms
+                result.rx = _fs_speed.bytes_read
+                result.wx = _fs_speed.bytes_write
+                result.tx = _fs_speed.bytes_read + _fs_speed.bytes_write
+                result.rx_sec = _fs_speed.rx_sec
+                result.wx_sec = _fs_speed.wx_sec
+                result.tx_sec = _fs_speed.tx_sec
                 if (callback) {
                     callback(result)
                 }
-                resolve(result);
+                resolve(result)
             }
-        });
-    });
+        })
+    })
 }
 
-exports.fsStats = fsStats;
+exports.fsStats = fsStats
 
 function calcDiskIO(rIO, wIO) {
     var result = {
@@ -420,35 +420,35 @@ function calcDiskIO(rIO, wIO) {
         wIO_sec: -1,
         tIO_sec: -1,
         ms: 0
-    };
-    if (_disk_io && _disk_io.ms) {
-        result.rIO = rIO;
-        result.wIO = wIO;
-        result.tIO = rIO + wIO;
-        result.ms = Date.now() - _disk_io.ms;
-        result.rIO_sec = (result.rIO - _disk_io.rIO) / (result.ms / 1000);
-        result.wIO_sec = (result.wIO - _disk_io.wIO) / (result.ms / 1000);
-        result.tIO_sec = result.rIO_sec + result.wIO_sec;
-        _disk_io.rIO = rIO;
-        _disk_io.wIO = wIO;
-        _disk_io.rIO_sec = result.rIO_sec;
-        _disk_io.wIO_sec = result.wIO_sec;
-        _disk_io.tIO_sec = result.tIO_sec;
-        _disk_io.last_ms = result.ms;
-        _disk_io.ms = Date.now();
-    } else {
-        result.rIO = rIO;
-        result.wIO = wIO;
-        result.tIO = rIO + wIO;
-        _disk_io.rIO = rIO;
-        _disk_io.wIO = wIO;
-        _disk_io.rIO_sec = -1;
-        _disk_io.wIO_sec = -1;
-        _disk_io.tIO_sec = -1;
-        _disk_io.last_ms = 0;
-        _disk_io.ms = Date.now();
     }
-    return result;
+    if (_disk_io && _disk_io.ms) {
+        result.rIO = rIO
+        result.wIO = wIO
+        result.tIO = rIO + wIO
+        result.ms = Date.now() - _disk_io.ms
+        result.rIO_sec = (result.rIO - _disk_io.rIO) / (result.ms / 1000)
+        result.wIO_sec = (result.wIO - _disk_io.wIO) / (result.ms / 1000)
+        result.tIO_sec = result.rIO_sec + result.wIO_sec
+        _disk_io.rIO = rIO
+        _disk_io.wIO = wIO
+        _disk_io.rIO_sec = result.rIO_sec
+        _disk_io.wIO_sec = result.wIO_sec
+        _disk_io.tIO_sec = result.tIO_sec
+        _disk_io.last_ms = result.ms
+        _disk_io.ms = Date.now()
+    } else {
+        result.rIO = rIO
+        result.wIO = wIO
+        result.tIO = rIO + wIO
+        _disk_io.rIO = rIO
+        _disk_io.wIO = wIO
+        _disk_io.rIO_sec = -1
+        _disk_io.wIO_sec = -1
+        _disk_io.tIO_sec = -1
+        _disk_io.last_ms = 0
+        _disk_io.ms = Date.now()
+    }
+    return result
 }
 
 function disksIO(callback) {
@@ -456,11 +456,11 @@ function disksIO(callback) {
     return new Promise((resolve, reject) => {
         process.nextTick(() => {
             if (_windows) {
-                var error = new Error(NOT_SUPPORTED);
+                var error = new Error(NOT_SUPPORTED)
                 if (callback) {
                     callback(NOT_SUPPORTED)
                 }
-                reject(error);
+                reject(error)
             }
 
             var result = {
@@ -471,79 +471,79 @@ function disksIO(callback) {
                 wIO_sec: -1,
                 tIO_sec: -1,
                 ms: 0
-            };
-            var rIO = 0;
-            var wIO = 0;
+            }
+            var rIO = 0
+            var wIO = 0
 
             if ((_disk_io && !_disk_io.ms) || (_disk_io && _disk_io.ms && Date.now() - _disk_io.ms >= 500)) {
                 if (_linux) {
                     // prints Block layer statistics for all mounted volumes
-                    // var cmd = "for mount in `lsblk | grep / | sed -r 's/│ └─//' | cut -d ' ' -f 1`; do cat /sys/block/$mount/stat | sed -r 's/ +/;/g' | sed -r 's/^;//'; done";
-                    // var cmd = "for mount in `lsblk | grep / | sed 's/[│└─├]//g' | awk '{$1=$1};1' | cut -d ' ' -f 1 | sort -u`; do cat /sys/block/$mount/stat | sed -r 's/ +/;/g' | sed -r 's/^;//'; done";
-                    var cmd = "for mount in `lsblk | grep ' disk ' | sed 's/[│└─├]//g' | awk '{$1=$1};1' | cut -d ' ' -f 1 | sort -u`; do cat /sys/block/$mount/stat | sed -r 's/ +/;/g' | sed -r 's/^;//'; done";
+                    // var cmd = "for mount in `lsblk | grep / | sed -r 's/│ └─//' | cut -d ' ' -f 1` do cat /sys/block/$mount/stat | sed -r 's/ +//g' | sed -r 's/^//' done"
+                    // var cmd = "for mount in `lsblk | grep / | sed 's/[│└─├]//g' | awk '{$1=$1}1' | cut -d ' ' -f 1 | sort -u` do cat /sys/block/$mount/stat | sed -r 's/ +//g' | sed -r 's/^//' done"
+                    var cmd = "for mount in `lsblk | grep ' disk ' | sed 's/[│└─├]//g' | awk '{$1=$1}1' | cut -d ' ' -f 1 | sort -u` do cat /sys/block/$mount/stat | sed -r 's/ +//g' | sed -r 's/^//' done"
 
                     exec(cmd, function(error, stdout) {
                         if (!error) {
-                            var lines = stdout.split('\n');
+                            var lines = stdout.split('\n')
                             lines.forEach(function(line) {
                                 // ignore empty lines
-                                if (!line) return;
+                                if (!line) return
 
                                 // sum r/wIO of all disks to compute all disks IO
-                                var stats = line.split(';');
-                                rIO += parseInt(stats[0]);
-                                wIO += parseInt(stats[4]);
-                            });
-                            result = calcDiskIO(rIO, wIO);
+                                var stats = line.split('')
+                                rIO += parseInt(stats[0])
+                                wIO += parseInt(stats[4])
+                            })
+                            result = calcDiskIO(rIO, wIO)
 
                             if (callback) {
                                 callback(result)
                             }
-                            resolve(result);
+                            resolve(result)
                         } else {
                             if (callback) {
                                 callback(result)
                             }
-                            resolve(result);
+                            resolve(result)
                         }
-                    });
+                    })
                 }
                 if (_darwin) {
                     exec("ioreg -c IOBlockStorageDriver -k Statistics -r -w0 | sed -n '/IOBlockStorageDriver/,/Statistics/p' | grep 'Statistics' | tr -cd '01234567890,\n' | awk -F',' '{print $1, $11}'", function(error, stdout) {
                         if (!error) {
-                            var lines = stdout.toString().split('\n');
+                            var lines = stdout.toString().split('\n')
                             lines.forEach(function(line) {
-                                line = line.trim();
+                                line = line.trim()
                                 if (line != '') {
-                                    line = line.split(' ');
+                                    line = line.split(' ')
 
-                                    rIO += parseInt(line[1]);
-                                    wIO += parseInt(line[0]);
+                                    rIO += parseInt(line[1])
+                                    wIO += parseInt(line[0])
                                 }
-                            });
-                            result = calcDiskIO(rIO, wIO);
+                            })
+                            result = calcDiskIO(rIO, wIO)
                         }
                         if (callback) {
                             callback(result)
                         }
-                        resolve(result);
+                        resolve(result)
                     })
                 }
             } else {
-                result.rIO = _disk_io.rIO;
-                result.wIO = _disk_io.wIO;
-                result.tIO = _disk_io.rIO + _disk_io.wIO;
-                result.ms = _disk_io.last_ms;
-                result.rIO_sec = _disk_io.rIO_sec;
-                result.wIO_sec = _disk_io.wIO_sec;
-                result.tIO_sec = _disk_io.tIO_sec;
+                result.rIO = _disk_io.rIO
+                result.wIO = _disk_io.wIO
+                result.tIO = _disk_io.rIO + _disk_io.wIO
+                result.ms = _disk_io.last_ms
+                result.rIO_sec = _disk_io.rIO_sec
+                result.wIO_sec = _disk_io.wIO_sec
+                result.tIO_sec = _disk_io.tIO_sec
                 if (callback) {
                     callback(result)
                 }
-                resolve(result);
+                resolve(result)
             }
-        });
-    });
+        })
+    })
 }
 
-exports.disksIO = disksIO;
+exports.disksIO = disksIO

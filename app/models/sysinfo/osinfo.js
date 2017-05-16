@@ -1,14 +1,14 @@
-const os = require('os');
-const exec = require('child_process').exec;
-const fs = require('fs');
-const util = require('./util');
+const os = require('os')
+const exec = require('child_process').exec
+const fs = require('fs')
+const util = require('./util')
 
-var _platform = os.type();
+var _platform = os.type()
 
-const _linux = (_platform == 'Linux');
-const _darwin = (_platform == 'Darwin');
-const _windows = (_platform == 'Windows_NT');
-const NOT_SUPPORTED = 'not supported';
+const _linux = (_platform == 'Linux')
+const _darwin = (_platform == 'Darwin')
+const _windows = (_platform == 'Windows_NT')
+const NOT_SUPPORTED = 'not supported'
 
 // --------------------------
 // Get current time and OS uptime
@@ -17,17 +17,17 @@ function time() {
     return {
         current: Date.now(),
         uptime: os.uptime()
-    };
+    }
 }
 
-exports.time = time;
+exports.time = time
 
 // --------------------------
 // Get logo filename of OS distribution
 
 function getLogoFile(distro) {
-    distro = distro.toString().toLowerCase();
-    var result = 'linux';
+    distro = distro.toString().toLowerCase()
+    var result = 'linux'
     if (_windows) {
         result = 'windows'
     } else if (distro.indexOf('mac os') != -1) {
@@ -87,7 +87,7 @@ function getLogoFile(distro) {
     } else if (distro.indexOf('raspbian') != -1) {
         result = 'raspbian'
     }
-    return result;
+    return result
 }
 
 // --------------------------
@@ -107,7 +107,7 @@ function osInfo(callback) {
                 arch: os.arch(),
                 hostname: os.hostname(),
                 logofile: ''
-            };
+            }
 
             if (_linux) {
 
@@ -121,56 +121,56 @@ function osInfo(callback) {
                      * @property {string}  VERSION_ID
                      * @property {string}  DISTRIB_CODENAME
                      */
-                    var release = {};
-                    var lines = stdout.toString().split('\n');
+                    var release = {}
+                    var lines = stdout.toString().split('\n')
                     lines.forEach(function(line) {
                         if (line.indexOf('=') != -1) {
-                            release[line.split('=')[0].trim().toUpperCase()] = line.split('=')[1].trim();
+                            release[line.split('=')[0].trim().toUpperCase()] = line.split('=')[1].trim()
                         }
-                    });
-                    result.distro = (release.DISTRIB_ID || release.NAME || 'unknown').replace(/"/g, '');
-                    result.logofile = getLogoFile(result.distro);
-                    result.release = (release.DISTRIB_RELEASE || release.VERSION_ID || 'unknown').replace(/"/g, '');
-                    result.codename = (release.DISTRIB_CODENAME || '').replace(/"/g, '');
-                    //}
+                    })
+                    result.distro = (release.DISTRIB_ID || release.NAME || 'unknown').replace(/"/g, '')
+                    result.logofile = getLogoFile(result.distro)
+                    result.release = (release.DISTRIB_RELEASE || release.VERSION_ID || 'unknown').replace(/"/g, '')
+                    result.codename = (release.DISTRIB_CODENAME || '').replace(/"/g, '')
+                        //}
                     if (callback) {
                         callback(result)
                     }
-                    resolve(result);
+                    resolve(result)
                 })
             }
             if (_darwin) {
                 exec("sw_vers", function(error, stdout) {
-                    var lines = stdout.toString().split('\n');
+                    var lines = stdout.toString().split('\n')
                     lines.forEach(function(line) {
                         if (line.indexOf('ProductName') != -1) {
-                            result.distro = line.split(':')[1].trim();
-                            result.logofile = getLogoFile(result.distro);
+                            result.distro = line.split(':')[1].trim()
+                            result.logofile = getLogoFile(result.distro)
                         }
-                        if (line.indexOf('ProductVersion') != -1) result.release = line.split(':')[1].trim();
-                    });
+                        if (line.indexOf('ProductVersion') != -1) result.release = line.split(':')[1].trim()
+                    })
                     if (callback) {
                         callback(result)
                     }
-                    resolve(result);
+                    resolve(result)
                 })
             }
             if (_windows) {
-                result.logofile = getLogoFile();
-                result.release = result.kernel;
+                result.logofile = getLogoFile()
+                result.release = result.kernel
                 exec("wmic os get Caption", function(error, stdout) {
-                    result.distro = result.codename = stdout.slice(stdout.indexOf('\r\n') + 2).trim();
+                    result.distro = result.codename = stdout.slice(stdout.indexOf('\r\n') + 2).trim()
                     if (callback) {
                         callback(result)
                     }
-                    resolve(result);
-                });
+                    resolve(result)
+                })
             }
-        });
-    });
+        })
+    })
 }
 
-exports.osInfo = osInfo;
+exports.osInfo = osInfo
 
 function versions(callback) {
     return new Promise((resolve) => {
@@ -182,54 +182,54 @@ function versions(callback) {
                 npm: '',
                 pm2: '',
                 openssl: process.versions.openssl
-            };
-            var lines = [];
+            }
+            var lines = []
             exec("npm -v", function(error, stdout) {
                 if (!error) {
-                    result.npm = stdout.toString().split('\n')[0];
+                    result.npm = stdout.toString().split('\n')[0]
                 }
                 exec("pm2 -v", function(error, stdout) {
                     if (!error) {
-                        lines = stdout.toString().split('\n');
+                        lines = stdout.toString().split('\n')
                         if (lines.length >= 2) {
-                            result.pm2 = lines[lines.length - 2];
+                            result.pm2 = lines[lines.length - 2]
                         }
                     }
                     if (callback) {
                         callback(result)
                     }
-                    resolve(result);
-                });
-            });
-        });
-    });
+                    resolve(result)
+                })
+            })
+        })
+    })
 }
 
-exports.versions = versions;
+exports.versions = versions
 
 function shell(callback) {
     return new Promise((resolve, reject) => {
         process.nextTick(() => {
             if (_windows) {
-                var error = new Error(NOT_SUPPORTED);
+                var error = new Error(NOT_SUPPORTED)
                 if (callback) {
                     callback(NOT_SUPPORTED)
                 }
-                reject(error);
+                reject(error)
             }
 
-            var result = '';
+            var result = ''
             exec("echo $SHELL", function(error, stdout) {
                 if (!error) {
-                    result = stdout.toString().split('\n')[0];
+                    result = stdout.toString().split('\n')[0]
                 }
                 if (callback) {
                     callback(result)
                 }
-                resolve(result);
-            });
-        });
-    });
+                resolve(result)
+            })
+        })
+    })
 }
 
-exports.shell = shell;
+exports.shell = shell
