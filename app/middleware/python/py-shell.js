@@ -21,7 +21,7 @@ function PythonExecution() {
     }
 
     this.getFreq = function() {
-        return new Promise(function(req, res) {
+        return new Promise(function(resolve, reject) {
             var pyshell = new PythonShell.run("cpu_freq.py", { scriptPath: __dirname }, function(err, r) {})
 
             pyshell.on("message", function(message) {
