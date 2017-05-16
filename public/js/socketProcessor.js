@@ -27,37 +27,35 @@ $(document).ready(function() {
         socket.emit("processes", pid)
     })
 
-    socket.emit("overload", function(data) {
-
+    socket.on("overload", function(data) {
+        console.log(data)
     })
 
     socket.on("cpu", function(cpu) {
-
+        console.log(cpu)
     })
 
     socket.on('logical', function(logical) {
-        for (let i = 0; i <= logical.length; i++) {
-
-        }
+        console.log(logical)
     })
 
-    socket.on("memory", function(cpu) {
-
+    socket.on("memory", function(memory) {
+        console.log(memory)
     })
 
-    socket.on("disk", function(cpu) {
-
+    socket.on("disk", function(disk) {
+        console.log(disk)
     })
 
-    socket.on("processes", function(cpu) {
-
+    socket.on("processes", function(processes) {
+        console.log(processes)
     })
 
-    socket.on("network", function(cpu) {
-
+    socket.on("network", function(network) {
+        console.log(network)
     })
 
-    socket.on("gpio", function(cpu) {
+    socket.on("gpio", function(gpio) {
 
     })
 
