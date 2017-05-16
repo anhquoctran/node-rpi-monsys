@@ -4,7 +4,11 @@ function PythonExecution() {
     this.getCpuUsage = function() {
         return new Promise((resolve, reject) => {
             var pyshell = new PythonShell.run("cpu_usage.py", { scriptPath: __dirname }, function(error, result) {
-                (error) ? reject(error): resolve(result)
+                if (error) reject(error)
+                else {
+                    console.log(result)
+                    resolve(result)
+                }
             })
         })
     }

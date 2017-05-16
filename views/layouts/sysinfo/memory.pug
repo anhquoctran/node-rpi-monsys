@@ -69,31 +69,4 @@ block content
 block scripts
 
   script.
-      $(function () {
-          var memory_usage, options;
-
-          memory_usage = {
-              series: [
-                  [23, 29, 24, 40, 25, 24, 35, 12, 35]
-              ]
-          };
-
-          options = {
-              height: 300,
-              showArea: true,
-              showLine: false,
-              showPoint: false,
-              fullWidth: true,
-              low: 0,
-              high: 100,
-              axisX: {
-                  showGrid: false
-              },
-              axisY: {
-                  showGrid: false
-              },
-              lineSmooth: false,
-          };
-
-          new Chartist.Line("#memory-usage-chart", memory_usage, options);
-      })
+      

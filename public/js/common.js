@@ -6,6 +6,10 @@ $(document).ready(function() {
         $(this).text(convertSizeData(parseFloat(text)))
     })
 
+    $("#exporText").click(function(e) {
+
+    })
+
     function convertSizeData(filesize, options) {
         if (0 == filesize) return "0 Bytes"
         var c = 1e3,
@@ -39,10 +43,6 @@ $(document).ready(function() {
             });
         }
     })
-
-    /*-----------------------------------/
-    /*	TOP NAVIGATION AND LAYOUT
-    /*----------------------------------*/
 
     $('.btn-toggle-fullwidth').on('click', function() {
         if (!$('body').hasClass('layout-fullwidth')) {
@@ -85,11 +85,6 @@ $(document).ready(function() {
         }
     });
 
-
-    /*-----------------------------------/
-    /*	SIDEBAR NAVIGATION
-    /*----------------------------------*/
-
     $('.sidebar a[data-toggle="collapse"]').on('click', function() {
         if ($(this).hasClass('collapsed')) {
             $(this).addClass('active');
@@ -104,11 +99,6 @@ $(document).ready(function() {
             wheelStep: 2,
         });
     }
-
-
-    /*-----------------------------------/
-    /*	PANEL FUNCTIONS
-    /*----------------------------------*/
 
     // panel remove
     $('.panel .btn-remove').click(function(e) {
@@ -147,11 +137,6 @@ $(document).ready(function() {
         }
     );
 
-
-    /*-----------------------------------/
-    /*	PANEL SCROLLING
-    /*----------------------------------*/
-
     if ($('.panel-scrolling').length > 0) {
         $('.panel-scrolling .panel-body').slimScroll({
             height: '430px',
@@ -166,10 +151,6 @@ $(document).ready(function() {
         });
     }
 
-    /*-----------------------------------/
-    /*	TODO LIST
-    /*----------------------------------*/
-
     $('.todo-list input').change(function() {
         if ($(this).prop('checked')) {
             $(this).parents('li').addClass('completed');
@@ -177,11 +158,6 @@ $(document).ready(function() {
             $(this).parents('li').removeClass('completed');
         }
     });
-
-
-    /*-----------------------------------/
-    /* TOASTR NOTIFICATION
-    /*----------------------------------*/
 
     if ($('#toastr-demo').length > 0) {
         toastr.options.timeOut = "false";
