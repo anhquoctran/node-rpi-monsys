@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: May 11, 2017 at 11:30 AM
+-- Generation Time: May 16, 2017 at 08:32 AM
 -- Server version: 10.1.19-MariaDB
 -- PHP Version: 5.6.24
 
@@ -26,6 +26,23 @@ DELIMITER $$
 --
 -- Procedures
 --
+DROP PROCEDURE IF EXISTS `procGetActivities`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `procGetActivities` (IN `username` VARCHAR(24))  BEGIN
+	SELECT U.id ID,
+		   U.username,
+           V.isverified Verified,
+           V.createdAt CreatedAt,
+           V.verifiedAt VerifiedAt,
+           V.firstLoginAt FirstLoginAt,
+           V.firstVisitedDashboard FirstVisitedDashboard,
+           V.hasUploadedAvatar HasFirstAvatar
+    FROM rpi_user U
+    LEFT JOIN rpi_verification V
+    ON V.idUser = U.id
+    WHERE U.username = username COLLATE utf8_general_ci;
+END$$
+
+DROP PROCEDURE IF EXISTS `procGetAllUsers`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `procGetAllUsers` ()  SELECT U.id ID, 
 	   U.username Username,
        U.fullname Fullname,
@@ -46,16 +63,37 @@ LEFT JOIN rpi_avatar A
 ON U.id = A.userId 
 LEFT JOIN rpi_roles R 
 ON U.roleId = R.id
-RIGHT JOIN rpi_verification V
-ON V.idUser = U.id
-WHERE A.isdeleted = 0
+LEFT JOIN rpi_verification V
+ON U.id = V.idUser
+WHERE U.isdeleted = 0
 AND A.inused = 1 
-AND U.isdeleted = 0$$
+AND A.isdeleted = 0$$
 
+DROP PROCEDURE IF EXISTS `procGetNotificationOfUser`$$
+CREATE DEFINER=`root`@`%` PROCEDURE `procGetNotificationOfUser` (IN `username` VARCHAR(24))  BEGIN
+	SELECT U.id ID, 
+		   U.username Username, 
+		   U.fullname Fullname,
+           N.id IDNotification,
+           N.content Content,
+           N.datetime_activity NotiDateTime,
+           N.isread IsRead
+	FROM   rpi_user U
+		   LEFT JOIN rpi_avatar A
+		   ON U.id = A.userId
+		   LEFT JOIN rpi_roles R
+		   ON U.roleId = R.id
+           LEFT JOIN rpi_notifications N
+           ON U.id = N.idUser
+    WHERE U.username = username COLLATE utf8_general_ci;
+END$$
+
+DROP PROCEDURE IF EXISTS `procGetOneUsers`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `procGetOneUsers` (IN `username` VARCHAR(24))  BEGIN
 	SELECT U.id ID,
 		   U.username Username, 
-           U.fullname Fullname, 
+           U.fullname Fullname,
+           U.email Email,
            U.birthdate Birthdate, 
            U.hometown HomeTown, 
            U.wherenow CurrentCity, 
@@ -68,20 +106,20 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `procGetOneUsers` (IN `username` VAR
            V.isverified Verified,
            V.createdAt CreateAt,
            V.verifiedAt VerifiedAt,
-           V.firstLogin FirstLogin,
+           V.firstLoginAt FirstLogin,
            V.firstVisitedDashboard FirstVisitedDashBoard,
            V.hasUploadedAvatar HashUploadedAvatar
-    FROM rpi_user U LEFT JOIN rpi_roles R
-		ON U.roleId = R.id 
-        RIGHT JOIN rpi_avatar A
+    FROM rpi_user U 
+		LEFT JOIN rpi_roles R
+		ON R.id = U.roleId
+        LEFT JOIN rpi_avatar A
 		ON A.userId = U.id
-		RIGHT JOIN rpi_verification V
+		LEFT JOIN rpi_verification V
 		ON V.idUser = U.id
-    WHERE U.username = username 
-		AND A.isdeleted = 0 
-		AND U.isdeleted = 0;
+    WHERE U.username = username COLLATE utf8_unicode_ci;
 END$$
 
+DROP PROCEDURE IF EXISTS `procGetRelevantInformationOfUser`$$
 CREATE DEFINER=`root`@`%` PROCEDURE `procGetRelevantInformationOfUser` (IN `username` VARCHAR(24))  BEGIN
 	SELECT U.id ID, 
 		   U.username Username, 
@@ -96,6 +134,7 @@ CREATE DEFINER=`root`@`%` PROCEDURE `procGetRelevantInformationOfUser` (IN `user
     WHERE U.username = username;
 END$$
 
+DROP PROCEDURE IF EXISTS `procGetSessionFromDateToDate`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `procGetSessionFromDateToDate` (IN `fromDate` DATE, IN `toDate` DATE)  BEGIN
 	SELECT S.id ID, S.name SessionName, S.key_data KeyData, S.datetime DateTimeRequest, S.client IP, S.mac MacAddress 
     FROM rpi_sessions S
@@ -104,6 +143,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `procGetSessionFromDateToDate` (IN `
     and toDate;
 END$$
 
+DROP PROCEDURE IF EXISTS `procGetUserByUsernameOrEmail`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `procGetUserByUsernameOrEmail` (IN `usernameOrEmail` VARCHAR(60), IN `password` VARCHAR(1024))  NO SQL
 SELECT U.id ID,
 	   U.username Username,
@@ -118,6 +158,7 @@ AND U.password LIKE password
 AND U.isdeleted = 0
 AND U.isbanned = 0$$
 
+DROP PROCEDURE IF EXISTS `procGetUserIfAdmin`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `procGetUserIfAdmin` ()  BEGIN
 	SELECT U.id ID,
 		   U.username Username, 
@@ -143,6 +184,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `procGetUserIfAdmin` ()  BEGIN
 	WHERE U.roleId = 1;
 END$$
 
+DROP PROCEDURE IF EXISTS `procMarkAsRead`$$
+CREATE DEFINER=`root`@`%` PROCEDURE `procMarkAsRead` (IN `id` INT)  BEGIN
+	UPDATE rpi_notifications SET isread = 1 WHERE id = id;
+END$$
+
 DELIMITER ;
 
 -- --------------------------------------------------------
@@ -150,7 +196,10 @@ DELIMITER ;
 --
 -- Table structure for table `rpi_avatar`
 --
+-- Creation: May 10, 2017 at 09:35 AM
+--
 
+DROP TABLE IF EXISTS `rpi_avatar`;
 CREATE TABLE IF NOT EXISTS `rpi_avatar` (
   `id` int(11) NOT NULL,
   `filename` varchar(40) COLLATE utf8_unicode_ci NOT NULL,
@@ -165,12 +214,19 @@ CREATE TABLE IF NOT EXISTS `rpi_avatar` (
   UNIQUE KEY `filename` (`filename`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+--
+-- RELATIONS FOR TABLE `rpi_avatar`:
+--
+
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `rpi_menu`
 --
+-- Creation: May 10, 2017 at 09:35 AM
+--
 
+DROP TABLE IF EXISTS `rpi_menu`;
 CREATE TABLE IF NOT EXISTS `rpi_menu` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(16) COLLATE utf8_unicode_ci NOT NULL,
@@ -181,182 +237,54 @@ CREATE TABLE IF NOT EXISTS `rpi_menu` (
   KEY `fk_rpi_menu_rpi_roles1_idx` (`rpi_roles_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+--
+-- RELATIONS FOR TABLE `rpi_menu`:
+--
+
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `rpi_notifications`
 --
+-- Creation: May 13, 2017 at 09:16 AM
+--
 
+DROP TABLE IF EXISTS `rpi_notifications`;
 CREATE TABLE IF NOT EXISTS `rpi_notifications` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `content` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
-  `datetime_activity` int(11) NOT NULL,
+  `datetime_activity` datetime NOT NULL,
   `idUser` int(11) NOT NULL,
   `isread` tinyint(1) NOT NULL DEFAULT '0',
   `rpi_user_id` int(10) UNSIGNED NOT NULL,
   `rpi_user_rpi_roles_id` int(11) NOT NULL,
   PRIMARY KEY (`id`,`rpi_user_id`,`rpi_user_rpi_roles_id`),
   KEY `fk_rpi_notifications_rpi_user1_idx` (`rpi_user_id`,`rpi_user_rpi_roles_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
--- --------------------------------------------------------
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Table structure for table `rpi_oauth_client`
+-- RELATIONS FOR TABLE `rpi_notifications`:
 --
-
-CREATE TABLE IF NOT EXISTS `rpi_oauth_client` (
-  `client_id` char(40) COLLATE utf8_unicode_ci NOT NULL,
-  `client_secret` char(40) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `client_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `auto_approve` tinyint(4) DEFAULT NULL,
-  PRIMARY KEY (`client_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `rpi_oauth_client_endpoint`
---
-
-CREATE TABLE IF NOT EXISTS `rpi_oauth_client_endpoint` (
-  `endpoint_id` int(11) NOT NULL AUTO_INCREMENT,
-  `client_id` char(40) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `redirect_uri` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `rpi_oauth_client_client_id` char(40) COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`endpoint_id`,`rpi_oauth_client_client_id`),
-  KEY `fk_rpi_oauth_client_endpoint_rpi_oauth_client_idx` (`rpi_oauth_client_client_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `rpi_oauth_client_user`
---
-
-CREATE TABLE IF NOT EXISTS `rpi_oauth_client_user` (
-  `client_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  PRIMARY KEY (`client_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `rpi_oauth_redirect`
---
-
-CREATE TABLE IF NOT EXISTS `rpi_oauth_redirect` (
-  `session_id` int(11) NOT NULL AUTO_INCREMENT,
-  `redirect_uri` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `rpi_oauth_session_session_id` int(11) NOT NULL,
-  `rpi_oauth_session_rpi_oauth_client_client_id` char(40) COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`session_id`,`rpi_oauth_session_session_id`,`rpi_oauth_session_rpi_oauth_client_client_id`),
-  KEY `fk_rpi_oauth_redirect_rpi_oauth_session1_idx` (`rpi_oauth_session_session_id`,`rpi_oauth_session_rpi_oauth_client_client_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `rpi_oauth_scope`
---
-
-CREATE TABLE IF NOT EXISTS `rpi_oauth_scope` (
-  `scope_id` smallint(6) NOT NULL,
-  `scope_key` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `scope_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `scope_description` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`scope_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `rpi_oauth_sesion_token`
---
-
-CREATE TABLE IF NOT EXISTS `rpi_oauth_sesion_token` (
-  `session_token_id` int(11) NOT NULL AUTO_INCREMENT,
-  `session_id` int(11) DEFAULT NULL,
-  `acess_token` char(40) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `acess_token_expires` int(11) DEFAULT NULL,
-  `rpi_oauth_session_session_id` int(11) NOT NULL,
-  `rpi_oauth_session_rpi_oauth_client_client_id` char(40) COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`session_token_id`,`rpi_oauth_session_session_id`,`rpi_oauth_session_rpi_oauth_client_client_id`),
-  KEY `fk_rpi_oauth_sesion_token_rpi_oauth_session1_idx` (`rpi_oauth_session_session_id`,`rpi_oauth_session_rpi_oauth_client_client_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `rpi_oauth_session`
---
-
-CREATE TABLE IF NOT EXISTS `rpi_oauth_session` (
-  `session_id` int(11) NOT NULL AUTO_INCREMENT,
-  `client_id` char(40) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `owner_type` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `owner_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `stage` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `first_requested` int(11) DEFAULT NULL,
-  `last_updated` int(11) DEFAULT NULL,
-  `rpi_oauth_client_client_id` char(40) COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`session_id`,`rpi_oauth_client_client_id`),
-  KEY `fk_rpi_oauth_session_rpi_oauth_client1_idx` (`rpi_oauth_client_client_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `rpi_oauth_session_authcode`
---
-
-CREATE TABLE IF NOT EXISTS `rpi_oauth_session_authcode` (
-  `session_id` int(11) NOT NULL AUTO_INCREMENT,
-  `auth_code` char(40) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `rpi_oauth_session_session_id` int(11) NOT NULL,
-  `rpi_oauth_session_rpi_oauth_client_client_id` char(40) COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`session_id`,`rpi_oauth_session_session_id`,`rpi_oauth_session_rpi_oauth_client_client_id`),
-  KEY `fk_rpi_oauth_session_authcode_rpi_oauth_session1_idx` (`rpi_oauth_session_session_id`,`rpi_oauth_session_rpi_oauth_client_client_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `rpi_oauth_session_token_refresh`
---
-
-CREATE TABLE IF NOT EXISTS `rpi_oauth_session_token_refresh` (
-  `session_token_id` int(11) NOT NULL AUTO_INCREMENT,
-  `refresh_token` char(40) COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`session_token_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `rpi_oauth_session_token_scope`
---
-
-CREATE TABLE IF NOT EXISTS `rpi_oauth_session_token_scope` (
-  `session_token_scope_id` bigint(20) NOT NULL,
-  `session_token_id` int(11) DEFAULT NULL,
-  `scope_id` smallint(6) DEFAULT NULL,
-  PRIMARY KEY (`session_token_scope_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `rpi_roles`
 --
+-- Creation: May 06, 2017 at 03:27 AM
+--
 
+DROP TABLE IF EXISTS `rpi_roles`;
 CREATE TABLE IF NOT EXISTS `rpi_roles` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `rolename` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
   `description` varchar(30) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- RELATIONS FOR TABLE `rpi_roles`:
+--
 
 --
 -- Dumping data for table `rpi_roles`
@@ -371,7 +299,10 @@ INSERT INTO `rpi_roles` (`id`, `rolename`, `description`) VALUES
 --
 -- Table structure for table `rpi_sessions`
 --
+-- Creation: May 04, 2017 at 02:27 PM
+--
 
+DROP TABLE IF EXISTS `rpi_sessions`;
 CREATE TABLE IF NOT EXISTS `rpi_sessions` (
   `id` int(11) NOT NULL,
   `name` varchar(60) COLLATE utf8_unicode_ci NOT NULL,
@@ -384,12 +315,39 @@ CREATE TABLE IF NOT EXISTS `rpi_sessions` (
   UNIQUE KEY `token` (`token`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+--
+-- RELATIONS FOR TABLE `rpi_sessions`:
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `rpi_settings`
+--
+-- Creation: May 15, 2017 at 06:44 AM
+--
+
+DROP TABLE IF EXISTS `rpi_settings`;
+CREATE TABLE IF NOT EXISTS `rpi_settings` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `lang` char(2) NOT NULL,
+  `notification` tinyint(4) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- RELATIONS FOR TABLE `rpi_settings`:
+--
+
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `rpi_user`
 --
+-- Creation: May 04, 2017 at 03:50 PM
+--
 
+DROP TABLE IF EXISTS `rpi_user`;
 CREATE TABLE IF NOT EXISTS `rpi_user` (
   `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `username` varchar(24) COLLATE utf8_unicode_ci NOT NULL,
@@ -407,25 +365,51 @@ CREATE TABLE IF NOT EXISTS `rpi_user` (
   `isdeleted` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- RELATIONS FOR TABLE `rpi_user`:
+--
+
+--
+-- Dumping data for table `rpi_user`
+--
+
+INSERT INTO `rpi_user` (`id`, `username`, `password`, `fullname`, `email`, `birthdate`, `phone`, `hometown`, `wherenow`, `bio`, `description`, `roleId`, `isbanned`, `isdeleted`) VALUES
+(1, 'anhquoctran', 'E3142133E67A1E73802DE2502FCDABAB9BBF0D79C6DE4BD9F76201F42955DEEA6C7A3AC88CDCFF2C9733E6651F5A34D1F22CEB9EF7A6CC8D4CB5F89703046309', 'Anh Quoc Tran', 'aquoc.hue@outlook.com', '1996-08-19', '0918910735', 'Hue, Vietnam', 'Hue, Vietnam', 'Nothing to describe', NULL, 1, 0, 0);
 
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `rpi_verification`
 --
+-- Creation: May 13, 2017 at 09:55 AM
+--
 
+DROP TABLE IF EXISTS `rpi_verification`;
 CREATE TABLE IF NOT EXISTS `rpi_verification` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `idUser` int(11) NOT NULL,
   `isverified` tinyint(1) NOT NULL DEFAULT '0',
-  `createdAt` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `verifiedAt` datetime NOT NULL,
   `firstLoginAt` datetime NOT NULL,
   `firstVisitedDashboard` datetime NOT NULL,
   `hasUploadedAvatar` datetime NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `idUser_UNIQUE` (`idUser`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- RELATIONS FOR TABLE `rpi_verification`:
+--
+
+--
+-- Dumping data for table `rpi_verification`
+--
+
+INSERT INTO `rpi_verification` (`id`, `idUser`, `isverified`, `createdAt`, `verifiedAt`, `firstLoginAt`, `firstVisitedDashboard`, `hasUploadedAvatar`) VALUES
+(1, 1, 1, '2017-05-15 02:37:49', '2017-05-14 00:00:00', '2017-05-14 18:14:31', '2017-05-14 19:31:13', '0000-00-00 00:00:00');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
