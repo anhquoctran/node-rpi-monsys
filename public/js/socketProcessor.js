@@ -32,7 +32,7 @@ $(document).ready(function() {
         console.log(data)
     })
 
-    Highcharts.chart(_cpuAdmin, {
+    Highcharts.chart("cpu-usage-chart", {
         chart: {
             zoomType: 'x'
         },
