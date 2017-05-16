@@ -32,7 +32,7 @@ $(document).ready(function() {
         console.log(data)
     })
 
-    Hightchart.chart(_cpuAdmin, {
+    Hightcharts.chart(_cpuAdmin, {
         chart: {
             zoomType: 'x'
         },
