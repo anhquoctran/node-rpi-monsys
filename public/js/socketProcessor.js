@@ -10,13 +10,7 @@ $(document).ready(function() {
         _killprocBtn = $("#killprocBtn"),
         _networkIo = $("#netioChart")
 
-    socket.on("connected", function() {
-        socket.emit("cpu")
-        socket.emit("memory")
-        socket.emit("disk")
-        socket.emit("network")
-        socket.emit("gpio")
-    })
+    socket.on("connected", function() {})
 
     socket.on("test", function(data) {
         console.log(data)
