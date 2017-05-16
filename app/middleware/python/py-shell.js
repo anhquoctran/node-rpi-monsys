@@ -4,7 +4,7 @@ function PythonExecution() {
 
     this.getCpuUsage = function() {
         return new Promise((resolve, reject) => {
-            var pyshell = new PythonShell("cpu_usage.py")
+            var pyshell = new PythonShell(__dirname + "cpu_usage.py")
             pyshell.on('message', function(message) {
                 resolve(message)
             })
@@ -13,7 +13,7 @@ function PythonExecution() {
 
     this.getDiskIo = function() {
         return new Promise((resolve, reject) => {
-            var pyshell = new PythonShell('disk_io.py')
+            var pyshell = new PythonShell(__dirname + 'disk_io.py')
             pyshell.on('message', function(message) {
                 resolve(message)
             })
@@ -22,7 +22,7 @@ function PythonExecution() {
 
     this.getNetworkTraffic = function() {
         return new Promise((resolve, reject) => {
-            var pyshell = new PythonShell("network_traffic.py")
+            var pyshell = new PythonShell(__dirname + "network_traffic.py")
 
             pyshell.on('message', function(message) {
                 resolve(message)
@@ -32,7 +32,7 @@ function PythonExecution() {
 
     this.getMemoryUsage = function() {
         return new Promise((resolve, reject) => {
-            var pyshell = new PythonShell("ram_usage.py")
+            var pyshell = new PythonShell(__dirname + "ram_usage.py")
 
             pyshell.on('message', function(message) {
                 resolve(message)
@@ -44,6 +44,7 @@ function PythonExecution() {
         return new Promise((resolve, reject) => {
             var options = {
                 mode: 'text',
+                scriptPath: __dirname,
                 pythonOptions: ['-p'],
                 args: [pid]
             };
@@ -58,7 +59,7 @@ function PythonExecution() {
 
     this.getGpio = function() {
         return new Promise((resolve, reject) => {
-            var pyshell = new PythonShell('gpio_usage.py')
+            var pyshell = new PythonShell(__dirname + 'gpio_usage.py')
 
             pyshell.on("message", function(message) {
                 resolve(message)
