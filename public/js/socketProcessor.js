@@ -10,8 +10,8 @@ $(document).ready(function() {
         _killprocBtn = $("#killprocBtn"),
         _networkIo = $("#netioChart")
 
-    socket.on("connected", function() {
-        console.log("OK")
+    socket.on("connected", function(message) {
+        console.log(message)
     })
 
     socket.on("test", function(data) {
