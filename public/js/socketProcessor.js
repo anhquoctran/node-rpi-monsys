@@ -5,7 +5,6 @@ $(document).ready(function() {
     var _cpuAdmin = $("#cpu-usage-chart"),
         _cpuFreq = $("#cpu-freq"),
         _cpuPercent = $("#cpu-percent"),
-        _memPercent = $("#memPercentChart"),
         _diskIo = $("#diskIoChart"),
         _killprocBtn = $("#killprocBtn"),
         _networkIo = $("#netioChart")
@@ -24,11 +23,19 @@ $(document).ready(function() {
             return $(this).closest('tr').find('td:nth-child(2)').text();
         }).get();
 
-        socket.emit("processes", pid)
+        socket.emit("processes", arr)
     });
 
     socket.on("overload", function(data) {
         console.log(data)
+    })
+
+    socket.on("freq", function(data) {
+        _cpuFreq.text(data)
+    })
+
+    socket.on("cpu", function(data) {
+        _cpuPercent.text(data)
     })
 
     Highcharts.chart("cpu-usage-chart", {
