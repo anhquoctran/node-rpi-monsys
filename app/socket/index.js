@@ -16,7 +16,11 @@ function SysInfoSocketHandle(server) {
             }
         })
 
-        socket.emit("test", "test only")
+        socket.emit("start", {
+            status: "OK"
+        })
+
+        socket.emit("connected", "Start")
 
         cpu.getUsage(function(result) {
             console.log(result)
