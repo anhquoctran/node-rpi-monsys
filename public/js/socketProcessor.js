@@ -12,6 +12,7 @@ $(document).ready(function() {
 
     socket.on("connected", function(message) {
         console.log(message)
+        socket.emit("cpu")
     })
 
     socket.on("test", function(data) {

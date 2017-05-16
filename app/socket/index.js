@@ -22,10 +22,14 @@ function SysInfoSocketHandle(server) {
 
         socket.emit("connected", "Start")
 
-        cpu.getUsage(function(result) {
-            console.log(result)
-            socket.emit("cpu", result)
+        socket.on("cpu", function() {
+            console.log("cpu")
+            cpu.getUsage(function(result) {
+                console.log(result)
+                socket.emit("cpu", result)
+            })
         })
+
 
         mem.getMemory(function(result) {
             socket.emit("memory", result)
