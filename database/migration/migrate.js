@@ -98,6 +98,8 @@ function Migrate() {
         })
     }
 
+    this.check
+
     this.getNotification = function(username) {
         return new Promise(function(resolve, reject) {
             mysql.connector.query("call procGetNotificationOfUser(?)", username, function(error, result) {

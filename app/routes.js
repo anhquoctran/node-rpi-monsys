@@ -262,12 +262,9 @@ module.exports = function Route(app, passport) {
             }).catch(error => console.error(error))
     })
 
-    app.get("/demo/:a/:b", function(req, res) {
-        console.log(req.params)
-    })
-
     app.get('/admin', function(req, res) {
         if (req.session.user) {
+
             Promise.all([
                     sysinfo.mem(), sysinfo.disksIO(), sysinfo.networkConnections(), sysinfo.processes(), migrator.getOneUser(req.session.user.username), migrator.getNotification(req.session.user.username), sysinfo.cpu()
                 ])
