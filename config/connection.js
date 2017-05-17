@@ -14,7 +14,7 @@ module.exports = {
     "MySqlDbConnection": {
         host: '192.168.88.13',
         user: 'root',
-        password: 'anhquoc1995@@',
+        password: 'anhquoc1996@@',
         database: "rpi-monsys",
         multipleStatements: true,
         charset: 'utf8_general_ci',
