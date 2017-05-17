@@ -130,11 +130,9 @@ block content
               li
                 a(href='#home', data-toggle='tab')
                   | Account 
-                  span.glyphicon.glyphicon-home
               li
                 a(href='#info', data-toggle='tab')
                   | PROFILE 
-                  span.glyphicon.glyphicon-plus
             .tab-content
               #home.tab-pane
                 form.form-auth-small(action='index.php')
@@ -148,23 +146,26 @@ block content
                     label.control-label(for='password') Password
                     input#edit-password.form-control(type='password', placeholder='Password')
                   .form-group
-                    label.control-label(for='repeat-password') Password
+                    label.control-label(for='repeat-password') Repeat Password
                     input#edit-repeat-password.form-control(type='repeat-password', placeholder='Password')
                   button.btn.btn-primary.btn-lg.btn-block(type='submit') Update
-              #info.tab-pane Profile
+              #info.tab-pane
                 form.form-auth-small(action='index.php')
                   .form-group
-                    label.control-label(for='username') Username
-                    input#edit-email.form-control(type='username', value='', placeholder='Username')
+                    label.control-label(for='fullname') Full name
+                    input#edit-full.form-control(type='text', value='', placeholder='Fullname')
                   .form-group
-                    label.control-label(for='email') Email
-                    input#edit-email.form-control(type='email', value='', placeholder='Email')
+                    label.control-label(for='birthdate') Birthdate
+                    input#edit-birthdate.form-control(type='text', value='', placeholder='birthday')
                   .form-group
-                    label.control-label(for='password') Password
-                    input#edit-password.form-control(type='password', placeholder='Password')
+                    label.control-label(for='hometown') Hometown
+                    input#edit-hometown.form-control(type='text', placeholder='Hometown')
                   .form-group
-                    label.control-label(for='repeat-password') Password
-                    input#edit-repeat-password.form-control(type='repeat-password', placeholder='Password')
+                    label.control-label(for='current-city') Current city
+                    input#edit-current-city.form-control(type='text', placeholder='Current city')
+                  .form-group
+                    label.control-label(for='mobile') Mobile
+                    input#edit-mobile.form-control(type='text', placeholder='Mobile')
                   button.btn.btn-primary.btn-lg.btn-block(type='submit') Update
 
           // END RIGHT COLUMN
