@@ -12,9 +12,9 @@ module.exports = {
     //If you want to use MySQL Server, comment out of here
 
     "MySqlDbConnection": {
-        host: '192.168.88.11',
+        host: '203.113.167.3',
         user: 'root',
-        password: 'anhquoc1996@@',
+        password: '@Hueic2016',
         database: "rpi-monsys",
         multipleStatements: true,
         charset: 'utf8_general_ci',

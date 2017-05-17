@@ -31,7 +31,7 @@ html(lang='en')
                 fieldset
                   .form-top
                     .form-top-left
-                      h3 Step 1 / 2
+                      h3 #{title}
                       p Set up your account:
                     .form-top-right
                       i.fa.fa-key
@@ -49,24 +49,6 @@ html(lang='en')
                       label(for='form-repeat-password') Repeat password
                       input#form-repeat-password.form-repeat-password.form-control(type='password', name='form-repeat-password', placeholder='Repeat password...')
                     .pull-right
-                      button.btn.btn-next(type='button') Next
-                    .clearfix
-                fieldset
-                  .form-top
-                    .form-top-left
-                      h3 Step 2 / 2
-                      p About:
-                    .form-top-right
-                      i.fa.fa-user
-                  .form-bottom
-                    .form-group
-                      label(for='form-fullname') Full name
-                      input#form-fullname.form-fullname.form-control(type='text', name='form-fullname', placeholder='Full name...')
-                    .form-group
-                      label(for='form-about-yourself') Avatar
-                      textarea#form-about-yourself.form-about-yourself.form-control(name='form-about-yourself', placeholder='About yourself...')
-                    .pull-right
-                      button.btn.btn-previous(type='button') Previous
                       button.btn(type='submit') Create and account
                     .clearfix
     // Javascript
