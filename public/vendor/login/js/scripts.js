@@ -152,6 +152,8 @@ jQuery(document).ready(function() {
 
     		if( !validateEmail(emailAddress) ) {
 				e.preventDefault();
+				$("label[for=form-email] > span").html( "" );
+				$("label[for=form-email]").append( "<span class='pull-right'>Your email invalid!.</span>" );
     			$(this).addClass('input-error');
 			}
 			else {
