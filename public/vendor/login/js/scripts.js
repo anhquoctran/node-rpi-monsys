@@ -128,7 +128,7 @@ jQuery(document).ready(function() {
 
 		let userName = $("#form-username").val();
 
-		$(this).find('input[name="form-username"]').each(function() {
+		$(this).find('input[name="username"]').each(function() {
 
     		if( userName.length < 6 && userName.length < 24 ) {
 				e.preventDefault();
@@ -143,7 +143,7 @@ jQuery(document).ready(function() {
 
 		let emailAddress = $("#form-email").val();
 
-		$(this).find('input[name="form-email"]').each(function() {
+		$(this).find('input[name="email"]').each(function() {
 
 			function validateEmail($email) {
 				var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
