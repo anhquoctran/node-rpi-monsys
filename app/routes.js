@@ -499,14 +499,15 @@ module.exports = function Route(app, passport) {
     app.get('/admin/filesystem', function(req, res) {
         if (req.session.user) {
             Promise.all([
-                    sysinfo.fsSize(), migrator.getOneUser(req.session.user.username), migrator.getNotification(req.session.user.username)
+                    sysinfo.fsSize(), sysinfo.fsStats(), migrator.getOneUser(req.session.user.username), migrator.getNotification(req.session.user.username)
                 ])
                 .then(data => {
                     res.render("layouts/sysinfo/filesytem", {
                         title: "Linux Filesystem Statistic",
                         filesystem: data[0],
-                        user: data[1][0],
-                        notification: data[2]
+                        fs_stat: data[1],
+                        user: data[2][0],
+                        notification: data[3]
                     })
                 })
                 .catch(error => console.error(error))
