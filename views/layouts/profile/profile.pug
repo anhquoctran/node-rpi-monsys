@@ -69,7 +69,7 @@ block content
           .profile-right
             h4.heading User tool
             // AWARDS
-            .awards
+            //- .awards
               .row(style='text-align: center; align-content: center')
                 .col-md-3.col-sm-6
                   .award-item
@@ -91,11 +91,11 @@ block content
                       a(href='/profile/edit/' + user.username) Edit profile
             // END AWARDS
             // TABBED CONTENT
-            .custom-tabs-line.tabs-line-bottom.left-aligned
+            //- .custom-tabs-line.tabs-line-bottom.left-aligned
               ul.nav(role='tablist')
                 li.active
                   a(href='#tab-bottom-left1', role='tab', data-toggle='tab') Your First Activities
-            .tab-content
+            //- .tab-content
               #tab-bottom-left1.tab-pane.fade.in.active
                 ul.list-unstyled.activity-timeline
                   li
@@ -114,16 +114,34 @@ block content
                       span.timeago.timestamp(datetime=first_activities.FirstLoginAt)
                   li
                     i.fa.fa-check.activity-icon
-                  if first_activities.Verified == true
-                    p.dt Account has been verified at #{first_activities.VerifiedAt}
-                      span.timeago.timestamp(datetime=first_activities.VerifiedAt)
-                  else
-                    p Your account haven't been confirmed. Please check your email to verify this account
+                    if first_activities.Verified == true
+                      p.dt Account has been verified at #{first_activities.VerifiedAt}
+                        span.timeago.timestamp(datetime=first_activities.VerifiedAt)
+                    else
+                      p Your account haven't been confirmed. Please check your email to verify this account
                   li
                     i.fa.fa-check.activity-icon
                     p.dt Joined on #{first_activities.CreatedAt} 
                       span.timeago.timestamp(datetime=first_activities.CreatedAt)
                 .margin-top-30.text-center
             // END TABBED CONTENT
+
+            form.form-auth-small(action='index.php')
+              .form-group
+                label.control-label.sr-only(for='signin-email') Email or username
+                input#signin-email.form-control(type='email', value='', placeholder='Email or username')
+              .form-group
+                label.control-label.sr-only(for='signin-password') Password
+                input#signin-password.form-control(type='password', placeholder='Password')
+              .form-group.clearfix
+                label.fancy-checkbox.element-left
+                  input(type='checkbox')
+                  span Remember me
+              button.btn.btn-primary.btn-lg.btn-block(type='submit') LOGIN
+              .bottom
+                span.helper-text
+                  i.fa.fa-lock
+                  a(href='#') Forgot password?
+
           // END RIGHT COLUMN
   // END MAIN CONTENT
