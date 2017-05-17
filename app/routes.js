@@ -45,7 +45,7 @@ module.exports = function Route(app, passport) {
                         req.session.user = data
                         res.redirect("/admin?login=success&token=" + require("../app/middleware/security").hash(datetime.getDateTimeNow()))
                     } else {
-                        redirect("/login?login=error")
+                        res.redirect("/login?login=error")
                     }
                 })
                 .catch(error => console.error(error))
