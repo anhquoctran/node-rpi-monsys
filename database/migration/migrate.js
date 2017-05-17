@@ -19,7 +19,7 @@ function Migrate() {
                             else {
                                 if (result.affectedRows >= 0) {
                                     mysql.connector.query("INSERT INTO rpi_verification(idUser, isverified, createdAt) VALUES(?, ?, ?)", [result.insertId, 0, getDateTimeLocal()], function(error, response) {
-                                        (error) ? reject(error): resolve((response.affectedRows >= 0) ? true : false)
+                                        (error) ? reject(error): resolve((response.affectedRows >= 0) ? result.insertId : null)
                                     })
                                 } else {
                                     reject(false)
@@ -37,7 +37,7 @@ function Migrate() {
     this.getUserById = function(id) {
         return new Promise(function(resolve, reject) {
             mysql.connector.query("select * from rpi_user where id = ?", id, function(error, result) {
-                (error) ? reject(error): resolve((result.length > 0) ? true : false)
+                (error) ? reject(error): resolve((result.length > 0) ? result[0] : null)
             })
         })
     }

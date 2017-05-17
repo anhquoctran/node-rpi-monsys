@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import psutil
 import sys
+import time
 
 # Return Virtual Memory Usage as a JSON
 def get_memory_percentage():
@@ -8,6 +9,7 @@ def get_memory_percentage():
         r = psutil.virtual_memory().percent
         print(r)
         sys.stdout.flush()
+        time.sleep(1)
 
 if __name__ == '__main__':
     get_memory_percentage()

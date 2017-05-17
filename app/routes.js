@@ -60,13 +60,37 @@ module.exports = function Route(app, passport) {
 
     var upload = multer({ storage: storage })
 
-    app.post('/register', upload.single("avatar"), function(req, res) {
+    app.post('/register', function(req, res) {
         var username = req.body.username,
             email = req.body.email,
             fullname = req.body.fullname,
             password = req.body.password
         if (!username || !password || !email || !fullname) {
 
+        } else {
+            migrator.register(username, password, email, fullname)
+                .then(data => {
+                    if (data) {
+                        var id = parseInt(data)
+                        migrator.getUserById(id)
+                            .then(data => {
+                                if (data) {
+                                    migrator.getUserByEmail(data.email)
+                                        .then(r => {
+                                            if (r) {
+                                                req.session.user = r
+                                                res.redirect("/admin")
+                                            }
+                                        }).catch(error => console.error(error))
+                                } else {
+                                    res.redirect('/login')
+                                }
+                            }).console.error(error => console.error(error))
+                    }
+                })
+                .catch(error => {
+                    console.error(error);
+                })
         }
 
     })

@@ -1,5 +1,5 @@
 import psutil
-import sys
+import sys, time
 
 def get_disk_io_stat():
     while True:
@@ -9,6 +9,7 @@ def get_disk_io_stat():
         result2 = map(int, result)
         print(result2)
         sys.stdout.flush()
+        time.sleep(1)
 
 if __name__ == '__main__':
     get_disk_io_stat()

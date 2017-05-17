@@ -1,5 +1,5 @@
 import psutil
-import sys
+import sys,time
 
 def get_network_traffic():
     
@@ -12,6 +12,7 @@ def get_network_traffic():
         data2 = map(int, data)
         print(data2)
         sys.stdout.flush()
+        time.sleep(1)
 
 if __name__ == '__main__':
     get_network_traffic()
