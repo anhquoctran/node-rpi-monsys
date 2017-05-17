@@ -18,7 +18,7 @@ function Migrate() {
                             if (error) reject(error);
                             else {
                                 if (result.affectedRows >= 0) {
-                                    mysql.connector.query("INSERT INTO rpi_verification(idUser, isverified, createdAt) VALUES(?, ?, ?)", [result.insertId, 0, getDateTimeLocal()], function(error, response) {
+                                    mysql.connector.query("INSERT INTO rpi_verification(idUser, isverified, createdAt, firstUse) VALUES(?, ?, ?, ?)", [result.insertId, 0, getDateTimeLocal(), 1], function(error, response) {
                                         (error) ? reject(error): resolve((response.affectedRows >= 0) ? result.insertId : null)
                                     })
                                 } else {
@@ -29,6 +29,19 @@ function Migrate() {
                     } else {
                         resolve(false)
                     }
+                }
+            })
+        })
+    }
+
+    this.recordFirstLogin = function(id) {
+        return new Promise(function(resolve, reject) {
+            mysql.connector.query("update from rpi_verification set firstLoginAt = ? where idUser = ?", [new Date().getDate(), id], function(error, result) {
+                if (error) reject(error)
+                else {
+                    if (result.affectedRows >= 0) {
+                        resolve(true)
+                    } else resolve(false)
                 }
             })
         })
@@ -98,7 +111,27 @@ function Migrate() {
         })
     }
 
-    this.check
+    this.checkFirstUse = function(id) {
+        return new Promise(function(resolve, reject) {
+            mysql.connector.query("select firstUse from rpi_verification where idUser = ?", id, function(error, res) {
+                if (error) reject(error)
+                else {
+                    resolve((res[0].firstUse === true) ? true : false)
+                }
+            })
+        })
+    }
+
+    this.editFirstUse = function(id) {
+        return new Promise(function(resolve, reject) {
+            mysql.connector.query("update from rpi_verification set firstUse = 0 where idUser = ?", function(error, res) {
+                if (error) reject(error)
+                else {
+                    resolve((res.affectedRows >= 0) ? true : false)
+                }
+            })
+        })
+    }
 
     this.getNotification = function(username) {
         return new Promise(function(resolve, reject) {
