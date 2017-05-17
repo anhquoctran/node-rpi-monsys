@@ -35,6 +35,10 @@ html(lang='en')
                     .form-top-right
                       i.fa.fa-user
                   .form-bottom
+                    if error
+                      .alert.alert-danger(role="alert") #{error}
+                    else
+                      .alert.alert-danger(role="alert", style="display:none;") #{error}
                     .form-group
                       label(for='form-username') Username or Email
                       input#form-username.form-username.form-control(type='text', name='usernameOrEmail', placeholder='Username...')
