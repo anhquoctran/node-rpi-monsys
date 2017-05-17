@@ -126,22 +126,46 @@ block content
                 .margin-top-30.text-center
             // END TABBED CONTENT
 
-            form.form-auth-small(action='index.php')
-              .form-group
-                label.control-label.sr-only(for='signin-email') Email or username
-                input#signin-email.form-control(type='email', value='', placeholder='Email or username')
-              .form-group
-                label.control-label.sr-only(for='signin-password') Password
-                input#signin-password.form-control(type='password', placeholder='Password')
-              .form-group.clearfix
-                label.fancy-checkbox.element-left
-                  input(type='checkbox')
-                  span Remember me
-              button.btn.btn-primary.btn-lg.btn-block(type='submit') LOGIN
-              .bottom
-                span.helper-text
-                  i.fa.fa-lock
-                  a(href='#') Forgot password?
+            ul.nav.nav-tabs
+              li
+                a(href='#home', data-toggle='tab')
+                  | Account 
+                  span.glyphicon.glyphicon-home
+              li
+                a(href='#info', data-toggle='tab')
+                  | PROFILE 
+                  span.glyphicon.glyphicon-plus
+            .tab-content
+              #home.tab-pane
+                form.form-auth-small(action='index.php')
+                  .form-group
+                    label.control-label(for='username') Username
+                    input#edit-email.form-control(type='username', value='', placeholder='Username')
+                  .form-group
+                    label.control-label(for='email') Email
+                    input#edit-email.form-control(type='email', value='', placeholder='Email')
+                  .form-group
+                    label.control-label(for='password') Password
+                    input#edit-password.form-control(type='password', placeholder='Password')
+                  .form-group
+                    label.control-label(for='repeat-password') Password
+                    input#edit-repeat-password.form-control(type='repeat-password', placeholder='Password')
+                  button.btn.btn-primary.btn-lg.btn-block(type='submit') Update
+              #info.tab-pane Profile
+                form.form-auth-small(action='index.php')
+                  .form-group
+                    label.control-label(for='username') Username
+                    input#edit-email.form-control(type='username', value='', placeholder='Username')
+                  .form-group
+                    label.control-label(for='email') Email
+                    input#edit-email.form-control(type='email', value='', placeholder='Email')
+                  .form-group
+                    label.control-label(for='password') Password
+                    input#edit-password.form-control(type='password', placeholder='Password')
+                  .form-group
+                    label.control-label(for='repeat-password') Password
+                    input#edit-repeat-password.form-control(type='repeat-password', placeholder='Password')
+                  button.btn.btn-primary.btn-lg.btn-block(type='submit') Update
 
           // END RIGHT COLUMN
   // END MAIN CONTENT
