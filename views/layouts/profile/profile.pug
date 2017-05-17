@@ -114,11 +114,11 @@ block content
                       span.timeago.timestamp(datetime=first_activities.FirstLoginAt)
                   li
                     i.fa.fa-check.activity-icon
-                    if first_activities.Verified == true
-                      p.dt Account has been verified at #{first_activities.VerifiedAt}
-                        span.timeago.timestamp(datetime=first_activities.VerifiedAt)
-                    else
-                      p Your account haven't been confirmed. Please check your email to verify this account
+                  if first_activities.Verified == true
+                    p.dt Account has been verified at #{first_activities.VerifiedAt}
+                      span.timeago.timestamp(datetime=first_activities.VerifiedAt)
+                  else
+                    p Your account haven't been confirmed. Please check your email to verify this account
                   li
                     i.fa.fa-check.activity-icon
                     p.dt Joined on #{first_activities.CreatedAt} 
