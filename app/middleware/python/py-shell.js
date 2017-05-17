@@ -80,4 +80,4 @@ function PythonExecution(server) {
     }
 }
 
-module.exports = new PythonExecution()
+module.exports = PythonExecution
