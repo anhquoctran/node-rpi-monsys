@@ -12,10 +12,6 @@ $(document).ready(function() {
         console.log(message)
     })
 
-    socket.on("test", function(data) {
-        console.log(data)
-    })
-
     var arr
     $('.end').click(function() {
         arr = $('#table-rpi').find('[type="checkbox"]:checked').map(function() {
@@ -26,7 +22,7 @@ $(document).ready(function() {
     });
 
     socket.on("overload", function(data) {
-        console.log(data)
+
     })
 
     socket.on("freq", function(data) {
@@ -125,7 +121,7 @@ $(document).ready(function() {
     })
 
     socket.on("network", function(network) {
-        console.log(network)
+
     })
 
     socket.on("gpio", function(gpio) {
