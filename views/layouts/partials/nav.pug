@@ -8,26 +8,26 @@ nav.navbar.navbar-default.navbar-fixed-top
         i.lnr.lnr-menu
     #navbar-menu
       ul.nav.navbar-nav.navbar-right
-        li.dropdown
-          a.dropdown-toggle.icon-menu(href='#', data-toggle='dropdown')
-            i.lnr.lnr-alarm
-          ul.dropdown-menu.notifications#notification-panel
-            if notification.length > 0
-              each item in notification
-                if item.IsRead == 0
-                  li
-                    a.notification-item(href='/account/notification/' + item.ID)
-                      span.dot.bg-info 
-                      | #{item.Content}
-                else
-                  li
-                    a.notification-item.unread(href='/account/notification/' + item.ID)
-                      span.dot.bg-info 
-                      | #{item.Content}
-            else if notification.length == 0
-              li
-                a.notification-item
-                | There are no notifications
+        //- li.dropdown
+        //-   a.dropdown-toggle.icon-menu(href='#', data-toggle='dropdown')
+        //-     i.lnr.lnr-alarm
+        //-   ul.dropdown-menu.notifications#notification-panel
+        //-     if notification.length > 0
+        //-       each item in notification
+        //-         if item.IsRead == 0
+        //-           li
+        //-             a.notification-item(href='/account/notification/' + item.ID)
+        //-               span.dot.bg-info 
+        //-               | #{item.Content}
+        //-         else
+        //-           li
+        //-             a.notification-item.unread(href='/account/notification/' + item.ID)
+        //-               span.dot.bg-info 
+        //-               | #{item.Content}
+        //-     else if notification.length == 0
+        //-       li
+        //-         a.notification-item
+        //-         | There are no notifications
 
         li.dropdown
           a.dropdown-toggle(href='#', data-toggle='dropdown')
