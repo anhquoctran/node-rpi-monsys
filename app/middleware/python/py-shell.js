@@ -32,12 +32,12 @@ function PythonExecution(server) {
         })
 
         var net = new PythonShell.run("network_traffic.py", { scriptPath: __dirname }, function(er, r) {})
-        pyshell.on("message", function(message) {
+        net.on("message", function(message) {
             socket.emit("network", message)
         })
 
         var gpio = new PythonShell.run('gpio_usage.py', { scriptPath: __dirname }, function(er, r) {})
-        pyshell.on("message", function(message) {
+        gpio.on("message", function(message) {
             socket.on("gpio", message)
         })
 
@@ -56,28 +56,6 @@ function PythonExecution(server) {
         })
 
     })
-
-    this.getFreq = function() {
-        return new Promise(function(resolve, reject) {
-            var pyshell = new PythonShell.run("cpu_freq.py", { scriptPath: __dirname }, function(err, r) {})
-
-            pyshell.on("message", function(message) {
-                resolve(message)
-            })
-        })
-    }
-
-    this.killProcess = function(pid) {
-        return new Promise((resolve, reject) => {;
-
-        })
-    }
-
-    this.getGpio = function() {
-        return new Promise((resolve, reject) => {
-
-        })
-    }
 }
 
 module.exports = PythonExecution
