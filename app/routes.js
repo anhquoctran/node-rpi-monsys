@@ -292,9 +292,9 @@ module.exports = function Route(app, passport) {
         var result = parseFloat(speed)
         if (result < 1) {
             return (result * 1000) + " MHz"
-        } else if (result > 100.0 || result < 900.0) {
-            return (result + " MHz")
-        } else if (result > 1000.0) {
+        } else if (result >= 100.0 || result <= 900.0) {
+            return (Math.round(result) + " MHz")
+        } else if (result >= 1000.0) {
             return ((result / 1000) + " GHz")
         } else
             return result + " GHz"
