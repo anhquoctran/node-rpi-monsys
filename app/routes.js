@@ -213,6 +213,62 @@ module.exports = function Route(app, passport) {
         } else res.redirect("/login")
     })
 
+    app.post("/account/edit/credential", function(req, res) {
+        var password = req.body.password
+        var username = req.session.user.username
+        if (password || username) {
+            migrator.updatePassword(username, password)
+                .then(data => {
+                    if (data == true) {
+                        res.json({
+                            message: true
+                        })
+                    } else {
+                        res.json({
+                            message: false
+                        })
+                    }
+                })
+                .catch(error => {
+                    console.error(error)
+                })
+        } else res.json({
+            message: false
+        })
+    })
+
+    app.post("/account/edit/info", function(req, res) {
+        var fullname
+        var email
+        var birthdate
+        var hometown
+        var currentcity
+        var phone
+        if (fullname || email || birthdate || hometown || currentcity || phone) {
+
+        } else {
+
+        }
+    })
+
+    app.get("/account/info", function(req, res) {
+        if (req.session.user) {
+            migrator.getOneUser(req.sesion.user.username)
+                .then(data => {
+                    if (data) {
+                        res.json(data)
+                    } else {
+                        res.json({
+                            message: "Unable to find user"
+                        })
+                    }
+                })
+                .catch(error => {
+                    console.error(error)
+                })
+        }
+    })
+
     app.get("/account/notification/:id", function(req, res) {
         if (req.session.user) {
             var id = req.params.id
