@@ -103,9 +103,6 @@ function getCpu() {
     })
 }
 
-// --------------------------
-// CPU - Processor Data
-
 function cpu(callback) {
 
     return new Promise((resolve, reject) => {
@@ -119,9 +116,6 @@ function cpu(callback) {
 }
 
 exports.cpu = cpu
-
-// --------------------------
-// CPU - current speed - in GHz
 
 function getCpuCurrentSpeedSync() {
 
@@ -167,10 +161,6 @@ function cpuCurrentspeed(callback) {
 }
 
 exports.cpuCurrentspeed = cpuCurrentspeed
-
-// --------------------------
-// CPU - temperature
-// if sensors are installed
 
 function cpuTemperature(callback) {
 
@@ -290,9 +280,6 @@ function cpuTemperature(callback) {
 
 exports.cpuTemperature = cpuTemperature
 
-// --------------------------
-// CPU Flags
-
 function cpuFlags(callback) {
 
     return new Promise((resolve, reject) => {
@@ -335,9 +322,6 @@ function cpuFlags(callback) {
 }
 
 exports.cpuFlags = cpuFlags
-
-// --------------------------
-// CPU Flags
 
 function cpuCache(callback) {
 
@@ -403,9 +387,6 @@ function cpuCache(callback) {
 }
 
 exports.cpuCache = cpuCache
-
-// --------------------------
-// CPU - current load - in %
 
 function getLoad() {
 
@@ -521,10 +502,6 @@ function currentLoad(callback) {
 }
 
 exports.currentLoad = currentLoad
-
-// --------------------------
-// PS - full load
-// since bootup
 
 function getFullLoad() {
 

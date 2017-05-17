@@ -63,9 +63,6 @@ function networkInterfaceDefault(callback) {
 
 exports.networkInterfaceDefault = networkInterfaceDefault
 
-// --------------------------
-// NET - interfaces
-
 function networkInterfaces(callback) {
 
     return new Promise((resolve) => {
@@ -98,9 +95,6 @@ function networkInterfaces(callback) {
 }
 
 exports.networkInterfaces = networkInterfaces
-
-// --------------------------
-// NET - Speed
 
 function calcNetworkSpeed(iface, rx, tx, operstate) {
     var result = {
@@ -208,10 +202,7 @@ function networkStats(iface, callback) {
                         exec(cmd, function(error, stdout) {
                             if (!error) {
                                 lines = stdout.toString().split('\n')
-                                    // if there is less than 2 lines, no information for this interface was found
                                 if (lines.length > 1 && lines[1].trim() != '') {
-                                    // skip header line
-                                    // use the second line because it is tied to the NIC instead of the ipv4 or ipv6 address
                                     stats = lines[1].replace(/ +/g, " ").split(' ')
                                     rx = parseInt(stats[6])
                                     tx = parseInt(stats[9])
@@ -238,9 +229,6 @@ function networkStats(iface, callback) {
 }
 
 exports.networkStats = networkStats
-
-// --------------------------
-// NET - connections (sockets)
 
 function networkConnections(callback) {
 

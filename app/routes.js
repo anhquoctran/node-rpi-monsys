@@ -5,6 +5,7 @@ var file = require('../app/middleware/file')
 var datetime = require("../app/middleware/datetime")
 var mail = require("../app/middleware/mail")
 var multer = require("multer")
+var pagination = require("express-paginate")
 
 module.exports = function Route(app, passport) {
 
@@ -18,9 +19,17 @@ module.exports = function Route(app, passport) {
         if (req.session.user) {
             res.redirect("/admin")
         } else {
-            res.render('login', {
-                title: "Login to your system - RPiMonSys"
-            })
+            if (req.query.login && req.query.login == "error") {
+                res.render('login', {
+                    title: "Login to your system - RPiMonSys",
+                    error: "Sorry! Your credential didn't existing in our system"
+                })
+            } else {
+                res.render('login', {
+                    title: "Login to your system - RPiMonSys"
+                })
+            }
+
         }
     })
 
@@ -36,7 +45,7 @@ module.exports = function Route(app, passport) {
                         req.session.user = data
                         res.redirect("/admin?login=success&token=" + require("../app/middleware/security").hash(datetime.getDateTimeNow()))
                     } else {
-                        redirect("/login")
+                        redirect("/login?login=error")
                     }
                 })
                 .catch(error => console.error(error))
@@ -56,7 +65,9 @@ module.exports = function Route(app, passport) {
             email = req.body.email,
             fullname = req.body.fullname,
             password = req.body.password
+        if (!username || !password || !email || !fullname) {
 
+        }
 
     })
 
@@ -217,6 +228,7 @@ module.exports = function Route(app, passport) {
         }
     })
 
+    app.use(pagination.middleware(20, 50))
     app.get("/test", function(req, res) {
         Promise.all([
                 sysinfo.processes()

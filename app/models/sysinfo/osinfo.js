@@ -10,9 +10,6 @@ const _darwin = (_platform == 'Darwin')
 const _windows = (_platform == 'Windows_NT')
 const NOT_SUPPORTED = 'not supported'
 
-// --------------------------
-// Get current time and OS uptime
-
 function time() {
     return {
         current: Date.now(),
@@ -21,9 +18,6 @@ function time() {
 }
 
 exports.time = time
-
-// --------------------------
-// Get logo filename of OS distribution
 
 function getLogoFile(distro) {
     distro = distro.toString().toLowerCase()
@@ -89,9 +83,6 @@ function getLogoFile(distro) {
     }
     return result
 }
-
-// --------------------------
-// OS Information
 
 function osInfo(callback) {
 

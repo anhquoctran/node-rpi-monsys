@@ -1,7 +1,7 @@
 import psutil
 import sys
 
-def get_logical_processor_usage:
+def get_logical_processor_usage():
     while True:
         result = psutil.cpu_percent(interval=1, percpu=True)
         print(result)

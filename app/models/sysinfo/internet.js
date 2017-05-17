@@ -9,9 +9,6 @@ const _darwin = (_platform == 'Darwin')
 const _windows = (_platform == 'Windows_NT')
 const NOT_SUPPORTED = 'not supported'
 
-// --------------------------
-// check if external site is available
-
 function inetChecksite(url, callback) {
 
     return new Promise((resolve, reject) => {
@@ -50,12 +47,8 @@ function inetChecksite(url, callback) {
 
 exports.inetChecksite = inetChecksite
 
-// --------------------------
-// check inet latency
-
 function inetLatency(host, callback) {
 
-    // fallback - if only callback is given
     if (util.isFunction(host) && !callback) {
         callback = host
         host = ''

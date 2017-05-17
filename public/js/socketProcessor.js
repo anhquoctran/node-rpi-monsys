@@ -17,7 +17,7 @@ $(document).ready(function() {
     })
 
     var arr
-    $('button').click(function() {
+    $('.end').click(function() {
         arr = $('#table-rpi').find('[type="checkbox"]:checked').map(function() {
             return $(this).closest('tr').find('td:nth-child(2)').text();
         }).get();

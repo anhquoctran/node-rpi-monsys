@@ -37,6 +37,7 @@
         "push-notify": "^1.1.1",
         "typescript": "^2.3.2",
         "morgan": "^1.8.1",
-        "connect-ensure-login": "^0.1.1"
+        "connect-ensure-login": "^0.1.1",
+        "express-paginate": "^0.2.2"
     }
 }
