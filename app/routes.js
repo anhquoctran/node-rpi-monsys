@@ -216,41 +216,69 @@ module.exports = function Route(app, passport) {
     app.post("/account/edit/credential", function(req, res) {
         var password = req.body.password
         var username = req.session.user.username
+        var newpassword = req.body.newpassword
         if (password || username) {
-            migrator.updatePassword(username, password)
+            migrator.checkPassword(username, password)
                 .then(data => {
-                    if (data == true) {
-                        res.json({
-                            message: true
-                        })
+                    if (data === true) {
+                        migrator.updatePassword(username, newpassword)
+                            .then(data => {
+                                if (data == true) {
+                                    res.json({
+                                        status: true,
+                                        message: "Password has been updated successfully!"
+                                    })
+                                } else {
+                                    res.json({
+                                        status: false,
+                                        message: "Sorry! Something went wrong!"
+                                    })
+                                }
+                            })
+                            .catch(error => {
+                                console.error(error)
+                            })
                     } else {
                         res.json({
-                            message: false
+                            status: false,
+                            message: "Password incorrect"
                         })
                     }
                 })
-                .catch(error => {
-                    console.error(error)
-                })
+                .catch(error => console.error(error))
         } else res.json({
-            message: false
+            status: false,
+            message: "Error occurred when changing password"
         })
     })
 
     app.post("/account/edit/info", function(req, res) {
-        var fullname
-        var email
-        var birthdate
-        var hometown
-        var currentcity
-        var phone
+        var fullname = req.body.fullname
+        var email = req.body.email
+        var birthdate = req.body.birthdate
+        var hometown = req.body.hometown
+        var currentcity = req.body.currentcity
+        var phone = req.body.phone
         if (fullname || email || birthdate || hometown || currentcity || phone) {
             migrator.updateUser(fullname, email, phone, birthdate, hometown, currentcity, phone)
                 .then(data => {
-
+                    if (data == true) {
+                        res.json({
+                            status: true,
+                            message: "Your personal information has been updated successfully!"
+                        })
+                    } else {
+                        res.json({
+                            status: false,
+                            message: "Oops! We can't change information for you! Please check again"
+                        })
+                    }
                 })
         } else {
-
+            res.json({
+                status: false,
+                message: "Something went wrong! Please try again!"
+            })
         }
     })
 

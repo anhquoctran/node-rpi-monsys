@@ -141,19 +141,22 @@ block content
                 form.form-auth-small(action='/account/edit/credential')
                   .form-group
                     label.control-label(for='username') Username
-                    input#edit-email.form-control(type='username', name="username" value='', placeholder='Username', disabled)
+                    input#edit-username.form-control(type='text', name="username" value='', placeholder='Username', disabled)
                   .form-group
                     label.control-label(for='password') Password
                     input#edit-password.form-control(type='password', name="password" placeholder='Password')
                   .form-group
+                    label.control-label(for='password') New password
+                    input#edit-newpassword.form-control(type='password', name="newpassword" placeholder='Password')
+                  .form-group
                     label.control-label(for='repeat-password') Repeat Password
                     input#edit-repeat-password.form-control(type='repeat-password', placeholder='Password')
-                  button.btn.btn-primary.btn-lg.btn-block(type='submit') Update
+                  button.btn.btn-primary.btn-lg.btn-block#changePassword(type='button') Update
               #info.tab-pane
                 form.form-auth-small(action='/account/edit/info')
                   .form-group
                     label.control-label(for='fullname') Full name
-                    input#edit-full.form-control(type='text', name="fullname" value='', placeholder='Fullname')
+                    input#edit-fullname.form-control(type='text', name="fullname" value='', placeholder='Fullname')
                   .form-group
                     label.control-label(for='email') Email
                     input#edit-email.form-control(type='email', name="email" value='', placeholder='Email')
@@ -169,7 +172,7 @@ block content
                   .form-group
                     label.control-label(for='mobile') Mobile
                     input#edit-mobile.form-control(type='text', name="phone" placeholder='Mobile')
-                  button.btn.btn-primary.btn-lg.btn-block(type='submit') Update
+                  button.btn.btn-primary.btn-lg.btn-block#updateInfo(type='button') Update
 
           // END RIGHT COLUMN
   // END MAIN CONTENT
