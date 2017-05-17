@@ -245,7 +245,10 @@ module.exports = function Route(app, passport) {
         var currentcity
         var phone
         if (fullname || email || birthdate || hometown || currentcity || phone) {
+            migrator.updateUser(fullname, email, phone, birthdate, hometown, currentcity, phone)
+                .then(data => {
 
+                })
         } else {
 
         }
@@ -315,12 +318,18 @@ module.exports = function Route(app, passport) {
     })
 
     app.use(pagination.middleware(20, 50))
+
     app.get("/test", function(req, res) {
         Promise.all([
-                sysinfo.processes()
+                sysinfo.fsSize(), sysinfo.fsStats(), sysinfo.blockDevices(), sysinfo.disksIO()
             ])
             .then(data => {
-                res.json(data)
+                res.json({
+                    Filesystem_size: data[0],
+                    filesystem_stat: data[1],
+                    BlockDevices: data[2],
+                    DiskIO: data[3]
+                })
             }).catch(error => console.error(error))
     })
 
