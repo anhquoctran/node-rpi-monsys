@@ -1,0 +1,131 @@
+extends ../../layouts/layout.pug
+
+block content
+
+  // MAIN CONTENT
+  .main-content
+    .container-fluid
+      .panel.panel-profile
+        .clearfix
+          // LEFT COLUMN
+          .profile-left
+            // PROFILE HEADER
+            .profile-header
+              .overlay
+              .profile-main
+                if user.AvatarPath
+                  img.img-circle(src='#{user.AvatarPath}', alt='Avatar')
+                else
+                  img.img-circle(src="../../../public/images/nullAvatar.png", alt='Avatar')
+                h3.name #{user.Fullname}
+                span.online-status.status-available @#{user.Username}
+              .profile-stat
+                .row
+                  if user.Role = 'Admin'
+                    .col-md-4.stat-item
+                      | Administrator
+                      span
+                        i.fa.fa-shield
+                  else
+                    .col-md-4.stat-item
+                      | Normal user
+                      span
+                        i.fa.fa-user-circle-o
+                  .col-md-4.stat-item
+                    | Joined on
+                    span.dt #{first_activities.CreatedAt}
+                  .col-md-4.stat-item
+                    | Verified on 
+                    span.dt #{first_activities.VerifiedAt}
+            // END PROFILE HEADER
+            // PROFILE DETAIL
+            .profile-detail
+              .profile-info
+                h4.heading Basic Info
+                ul.list-unstyled.list-justify
+                  li
+                    | Birthdate 
+                    span.dt #{user.Birthdate}
+                  li
+                    | Hometown 
+                    span #{user.HomeTown}
+                  li
+                    | Current city 
+                    span #{user.CurrentCity}
+                  li
+                    | Mobile 
+                    span #{user.Phone}
+                  li
+                    | Email 
+                    span #{user.Email}
+              .profile-info
+                h4.heading About
+                p #{user.Bio}
+              .text-center
+                a.btn.btn-primary(href='/profile/edit/#{user.Username}') Edit Profile
+            // END PROFILE DETAIL
+          // END LEFT COLUMN
+          // RIGHT COLUMN
+          .profile-right
+            h4.heading User tool
+            // AWARDS
+            .awards
+              .row(style='text-align: center; align-content: center')
+                <form class="form-auth-small" action="index.php">
+                    <div class="form-group">
+                        <label for="signin-email" class="control-label sr-only">Email or username</label>
+                        <input type="email" class="form-control" id="signin-email" value="" placeholder="Email or username">
+                    </div>
+                    <div class="form-group">
+                        <label for="signin-password" class="control-label sr-only">Password</label>
+                        <input type="password" class="form-control" id="signin-password"  placeholder="Password">
+                    </div>
+                    <div class="form-group clearfix">
+                        <label class="fancy-checkbox element-left">
+                            <input type="checkbox">
+                            <span>Remember me</span>
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-lg btn-block">LOGIN</button>
+                    <div class="bottom">
+                        <span class="helper-text"><i class="fa fa-lock"></i> <a href="#">Forgot password?</a></span>
+                    </div>
+                </form>
+            // END AWARDS
+            // TABBED CONTENT
+            .custom-tabs-line.tabs-line-bottom.left-aligned
+              ul.nav(role='tablist')
+                li.active
+                  a(href='#tab-bottom-left1', role='tab', data-toggle='tab') Your First Activities
+            .tab-content
+              #tab-bottom-left1.tab-pane.fade.in.active
+                ul.list-unstyled.activity-timeline
+                  li
+                    i.fa.fa-check.activity-icon
+                    p
+                      | You have visited 
+                      a(href='/admin') Dashboard 
+                      |  for the first time at 
+                      a.dt= first_activities.FirstVisitedDashboard
+                      span.timeago.timestamp(datetime=user.FirstVisitedDashboard)
+                  li
+                    i.fa.fa-check.activity-icon
+                    p
+                      | First login at 
+                      a.dt= first_activities.FirstLoginAt
+                      span.timeago.timestamp(datetime=first_activities.FirstLoginAt)
+                  li
+                    i.fa.fa-check.activity-icon
+                  if first_activities.Verified == true
+                    p.dt Account has been verified at #{first_activities.VerifiedAt}
+                      span.timeago.timestamp(datetime=first_activities.VerifiedAt)
+                  else
+                    p Your account haven't been confirmed. Please check your email to verify this account
+                  li
+                    i.fa.fa-check.activity-icon
+                    p.dt Joined on #{first_activities.CreatedAt} 
+                      span.timeago.timestamp(datetime=first_activities.CreatedAt)
+                .margin-top-30.text-center
+            // END TABBED CONTENT
+          // END RIGHT COLUMN
+  // END MAIN CONTENT
