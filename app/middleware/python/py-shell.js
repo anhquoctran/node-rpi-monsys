@@ -5,6 +5,7 @@ function PythonExecution() {
         return new Promise((resolve, reject) => {
             var pyshell = new PythonShell.run("cpu_usage.py", { scriptPath: __dirname }, function(er, r) {})
             pyshell.on("message", function(message) {
+                console.log("test")
                 resolve(message)
             })
         })
