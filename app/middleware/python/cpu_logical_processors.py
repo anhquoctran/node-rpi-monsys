@@ -7,7 +7,7 @@ def get_logical_processor_usage():
         result = psutil.cpu_percent(interval=5, percpu=True)
         print(result)
         sys.stdout.flush()
-        time.sleep(2)
+        time.sleep(1)
 
 if __name__ == '__main__':
     get_logical_processor_usage()

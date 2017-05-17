@@ -41,6 +41,19 @@ function PythonExecution(server) {
             socket.on("gpio", message)
         })
 
+        socket.on("kill", function(id) {
+            opts = {
+                scriptPath: __dirname,
+                args: [pid],
+                pythonOptions: ["-p"]
+            }
+            var kill = new PythonShell.run("process_kill.py", opts, function(err, r) {})
+            kill.on("message", function(message) {
+                socket.emit("killon", message)
+            })
+
+        })
+
     })
 }
 

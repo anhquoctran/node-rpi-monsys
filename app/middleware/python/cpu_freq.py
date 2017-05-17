@@ -8,7 +8,7 @@ def get_cpu_freq():
         print(data)
         
         sys.stdout.flush()
-        time.sleep(2)
+        time.sleep(1)
 
 if __name__ == '__main__':
     get_cpu_freq()
