@@ -34,8 +34,17 @@ $(document).ready(function() {
     })
 
     socket.on("cpu", function(data) {
-        _cpuPercent.text(data)
+        _cpuPercent.text(readableSpeed(data.toString()))
     })
+
+    function readableSpeed(speed) {
+        speed = Math.round(parseFloat(speed))
+        if (speed < 1000) {
+            return (speed + " MHz")
+        } else {
+            return ((speed / 1000) + " GHz")
+        }
+    }
 
     Highcharts.chart("cpu-usage-chart", {
         chart: {
@@ -100,11 +109,11 @@ $(document).ready(function() {
     })
 
     socket.on('logical', function(logical) {
-        console.log(logical)
+
     })
 
     socket.on("memory", function(memory) {
-        console.log(memory)
+        $("#memPercent").text(memory + " %")
     })
 
     socket.on("disk", function(disk) {
