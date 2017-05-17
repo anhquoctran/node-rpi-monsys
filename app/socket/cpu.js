@@ -4,6 +4,7 @@ function CpuShell() {
     this.getUsage = function(callback) {
         pyshell.getCpuUsage()
             .then(usage => {
+                console.log("CPU: " + usage)
                 callback(usage)
             })
             .catch(error => console.error(error))
