@@ -145,6 +145,12 @@ module.exports = function Route(app, passport) {
         } else res.redirect("/login")
     })
 
+    app.get('/profile/edit', function(req, res) {
+        res.render("layouts/profile/edit", {
+            title: "Edit Profile - RPiMonSys",
+        })
+    })
+
     app.get('/account/preferences', function(req, res) {
         if (req.session.user) {
             Promise.all([
