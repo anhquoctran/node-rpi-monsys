@@ -9,7 +9,7 @@ def get_memory_percentage():
         r = psutil.virtual_memory().percent
         print(r)
         sys.stdout.flush()
-        time.sleep(1)
+        time.sleep(5)
 
 if __name__ == '__main__':
     get_memory_percentage()
