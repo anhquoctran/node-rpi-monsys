@@ -6,8 +6,9 @@ def get_cpu_freq():
     while True:
         data = psutil.cpu_freq(percpu=False).current
         print(data)
-        time.sleep(1)
+        
         sys.stdout.flush()
+        time.sleep(5)
 
 if __name__ == '__main__':
     get_cpu_freq()

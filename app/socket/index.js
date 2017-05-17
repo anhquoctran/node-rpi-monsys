@@ -23,36 +23,44 @@ function SysInfoSocketHandle(server) {
         socket.emit("connected", "Start")
 
         cpu.getUsage(function(result) {
+            console.log(result)
             socket.emit("cpu", result)
         })
 
         cpu.getFreq(function(result) {
+            console.log(result)
             socket.emit("freq", result)
         })
 
         cpu.getLogicalProcessor(function(result) {
+            console.log(result)
             socket.emit("logical", result)
         })
 
         mem.getMemory(function(result) {
+            console.log(result)
             socket.emit("memory", result)
         })
 
         disk.getIo(function(result) {
+            console.log(result)
             socket.emit("disk", result)
         })
 
         socket.on("processes", function(info) {
             proc.kill(info.pid, function(result) {
+                console.log(result)
                 socket.emit('processes', result)
             })
         })
 
         network.getTraffic(function(result) {
+            console.log(result)
             socket.emit('network', result)
         })
 
         gpio.getGpioActivation(function(result) {
+            console.log(result)
             socket.emit('gpio', result)
         })
     })
