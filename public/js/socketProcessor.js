@@ -30,11 +30,11 @@ $(document).ready(function() {
     })
 
     socket.on("freq", function(data) {
-        _cpuFreq.text(data)
+        _cpuFreq.text(readableSpeed(data.toString()))
     })
 
     socket.on("cpu", function(data) {
-        _cpuPercent.text(readableSpeed(data.toString()))
+        _cpuPercent.text(data + " %")
     })
 
     function readableSpeed(speed) {
