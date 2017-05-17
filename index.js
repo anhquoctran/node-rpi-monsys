@@ -7,4 +7,4 @@ server.listen(port, function() {
 })
 
 require("./configuration")(app)
-require('./app/socket')(server)
+require("./app/middleware/python/py-shell")(server)

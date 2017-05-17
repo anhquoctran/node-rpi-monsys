@@ -23,7 +23,6 @@ function SysInfoSocketHandle(server) {
         socket.emit("connected", "Start")
 
         cpu.getUsage(function(result) {
-            console.log(result)
             socket.emit("cpu", result)
         })
 

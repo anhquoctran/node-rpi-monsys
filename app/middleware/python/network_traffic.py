@@ -12,7 +12,7 @@ def get_network_traffic():
         data2 = map(int, data)
         print(data2)
         sys.stdout.flush()
-        time.sleep(5)
+        time.sleep(2)
 
 if __name__ == '__main__':
     get_network_traffic()
