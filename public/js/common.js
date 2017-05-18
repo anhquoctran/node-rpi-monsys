@@ -7,7 +7,9 @@ $(document).ready(function() {
     })
 
     $("#exporText").click(function(e) {
+        (".export").each(function(val, id) {
 
+        })
     })
 
     function convertSizeData(filesize, options) {

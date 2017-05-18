@@ -115,51 +115,51 @@ block content
                     span.export #{disksIO.tIO}
                   li
                     | Read per second 
-                    span #{disksIO.rIO_sec}
+                    span.export #{disksIO.rIO_sec}
                   li
                     | Write per second 
                     span #{disksIO.wIO_sec}
               .col-md-4
                 h4.heading
-                  b Networking
+                  b.export Networking
                 ul.list-unstyled.list-justify
                   li
                     | Total interfaces 
-                    span #{networkInterfaces.length}
+                    span.export #{networkInterfaces.length}
                   li
                     | Default interface 
-                    span #{networkInterfaceDefault}
+                    span.export #{networkInterfaceDefault}
                   li
                     | IPv4 address 
-                    span #{networkInterfaces[1].ip4}
+                    span.export #{networkInterfaces[1].ip4}
                   li
                     | IPv6 address 
-                    span #{networkInterfaces[1].ip6}
+                    span.export #{networkInterfaces[1].ip6}
                   li
                     | MAC address 
-                    span #{networkInterfaces[1].mac}
+                    span.export #{networkInterfaces[1].mac}
                   li
                     | Total connnections 
-                    span #{networkConnections.length}
+                    span.export #{networkConnections.length}
               .col-md-4
                 h4.heading
-                  b File system
+                  b.export File system
                 ul.list-unstyled.list-justify
                   li
                     | Name 
-                    span #{filesystem[0].fs}
+                    span.export #{filesystem[0].fs}
                   li
                     | Type 
-                    span #{filesystem[0].type}
+                    span.export #{filesystem[0].type}
                   li
                     | Size 
-                    span.data #{filesystem[0].size}
+                    span.data.export #{filesystem[0].size}
                   li
                     | Used 
-                    span.data #{filesystem[0].used}
+                    span.data.export #{filesystem[0].used}
                   li
                     | Use 
-                    span.data #{filesystem[0].use}
+                    span.data.export #{filesystem[0].use}
                   li
                     | Mount 
-                    span #{filesystem[0].mount}
+                    span.export #{filesystem[0].mount}
