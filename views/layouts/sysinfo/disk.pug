@@ -27,7 +27,7 @@ block content
           .col-md-6
             .panel
               .panel-heading
-                h3.panel-title Filesystem Size
+                h3.panel-title Device
                 .right
                   button.btn-toggle-collapse(type='button')
                     i.lnr.lnr-chevron-up
@@ -35,22 +35,33 @@ block content
                 table.table.table-striped
                   thead
                     tr
-                      th ID
-                      th fs
-                      th type
-                      th size
-                      th used
-                      th use
+                      th Name
+                      th Type
+                      th fstype
                       th mount
+                      th size
+                      th physical
+                      th uuid
+                      th label
+                      th model
+                      th serial
+                      th removable
+                      th protocol
                   tbody
                     each val in device
                       tr
-                        td= val.fs
+                        td= val.name
                         td= val.type
-                        td= val.size
-                        td= val.used
-                        td= val.use
+                        td= val.fstype
                         td= val.mount
+                        td= val.size
+                        td= val.physical
+                        td= val.uuid
+                        td= val.label
+                        td= val.model
+                        td= val.serial
+                        td= val.removable
+                        td= val.protocol
               .panel-footer
                 .row
                   .col-md-6
