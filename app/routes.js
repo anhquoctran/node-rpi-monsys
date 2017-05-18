@@ -216,41 +216,69 @@ module.exports = function Route(app, passport) {
     app.post("/account/edit/credential", function(req, res) {
         var password = req.body.password
         var username = req.session.user.username
+        var newpassword = req.body.newpassword
         if (password || username) {
-            migrator.updatePassword(username, password)
+            migrator.checkPassword(username, password)
                 .then(data => {
-                    if (data == true) {
-                        res.json({
-                            message: true
-                        })
+                    if (data === true) {
+                        migrator.updatePassword(username, newpassword)
+                            .then(data => {
+                                if (data == true) {
+                                    res.json({
+                                        status: true,
+                                        message: "Password has been updated successfully!"
+                                    })
+                                } else {
+                                    res.json({
+                                        status: false,
+                                        message: "Sorry! Something went wrong!"
+                                    })
+                                }
+                            })
+                            .catch(error => {
+                                console.error(error)
+                            })
                     } else {
                         res.json({
-                            message: false
+                            status: false,
+                            message: "Password incorrect"
                         })
                     }
                 })
-                .catch(error => {
-                    console.error(error)
-                })
+                .catch(error => console.error(error))
         } else res.json({
-            message: false
+            status: false,
+            message: "Error occurred when changing password"
         })
     })
 
     app.post("/account/edit/info", function(req, res) {
-        var fullname
-        var email
-        var birthdate
-        var hometown
-        var currentcity
-        var phone
+        var fullname = req.body.fullname
+        var email = req.body.email
+        var birthdate = req.body.birthdate
+        var hometown = req.body.hometown
+        var currentcity = req.body.currentcity
+        var phone = req.body.phone
         if (fullname || email || birthdate || hometown || currentcity || phone) {
             migrator.updateUser(fullname, email, phone, birthdate, hometown, currentcity, phone)
                 .then(data => {
-
+                    if (data == true) {
+                        res.json({
+                            status: true,
+                            message: "Your personal information has been updated successfully!"
+                        })
+                    } else {
+                        res.json({
+                            status: false,
+                            message: "Oops! We can't change information for you! Please check again"
+                        })
+                    }
                 })
         } else {
-
+            res.json({
+                status: false,
+                message: "Something went wrong! Please try again!"
+            })
         }
     })
 
@@ -259,10 +287,14 @@ module.exports = function Route(app, passport) {
             migrator.getOneUser(req.sesion.user.username)
                 .then(data => {
                     if (data) {
-                        res.json(data)
+                        res.json({
+                            status: true,
+                            data: data
+                        })
                     } else {
                         res.json({
-                            message: "Unable to find user"
+                            status: false,
+                            data: null
                         })
                     }
                 })
@@ -363,10 +395,6 @@ module.exports = function Route(app, passport) {
         var result = parseFloat(speed)
         if (result < 1) {
             return (result * 1000) + " MHz"
-        } else if (result >= 100.0 || result <= 900.0) {
-            return (Math.round(result) + " MHz")
-        } else if (result >= 1000.0) {
-            return ((result / 1000) + " GHz")
         } else
             return result + " GHz"
     }
@@ -499,14 +527,15 @@ module.exports = function Route(app, passport) {
     app.get('/admin/filesystem', function(req, res) {
         if (req.session.user) {
             Promise.all([
-                    sysinfo.fsSize(), migrator.getOneUser(req.session.user.username), migrator.getNotification(req.session.user.username)
+                    sysinfo.fsSize(), sysinfo.fsStats(), migrator.getOneUser(req.session.user.username), migrator.getNotification(req.session.user.username)
                 ])
                 .then(data => {
                     res.render("layouts/sysinfo/filesytem", {
                         title: "Linux Filesystem Statistic",
                         filesystem: data[0],
-                        user: data[1][0],
-                        notification: data[2]
+                        fs_stat: data[1],
+                        user: data[2][0],
+                        notification: data[3]
                     })
                 })
                 .catch(error => console.error(error))

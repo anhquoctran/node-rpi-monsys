@@ -12,10 +12,6 @@ $(document).ready(function() {
         console.log(message)
     })
 
-    socket.on("test", function(data) {
-        console.log(data)
-    })
-
     var arr
     $('.end').click(function() {
         arr = $('#table-rpi').find('[type="checkbox"]:checked').map(function() {
@@ -26,15 +22,15 @@ $(document).ready(function() {
     });
 
     socket.on("overload", function(data) {
-        console.log(data)
+
     })
 
     socket.on("freq", function(data) {
-        _cpuFreq.text(data)
+        _cpuFreq.text(readableSpeed(data.toString()))
     })
 
     socket.on("cpu", function(data) {
-        _cpuPercent.text(readableSpeed(data.toString()))
+        _cpuPercent.text(data + " %")
     })
 
     function readableSpeed(speed) {
@@ -46,66 +42,68 @@ $(document).ready(function() {
         }
     }
 
-    Highcharts.chart("cpu-usage-chart", {
-        chart: {
-            zoomType: 'x'
-        },
-        title: {
-            text: 'CPU Percentage (%)'
-        },
-        subtitle: {
-            text: document.ontouchstart === undefined ?
-                'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in'
-        },
-        xAxis: {
-            type: 'datetime'
-        },
-        yAxis: {
-            title: {
-                text: 'Percentage (%)'
-            }
-        },
-        legend: {
-            enabled: false
-        },
-        plotOptions: {
-            area: {
-                fillColor: {
-                    linearGradient: {
-                        x1: 0,
-                        y1: 0,
-                        x2: 0,
-                        y2: 1
-                    },
-                    stops: [
-                        [0, Highcharts.getOptions().colors[0]],
-                        [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
-                    ]
-                },
-                marker: {
-                    radius: 2
-                },
-                lineWidth: 1,
-                states: {
-                    hover: {
-                        lineWidth: 1
+    socket.on("cpu", function(cpu) {
+        var data = []
+        data.push(cpu)
+        Highcharts.chart("cpu-usage-chart", {
+            chart: {
+                zoomType: 'x',
+                events: {
+                    load: function() {
+                        hchart = this
                     }
-                },
-                threshold: null
-            }
-        },
-        series: [{
-            type: 'area',
-            name: 'Utilize',
-            data: (function() {
-                socket.on("cpu", function(cpu) {
-                    console.log(cpu)
-                    data = []
-                    data.push(cpu)
-
-                })
-            })
-        }]
+                }
+            },
+            title: {
+                text: 'CPU Percentage (%)'
+            },
+            subtitle: {
+                text: document.ontouchstart === undefined ?
+                    'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in'
+            },
+            xAxis: {
+                type: 'datetime'
+            },
+            yAxis: {
+                title: {
+                    text: 'Percentage (%)'
+                }
+            },
+            legend: {
+                enabled: false
+            },
+            plotOptions: {
+                area: {
+                    fillColor: {
+                        linearGradient: {
+                            x1: 0,
+                            y1: 0,
+                            x2: 0,
+                            y2: 1
+                        },
+                        stops: [
+                            [0, Highcharts.getOptions().colors[0]],
+                            [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                        ]
+                    },
+                    marker: {
+                        radius: 2
+                    },
+                    lineWidth: 1,
+                    states: {
+                        hover: {
+                            lineWidth: 1
+                        }
+                    },
+                    threshold: null
+                }
+            },
+            series: [{
+                type: 'area',
+                name: 'Percent',
+                data: data
+            }]
+        })
     })
 
     socket.on('logical', function(logical) {
@@ -125,7 +123,7 @@ $(document).ready(function() {
     })
 
     socket.on("network", function(network) {
-        console.log(network)
+
     })
 
     socket.on("gpio", function(gpio) {

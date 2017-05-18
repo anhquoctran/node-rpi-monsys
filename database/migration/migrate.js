@@ -216,6 +216,19 @@ function Migrate() {
         })
     }
 
+    this.checkPassword = function(username, password) {
+        return new Promise((resolve, reject) => {
+            password = security.encryptPassword(password)
+            mysql.connector.query("select password from rpi_user where username = ?", username, function(err, result) {
+                if (err) reject(err)
+                else {
+                    if (result.length > 0 && result[0].password === password) resolve(true)
+                    else resolve(false)
+                }
+            })
+        })
+    }
+
     this.saveSession = function(name, key, token, datetime, client, mac, path) {
         return new Promise(function(resolve, reject) {
             mysql.connector.query("insert into rpi_session(name, key, token, datetime, client, mac, path) values(?, ?, ?, ?, ?, ?, ?)", [name, key, token, datetime, client, mac, path], function(error, result) {
