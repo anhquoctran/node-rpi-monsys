@@ -76,9 +76,6 @@ $(document).ready(function() {
         legend: {
             enabled: false
         },
-        scrollbar: {
-            enabled: true
-        },
         plotOptions: {
             area: {
                 fillColor: {
@@ -138,9 +135,6 @@ $(document).ready(function() {
             title: {
                 text: 'Memory Percentage (%)'
             }
-        },
-        scrollbar: {
-            enabled: true
         },
         legend: {
             enabled: false
