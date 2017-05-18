@@ -65,7 +65,11 @@ $(document).ready(function() {
         },
         xAxis: {
             type: 'datetime',
-            tickPixelInterval: 150
+            scrollbar: {
+                enabled: true
+            },
+            min: 1,
+            max: 250
         },
         yAxis: {
             title: {
@@ -171,6 +175,102 @@ $(document).ready(function() {
             data: []
         }]
     })
+
+    // var iochart = new Highcharts.chart("iochart", {
+    //     colors: ['#f45b5b', '#8085e9', '#8d4654', '#7798BF', '#aaeeee', '#ff0066', '#eeaaee',
+    //         '#55BF3B', '#DF5353', '#7798BF', '#aaeeee'
+    //     ],
+    //     chart: {
+    //         type: 'spline',
+    //         events: {
+    //             load: function() {
+    //                 socket.on("cpu", function(cpu) {
+    //                     console.log(cpu)
+    //                     var series = chart.series[0]
+    //                     series.addPoint(cpu)
+    //                 })
+    //             }
+    //         },
+    //         animation: Highcharts.svg
+    //     },
+    //     title: {
+    //         text: 'Disk Transfer Rate (KB/s)'
+    //     },
+    //     subtitle: {
+    //         text: document.ontouchstart === undefined ?
+    //             'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in'
+    //     },
+    //     xAxis: {
+    //         type: 'datetime',
+    //         tickPixelInterval: 150,
+    //         min: 0,
+    //         max: 50,
+    //         labels: {
+    //             style: {
+    //                 color: '#6e6e70'
+    //             }
+    //         }
+    //     },
+    //     yAxis: {
+    //         title: {
+    //             text: 'Transfer rate (KB/s)'
+    //         }
+    //     },
+    //     legend: {
+    //         enabled: false
+    //     },
+    //     scrollbar: {
+    //         enabled: true
+    //     },
+    //     plotOptions: {
+    //         area: {
+    //             fillColor: {
+    //                 linearGradient: {
+    //                     x1: 0,
+    //                     y1: 0,
+    //                     x2: 0,
+    //                     y2: 1
+    //                 },
+    //                 stops: [
+    //                     [0, Highcharts.getOptions().colors[0]],
+    //                     [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+    //                 ]
+    //             },
+    //             marker: {
+    //                 radius: 2
+    //             },
+    //             lineWidth: 1,
+    //             states: {
+    //                 hover: {
+    //                     lineWidth: 1
+    //                 }
+    //             },
+    //             candlestick: {
+    //                 lineColor: '#404048'
+    //             },
+    //             series: {
+    //                 shadow: true
+    //             },
+    //             angeSelector: {
+    //                 buttonTheme: {
+    //                     fill: 'white',
+    //                     stroke: '#C0C0C8',
+    //                     'stroke-width': 1,
+    //                     states: {
+    //                         select: {
+    //                             fill: '#D0D0D8'
+    //                         }
+    //                     }
+    //                 }
+    //             },
+    //             threshold: null
+    //         }
+    //     },
+    //     series: [{
+    //         name: 'KB/s',
+    //         data: []
+    //     }]
+    // })
 
     socket.on('logical', function(logical) {
 
