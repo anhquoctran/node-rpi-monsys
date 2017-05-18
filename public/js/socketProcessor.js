@@ -41,65 +41,68 @@ $(document).ready(function() {
             return ((speed / 1000) + " GHz")
         }
     }
-
-    socket.on("cpu", function(cpu) {
-        var data = []
-        data.push(cpu)
-        console.log(data)
-        Highcharts.chart("cpu-usage-chart", {
-            chart: {
-                zoomType: 'x'
-            },
+    var data = []
+    Highcharts.chart("cpu-usage-chart", {
+        chart: {
+            zoomType: 'x',
+            events: {
+                load: function() {
+                    var chart = this
+                    socket.on("cpu", function(cpu) {
+                        data.push(cpu)
+                    })
+                }
+            }
+        },
+        title: {
+            text: 'CPU Percentage (%)'
+        },
+        subtitle: {
+            text: document.ontouchstart === undefined ?
+                'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in'
+        },
+        xAxis: {
+            type: 'datetime'
+        },
+        yAxis: {
             title: {
-                text: 'CPU Percentage (%)'
-            },
-            subtitle: {
-                text: document.ontouchstart === undefined ?
-                    'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in'
-            },
-            xAxis: {
-                type: 'datetime'
-            },
-            yAxis: {
-                title: {
-                    text: 'Percentage (%)'
-                }
-            },
-            legend: {
-                enabled: false
-            },
-            plotOptions: {
-                area: {
-                    fillColor: {
-                        linearGradient: {
-                            x1: 0,
-                            y1: 0,
-                            x2: 0,
-                            y2: 1
-                        },
-                        stops: [
-                            [0, Highcharts.getOptions().colors[0]],
-                            [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
-                        ]
+                text: 'Percentage (%)'
+            }
+        },
+        legend: {
+            enabled: false
+        },
+        plotOptions: {
+            area: {
+                fillColor: {
+                    linearGradient: {
+                        x1: 0,
+                        y1: 0,
+                        x2: 0,
+                        y2: 1
                     },
-                    marker: {
-                        radius: 2
-                    },
-                    lineWidth: 1,
-                    states: {
-                        hover: {
-                            lineWidth: 1
-                        }
-                    },
-                    threshold: null
-                }
-            },
-            series: [{
-                type: 'area',
-                name: 'Percent',
-                data: data
-            }]
-        })
+                    stops: [
+                        [0, Highcharts.getOptions().colors[0]],
+                        [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                    ]
+                },
+                marker: {
+                    radius: 2
+                },
+                lineWidth: 1,
+                states: {
+                    hover: {
+                        lineWidth: 1
+                    }
+                },
+                threshold: null
+            }
+        },
+        series: [{
+            type: 'area',
+            name: 'Percent',
+            data: data
+        }]
     })
 
     socket.on('logical', function(logical) {
