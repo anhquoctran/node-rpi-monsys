@@ -12,17 +12,6 @@ block content
           h3.heading
             | Disk And I/O Statistic
         .panel-body
-          .row
-            .col-md-12
-              .row
-                .col-md-5
-                  h4.heading
-                    b I/O activities
-                  #io-statistic.ct-chart
-                .col-md-5
-                  h4.heading
-                    b Disk space usage
-                  #disk-space.ct-chart-pie
         .row
           .col-md-12
             .panel
@@ -64,14 +53,6 @@ block content
                         td= val.serial
                         td= val.removable
                         td= val.protocol
-              .panel-footer
-                .row
-                  .col-md-6
-                    span.panel-note
-                      i.fa.fa-clock-o
-                      |  Last updated: 2 minutes ago
-                  .col-md-6.text-right
-                    a.btn.btn-primary(href='#') View more processes
           .col-md-12
             // MULTI CHARTS
             .panel
