@@ -50,7 +50,7 @@ $(document).ready(function() {
                 zoomType: 'x',
                 events: {
                     load: function() {
-                        chart = this
+                        hchart = this
                     }
                 }
             },
