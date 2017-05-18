@@ -92,10 +92,10 @@ $(document).ready(function() {
         },
         series: [{
             type: 'area',
-            name: 'Utilize',
+            name: 'Percent',
             data: (function() {
                 socket.on("cpu", function(cpu) {
-                    console.log(cpu)
+                    console.log("CPU: " + cpu)
                     data = []
                     data.push(cpu)
 
