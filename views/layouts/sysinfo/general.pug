@@ -34,8 +34,8 @@ block content
                 span.icon
                   i.fa.fa-database
                 p
-                  span.number 4 MB/s
-                  span.title Disk IO Utilization
+                  span.number#io
+                  span.title Disk transfer rate
             .col-md-3
               .metric
                 span.icon
@@ -88,7 +88,7 @@ block content
                     i.fa.fa-clock-o
                     |  Last updated: 2 minutes ago
                 .col-md-6.text-right
-                  a.btn.btn-primary(href='#') View more processes
+                  a.btn.btn-primary(href='/admin/processes') View more processes
         .col-md-6
           // MULTI CHARTS
           .panel

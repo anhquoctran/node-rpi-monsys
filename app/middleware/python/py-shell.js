@@ -13,7 +13,7 @@ function PythonExecution(server) {
 
         var logical = new PythonShell.run("cpu_logical_processors.py", { scriptPath: __dirname }, function(er, r) {})
         logical.on("message", function(message) {
-            socket.emit("logical", message)
+            socket.emit("logical", [new Date().getTime(), JSON.parse(message)])
         })
 
         var freq = new PythonShell.run("cpu_freq.py", { scriptPath: __dirname }, function(er, r) {})
@@ -33,7 +33,7 @@ function PythonExecution(server) {
 
         var net = new PythonShell.run("network_traffic.py", { scriptPath: __dirname }, function(er, r) {})
         net.on("message", function(message) {
-            socket.emit("network", message)
+            socket.emit("network", [new Date().getTime(), JSON.parse(message)])
         })
 
         var gpio = new PythonShell.run('gpio_usage.py', { scriptPath: __dirname }, function(er, r) {})

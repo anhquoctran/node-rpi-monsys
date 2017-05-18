@@ -18,7 +18,7 @@ $(document).ready(function() {
             return $(this).closest('tr').find('td:nth-child(2)').text();
         }).get();
 
-        socket.emit("processes", arr)
+        socket.emit("kill", arr)
     });
 
     socket.on("overload", function(data) {
@@ -181,7 +181,7 @@ $(document).ready(function() {
     })
 
     socket.on("disk", function(disk) {
-        console.log(disk)
+        $("#io").text(parseFloat(disk) + " KB/s")
     })
 
     socket.on("processes", function(processes) {
