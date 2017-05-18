@@ -138,7 +138,7 @@ block content
                   | Profile
             .tab-content
               #credential.tab-pane.active
-                form.form-auth-small(action='/account/edit/credential')
+                form.credential-form.form-auth-small(action='/account/edit/credential')
                   .form-group
                     label.control-label(for='username') Username
                     input#edit-username.form-control(type='text', name="username" value='', placeholder='Username', disabled)
@@ -156,10 +156,10 @@ block content
                 form.form-auth-small(action='/account/edit/info')
                   .form-group
                     label.control-label(for='fullname') Full name
-                    input#edit-fullname.form-control(type='text', name="fullname" value='', placeholder='Fullname')
+                    input#edit-fullname.form-control(type='text', name="fullname" value='', placeholder='Fullname', required)
                   .form-group
                     label.control-label(for='email') Email
-                    input#edit-email.form-control(type='email', name="email" value='', placeholder='Email')
+                    input#edit-email.form-control(type='email', name="email" value='', placeholder='Email', required)
                   .form-group
                     label.control-label(for='birthdate') Birthdate
                     input#edit-birthdate.form-control(type='text', name="birthdate" value='', placeholder='birthday')
@@ -176,3 +176,25 @@ block content
 
           // END RIGHT COLUMN
   // END MAIN CONTENT
+block scripts
+  script.
+    jQuery(document).ready(function() {
+    
+      $('.credential-form').on('submit', function(e)) {
+        let formPassword = $("#edit-password").val();
+        let formPasswordRepeat = $("#edit-repeat-password").val();
+
+        $(this).find('input[type="password"]').each(function() {
+            if( formPassword != formPasswordRepeat ) {
+              $(this).addClass('input-error');
+            $("label[for=password] > span").html( "" );
+            $("label[for=password]").append( "<span class='pull-right'>The entered passwords do not match.</span>" );
+            next_step = false;
+            }
+            else {
+              $(this).removeClass('input-error');
+            }
+          });
+      }
+
+    });
