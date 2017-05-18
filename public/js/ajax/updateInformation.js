@@ -53,8 +53,6 @@ $("#updateInfo").click(function(e) {
         dataType: "application/json",
         success: function(response) {
             if (response.status === true) {
-                toastr.remove();
-                toastr["success"](response.message, '', { positionClass: "toast-bottom-right" });
                 $.getJSON("/account/info", function(data) {
                     if (data.status === true) {
                         $("#Fullname").text(data.data.Fullname)
@@ -65,8 +63,6 @@ $("#updateInfo").click(function(e) {
                         toastr.remove();
                         toastr["error"](response.message, '', { positionClass: "toast-bottom-right" });
                         tick()
-                    } else {
-
                     }
                 });
             } else {
