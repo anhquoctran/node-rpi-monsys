@@ -48,13 +48,7 @@ $(document).ready(function() {
         console.log(data)
         Highcharts.chart("cpu-usage-chart", {
             chart: {
-                zoomType: 'x',
-                events: {
-                    load: function() {
-                        chart = this
-
-                    }
-                }
+                zoomType: 'x'
             },
             title: {
                 text: 'CPU Percentage (%)'
