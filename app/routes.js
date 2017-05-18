@@ -512,7 +512,7 @@ module.exports = function Route(app, passport) {
                 ])
                 .then(result => {
                     res.render("layouts/sysinfo/disk", {
-                        title: "Disk I/O and Block Device Statistic",
+                        title: "Disk I/O and Block Devices Statistic",
                         io: result[0],
                         device: result[1],
                         user: result[2][0],
