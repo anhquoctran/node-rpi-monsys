@@ -35,21 +35,23 @@ block content
                 table.table.table-striped
                   thead
                     tr
+                      th ID
                       th Name
                       th Type
-                      th fstype
-                      th mount
-                      th size
-                      th physical
-                      th uuid
-                      th label
-                      th model
-                      th serial
-                      th removable
-                      th protocol
+                      th Fstype
+                      th Mount
+                      th Size
+                      th Physical
+                      th UUID
+                      th Label
+                      th Model
+                      th Serial
+                      th Removable
+                      th Protocol
                   tbody
-                    each val in device
+                    each val, index in device
                       tr
+                        td= index
                         td= val.name
                         td= val.type
                         td= val.fstype
