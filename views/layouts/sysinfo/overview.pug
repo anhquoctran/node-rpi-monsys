@@ -15,104 +15,104 @@ block content
             .col-md-12
               .col-md-4
                 h4.heading
-                  b Operating System
+                  b.export Operating System
                 ul.list-unstyled.list-justify
                   li
                     | Platform 
-                    span #{osInfo.platform}
+                    span.export #{osInfo.platform}
                   li
                     | Distro 
-                    span #{osInfo.distro}
+                    span.export #{osInfo.distro}
                   li
                     | Release 
-                    span #{osInfo.release}
+                    span.export #{osInfo.release}
                   li
                     | Code name 
-                    span #{osInfo.codename}
+                    span.export #{osInfo.codename}
                   li
                     | Kernel 
-                    span #{osInfo.kernel}
+                    span.export #{osInfo.kernel}
                   li
                     | Architecture 
-                    span #{osInfo.arch}
+                    span.export #{osInfo.arch}
                   li
                     | Hostname 
-                    span #{osInfo.hostname}
+                    span.export #{osInfo.hostname}
                   li
                     | Logo file 
-                    span #{osInfo.logofile}
+                    span.export #{osInfo.logofile}
               .col-md-4
                 h4.heading
-                  b Central Processor Unit
+                  b.export Central Processor Unit
                 ul.list-unstyled.list-justify
                   li
                     | Manufacturer 
-                    span #{cpuinfo.manufacturer}
+                    span.export #{cpuinfo.manufacturer}
                   li
                     | Brand 
-                    span #{cpuinfo.brand}
+                    span.export #{cpuinfo.brand}
                   li
                     | Speed (GHz)
-                    span #{cpuinfo.speed.avg}
+                    span.export #{cpuinfo.speed.avg}
                   li
                     | Total cores 
-                    span #{cpuinfo.cores}
+                    span.export #{cpuinfo.cores}
                   li
                     | Minimum speed (GHz)
-                    span #{min}
+                    span.export #{min}
                   li
                     | Maximum speed (GHz)
-                    span #{max}
+                    span.export #{max}
                   li
                     | Average speed (GHz)
-                    span #{avg}
+                    span.export #{avg}
                   li
                     | Temperature 
-                    span #{cpuTemp} °C
+                    span.export #{cpuTemp} °C
               .col-md-4
                 h4.heading
                   b Memory
                 ul.list-unstyled.list-justify.root
                   li
                     | Total 
-                    span.data #{mem.total}
+                    span.data.export #{mem.total}
                   li
                     | Free 
-                    span.data #{mem.free}
+                    span.data.export #{mem.free}
                   li
                     | In used 
-                    span.data #{mem.used}
+                    span.data.export #{mem.used}
                   li
                     | Active 
-                    span.data #{mem.active}
+                    span.data.export #{mem.active}
                   li
                     | Available 
-                    span.data #{mem.available}
+                    span.data.export #{mem.available}
                   li
                     | Buffer cache 
-                    span.data #{mem.buffcache}
+                    span.data.export #{mem.buffcache}
                   li
                     | Swap total 
-                    span.data #{mem.swaptotal}
+                    span.data.export #{mem.swaptotal}
                   li
                     | Swap use 
-                    span.data #{mem.swapused}
+                    span.data.export #{mem.swapused}
                   li
                     | Swap free 
-                    span.data #{mem.swapfree}
+                    span.data.export #{mem.swapfree}
               .col-md-4
                 h4.heading
-                  b Disk IO activities
+                  b.export Disk IO activities
                 ul.list-unstyled.list-justify.root
                   li
                     | Read IO 
-                    span #{disksIO.rIO}
+                    span.export #{disksIO.rIO}
                   li
                     | Write IO 
-                    span #{disksIO.wIO}
+                    span.export #{disksIO.wIO}
                   li
                     | Transfer IO 
-                    span #{disksIO.tIO}
+                    span.export #{disksIO.tIO}
                   li
                     | Read per second 
                     span #{disksIO.rIO_sec}
@@ -163,9 +163,3 @@ block content
                   li
                     | Mount 
                     span #{filesystem[0].mount}
-        .panel-footer
-          .row
-            .col-md-12.text-right
-              button#exportText.btn.btn-primary(name='exportText')
-                span.fa.fa-file-text(aria-hidden='true')
-                | &nbsp; Export to text file
