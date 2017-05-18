@@ -3,3 +3,4 @@ node_modules
 _config.yml
 tslint.json
 .eslintrc.json
+config/connector.js

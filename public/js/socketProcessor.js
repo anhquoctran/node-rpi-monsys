@@ -30,7 +30,7 @@ $(document).ready(function() {
     })
 
     socket.on("cpu", function(data) {
-        _cpuPercent.text(data + " %")
+        _cpuPercent.text(data[1] + " %")
     })
 
     function readableSpeed(speed) {
@@ -41,70 +41,135 @@ $(document).ready(function() {
             return ((speed / 1000) + " GHz")
         }
     }
-
-    socket.on("cpu", function(cpu) {
-        var data = []
-        data.push(cpu)
-        console.log(data)
-        Highcharts.chart("cpu-usage-chart", {
-            chart: {
-                zoomType: 'x',
-                events: {
-                    load: function() {
-                        hchart = this
-                    }
+    var data = []
+    var chart = new Highcharts.chart("cpu-usage-chart", {
+        chart: {
+            type: 'spline',
+            events: {
+                load: function() {
+                    socket.on("cpu", function(cpu) {
+                        console.log(cpu)
+                        var series = chart.series[0]
+                        series.addPoint(cpu)
+                    })
                 }
             },
+            animation: Highcharts.svg
+        },
+        title: {
+            text: 'CPU Percentage (%)'
+        },
+        subtitle: {
+            text: document.ontouchstart === undefined ?
+                'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in'
+        },
+        xAxis: {
+            type: 'datetime',
+            tickPixelInterval: 150
+        },
+        yAxis: {
             title: {
-                text: 'CPU Percentage (%)'
-            },
-            subtitle: {
-                text: document.ontouchstart === undefined ?
-                    'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in'
-            },
-            xAxis: {
-                type: 'datetime'
-            },
-            yAxis: {
-                title: {
-                    text: 'Percentage (%)'
+                text: 'Percentage (%)'
+            }
+        },
+        legend: {
+            enabled: false
+        },
+        plotOptions: {
+            area: {
+                fillColor: {
+                    linearGradient: {
+                        x1: 0,
+                        y1: 0,
+                        x2: 0,
+                        y2: 1
+                    },
+                    stops: [
+                        [0, Highcharts.getOptions().colors[0]],
+                        [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                    ]
+                },
+                marker: {
+                    radius: 2
+                },
+                lineWidth: 1,
+                states: {
+                    hover: {
+                        lineWidth: 1
+                    }
+                },
+                threshold: null
+            }
+        },
+        series: [{
+            name: 'Percent',
+            data: []
+        }]
+    })
+
+    var memoryChart = new Highcharts.chart("memory-usage-chart", {
+        chart: {
+            zoomType: 'x',
+            events: {
+                load: function() {
+                    socket.on("memory", function(memory) {
+                        console.log(memory)
+                        var series = memoryChart.series[0]
+                        series.addPoint(memory)
+                    })
                 }
-            },
-            legend: {
-                enabled: false
-            },
-            plotOptions: {
-                area: {
-                    fillColor: {
-                        linearGradient: {
-                            x1: 0,
-                            y1: 0,
-                            x2: 0,
-                            y2: 1
-                        },
-                        stops: [
-                            [0, Highcharts.getOptions().colors[0]],
-                            [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
-                        ]
+            }
+        },
+        title: {
+            text: 'Memory Usage'
+        },
+        subtitle: {
+            text: document.ontouchstart === undefined ?
+                'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in'
+        },
+        xAxis: {
+            type: 'datetime'
+        },
+        yAxis: {
+            title: {
+                text: 'Memory Percentage (%)'
+            }
+        },
+        legend: {
+            enabled: false
+        },
+        plotOptions: {
+            area: {
+                fillColor: {
+                    linearGradient: {
+                        x1: 0,
+                        y1: 0,
+                        x2: 0,
+                        y2: 1
                     },
-                    marker: {
-                        radius: 2
-                    },
-                    lineWidth: 1,
-                    states: {
-                        hover: {
-                            lineWidth: 1
-                        }
-                    },
-                    threshold: null
-                }
-            },
-            series: [{
-                type: 'area',
-                name: 'Percent',
-                data: data
-            }]
-        })
+                    stops: [
+                        [0, Highcharts.getOptions().colors[0]],
+                        [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                    ]
+                },
+                marker: {
+                    radius: 2
+                },
+                lineWidth: 1,
+                states: {
+                    hover: {
+                        lineWidth: 1
+                    }
+                },
+                threshold: null
+            }
+        },
+
+        series: [{
+            type: 'area',
+            name: 'Percent',
+            data: []
+        }]
     })
 
     socket.on('logical', function(logical) {
@@ -112,7 +177,7 @@ $(document).ready(function() {
     })
 
     socket.on("memory", function(memory) {
-        $("#memPercent").text(memory + " %")
+        $("#memPercent").text(memory[1] + " %")
     })
 
     socket.on("disk", function(disk) {

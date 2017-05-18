@@ -8,7 +8,7 @@ function PythonExecution(server) {
 
         var cpu_usage = new PythonShell.run("cpu_usage.py", { scriptPath: __dirname }, function(er, r) {})
         cpu_usage.on("message", function(message) {
-            socket.emit("cpu", message)
+            socket.emit("cpu", [new Date().getTime(), parseFloat(message)])
         })
 
         var logical = new PythonShell.run("cpu_logical_processors.py", { scriptPath: __dirname }, function(er, r) {})
@@ -23,7 +23,7 @@ function PythonExecution(server) {
 
         var mem = new PythonShell.run("ram_usage.py", { scriptPath: __dirname }, function(er, r) {})
         mem.on("message", function(message) {
-            socket.emit("memory", message)
+            socket.emit("memory", [new Date().getTime(), parseFloat(message)])
         })
 
         var disk = new PythonShell.run('disk_io.py', { scriptPath: __dirname }, function(er, r) {})

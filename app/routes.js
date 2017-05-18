@@ -215,9 +215,9 @@ module.exports = function Route(app, passport) {
 
     app.post("/account/edit/credential", function(req, res) {
         var password = req.body.password
-        var username = req.session.user.username
+        var username = req.session.user.Username
         var newpassword = req.body.newpassword
-        if (password || username) {
+        if (password || newpassword) {
             migrator.checkPassword(username, password)
                 .then(data => {
                     if (data === true) {
