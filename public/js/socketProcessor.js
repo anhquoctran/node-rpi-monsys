@@ -65,7 +65,6 @@ $(document).ready(function() {
         },
         xAxis: {
             type: 'datetime',
-            tickPixelInterval: 150,
             min: 0,
             max: 50
         },
