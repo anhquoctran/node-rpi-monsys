@@ -67,9 +67,7 @@ $(document).ready(function() {
             type: 'datetime',
             scrollbar: {
                 enabled: true
-            },
-            min: 1,
-            max: 250
+            }
         },
         yAxis: {
             title: {
