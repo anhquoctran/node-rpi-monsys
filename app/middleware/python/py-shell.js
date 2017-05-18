@@ -8,7 +8,7 @@ function PythonExecution(server) {
 
         var cpu_usage = new PythonShell.run("cpu_usage.py", { scriptPath: __dirname }, function(er, r) {})
         cpu_usage.on("message", function(message) {
-            socket.emit("cpu", [message, new Date().toLocaleTimeString()])
+            socket.emit("cpu", [new Date().toLocaleTimeString(), message])
         })
 
         var logical = new PythonShell.run("cpu_logical_processors.py", { scriptPath: __dirname }, function(er, r) {})
