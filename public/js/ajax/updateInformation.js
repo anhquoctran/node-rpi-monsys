@@ -14,6 +14,7 @@ $("#changePassword").click(function(e) {
             if (response.status == true) {
                 toastr.remove();
                 toastr["success"](response.message, '', { positionClass: "toast-bottom-right" });
+                tick()
             } else {
                 toastr.remove();
                 toastr["error"](response.message, '', { positionClass: "toast-bottom-right" });
@@ -21,6 +22,13 @@ $("#changePassword").click(function(e) {
         }
     });
 })
+
+function tick() {
+    var notisound = soundManager.createSound({
+        url: '../../../public/blobs/sounds/sound.wav'
+    })
+    notisound.play()
+}
 
 $("#updateInfo").click(function(e) {
     e.preventDefault()
@@ -47,6 +55,20 @@ $("#updateInfo").click(function(e) {
             if (response.status === true) {
                 toastr.remove();
                 toastr["success"](response.message, '', { positionClass: "toast-bottom-right" });
+                $.getJSON("/account/info", function(data) {
+                    if (data.status === true) {
+                        $("#Fullname").text(data.data.Fullname)
+                        $("#hometown").text(data.data.hometown)
+                        $("#birthdate").val(data.data.birthdate)
+                        $("#currentcity").text(data.data.currentcity)
+                        $("#email").text(data.data.email)
+                        toastr.remove();
+                        toastr["error"](response.message, '', { positionClass: "toast-bottom-right" });
+                        tick()
+                    } else {
+
+                    }
+                });
             } else {
                 toastr.remove();
                 toastr["error"](response.message, '', { positionClass: "toast-bottom-right" });

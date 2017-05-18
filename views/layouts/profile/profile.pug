@@ -20,7 +20,7 @@ block content
                   img.img-circle(src='#{user.AvatarPath}', alt='Avatar')
                 else
                   img.img-circle(src="../../../public/images/nullAvatar.png", alt='Avatar')
-                h3.name #{user.Fullname}
+                h3.name#Fullname #{user.Fullname}
                 span.online-status.status-available @#{user.Username}
               .profile-stat
                 .row
@@ -48,22 +48,22 @@ block content
                 ul.list-unstyled.list-justify
                   li
                     | Birthdate 
-                    span.dt #{user.Birthdate}
+                    span.dt#birthdate #{user.Birthdate}
                   li
                     | Hometown 
-                    span #{user.HomeTown}
+                    span#hometown #{user.HomeTown}
                   li
                     | Current city 
-                    span #{user.CurrentCity}
+                    span#currentcity #{user.CurrentCity}
                   li
                     | Mobile 
-                    span #{user.Phone}
+                    span#mobile #{user.Phone}
                   li
                     | Email 
-                    span #{user.Email}
+                    span#email #{user.Email}
               .profile-info
                 h4.heading About
-                p #{user.Bio}
+                p#bio #{user.Bio}
               .text-center
                 a.btn.btn-primary(href='/profile/edit/#{user.Username}') Edit Profile
             // END PROFILE DETAIL

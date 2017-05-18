@@ -287,10 +287,14 @@ module.exports = function Route(app, passport) {
             migrator.getOneUser(req.sesion.user.username)
                 .then(data => {
                     if (data) {
-                        res.json(data)
+                        res.json({
+                            status: true,
+                            data: data
+                        })
                     } else {
                         res.json({
-                            message: "Unable to find user"
+                            status: false,
+                            data: null
                         })
                     }
                 })
