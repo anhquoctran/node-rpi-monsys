@@ -65,8 +65,6 @@ $(document).ready(function() {
         },
         xAxis: {
             type: 'datetime',
-            min: 0,
-            max: 50
         },
         yAxis: {
             title: {
