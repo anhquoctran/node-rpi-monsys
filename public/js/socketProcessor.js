@@ -114,7 +114,7 @@ $(document).ready(function() {
                 load: function() {
                     socket.on("memory", function(memory) {
                         console.log(memory)
-                        var series = chart.series[0]
+                        var series = memory.series[0]
                         series.addPoint(memory)
                     })
                 }
