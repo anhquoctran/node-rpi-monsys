@@ -42,14 +42,14 @@ $(document).ready(function() {
         }
     }
     var data = []
-    Highcharts.chart("cpu-usage-chart", {
+    var chart = new Highcharts.chart("cpu-usage-chart", {
         chart: {
             zoomType: 'x',
             events: {
                 load: function() {
-                    var chart = this
                     socket.on("cpu", function(cpu) {
-                        data.push(cpu)
+                        var series = chart.series[0]
+                        series.addPoint(cpu)
                     })
                 }
             }
@@ -101,12 +101,7 @@ $(document).ready(function() {
         series: [{
             type: 'area',
             name: 'Percent',
-            data: function() {
-                socket.on("cpu", function(cpu) {
-                    data.push(cpu)
-                })
-                return data
-            }
+            data: []
         }]
     })
 
