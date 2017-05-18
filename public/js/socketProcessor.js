@@ -30,7 +30,7 @@ $(document).ready(function() {
     })
 
     socket.on("cpu", function(data) {
-        _cpuPercent.text(data + " %")
+        _cpuPercent.text(data[1] + " %")
     })
 
     function readableSpeed(speed) {
