@@ -214,6 +214,7 @@ module.exports = function Route(app, passport) {
     })
 
     app.post("/account/edit/credential", function(req, res) {
+        console.log(req.body)
         var password = req.body.password
         var username = req.session.user.username
         var newpassword = req.body.newpassword
