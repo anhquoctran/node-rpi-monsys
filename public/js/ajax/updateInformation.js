@@ -43,11 +43,11 @@ $("#updateInfo").click(function(e) {
         type: "POST",
         url: "/account/edit/info",
         data: JSON.stringify({
-            fullname = fullname,
-            email = email,
-            birthdate = birthdate,
-            hometown = hometown,
-            currentcity = currentcity,
+            fullname: fullname,
+            email: email,
+            birthdate: birthdate,
+            hometown: hometown,
+            currentcity: currentcity,
             phone: phone
         }),
         dataType: "application/json",
