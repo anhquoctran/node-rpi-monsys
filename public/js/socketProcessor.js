@@ -48,6 +48,7 @@ $(document).ready(function() {
             events: {
                 load: function() {
                     socket.on("cpu", function(cpu) {
+                        console.log(cpu)
                         var series = chart.series[0]
                         series.addPoint(cpu)
                     })
