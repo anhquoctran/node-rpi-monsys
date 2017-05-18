@@ -45,6 +45,7 @@ $(document).ready(function() {
     socket.on("cpu", function(cpu) {
         var data = []
         data.push(cpu)
+        console.log(data)
         Highcharts.chart("cpu-usage-chart", {
             chart: {
                 zoomType: 'x',
