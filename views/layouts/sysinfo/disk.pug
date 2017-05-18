@@ -23,3 +23,50 @@ block content
                   h4.heading
                     b Disk space usage
                   #disk-space.ct-chart-pie
+        .row
+          .col-md-6
+            .panel
+              .panel-heading
+                h3.panel-title Filesystem Size
+                .right
+                  button.btn-toggle-collapse(type='button')
+                    i.lnr.lnr-chevron-up
+              .panel-body.no-padding
+                table.table.table-striped
+                  thead
+                    tr
+                      th ID
+                      th fs
+                      th type
+                      th size
+                      th used
+                      th use
+                      th mount
+                  tbody
+                    each val in filesystem
+                      tr
+                        td= val.fs
+                        td= val.type
+                        td= val.size
+                        td= val.used
+                        td= val.use
+                        td= val.mount
+              .panel-footer
+                .row
+                  .col-md-6
+                    span.panel-note
+                      i.fa.fa-clock-o
+                      |  Last updated: 2 minutes ago
+                  .col-md-6.text-right
+                    a.btn.btn-primary(href='#') View more processes
+          .col-md-6
+            // MULTI CHARTS
+            .panel
+              .panel-heading
+                h3.panel-title Memory Usage
+                .right
+                  button.btn-toggle-collapse(type='button')
+                    i.lnr.lnr-chevron-up
+              .panel-body
+                #visits-trends-chart.ct-chart
+            // END MULTI CHARTS
