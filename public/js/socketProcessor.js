@@ -107,14 +107,14 @@ $(document).ready(function() {
         }]
     })
 
-    var memory = new Highcharts.chart("memory-usage-chart", {
+    var memoryChart = new Highcharts.chart("memory-usage-chart", {
         chart: {
             zoomType: 'x',
             events: {
                 load: function() {
                     socket.on("memory", function(memory) {
                         console.log(memory)
-                        var series = memory.series[0]
+                        var series = memoryChart.series[0]
                         series.addPoint(memory)
                     })
                 }
