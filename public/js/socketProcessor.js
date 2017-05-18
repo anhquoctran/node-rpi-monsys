@@ -44,7 +44,7 @@ $(document).ready(function() {
     var data = []
     var chart = new Highcharts.chart("cpu-usage-chart", {
         chart: {
-            typ: 'spline',
+            type: 'spline',
             events: {
                 load: function() {
                     socket.on("cpu", function(cpu) {
