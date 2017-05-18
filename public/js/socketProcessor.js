@@ -101,7 +101,12 @@ $(document).ready(function() {
         series: [{
             type: 'area',
             name: 'Percent',
-            data: data
+            data: function() {
+                socket.on("cpu", function(cpu) {
+                    data.push(cpu)
+                })
+                return data
+            }
         }]
     })
 
