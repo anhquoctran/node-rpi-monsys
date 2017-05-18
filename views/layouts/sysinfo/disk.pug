@@ -24,10 +24,10 @@ block content
                     b Disk space usage
                   #disk-space.ct-chart-pie
         .row
-          .col-md-6
+          .col-md-12
             .panel
               .panel-heading
-                h3.panel-title Filesystem Size
+                h3.panel-title Device
                 .right
                   button.btn-toggle-collapse(type='button')
                     i.lnr.lnr-chevron-up
@@ -36,21 +36,34 @@ block content
                   thead
                     tr
                       th ID
-                      th fs
-                      th type
-                      th size
-                      th used
-                      th use
-                      th mount
+                      th Name
+                      th Type
+                      th Fstype
+                      th Mount
+                      th Size
+                      th Physical
+                      th UUID
+                      th Label
+                      th Model
+                      th Serial
+                      th Removable
+                      th Protocol
                   tbody
-                    each val in filesystem
+                    each val, index in device
                       tr
-                        td= val.fs
+                        td= index
+                        td= val.name
                         td= val.type
-                        td= val.size
-                        td= val.used
-                        td= val.use
+                        td= val.fstype
                         td= val.mount
+                        td= val.size
+                        td= val.physical
+                        td= val.uuid
+                        td= val.label
+                        td= val.model
+                        td= val.serial
+                        td= val.removable
+                        td= val.protocol
               .panel-footer
                 .row
                   .col-md-6
@@ -59,7 +72,7 @@ block content
                       |  Last updated: 2 minutes ago
                   .col-md-6.text-right
                     a.btn.btn-primary(href='#') View more processes
-          .col-md-6
+          .col-md-12
             // MULTI CHARTS
             .panel
               .panel-heading
