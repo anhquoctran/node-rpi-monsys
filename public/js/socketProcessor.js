@@ -51,7 +51,8 @@ $(document).ready(function() {
                 zoomType: 'x',
                 events: {
                     load: function() {
-                        hchart = this
+                        chart = this
+
                     }
                 }
             },
