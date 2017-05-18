@@ -1,5 +1,6 @@
 var jwt_simple = require('jwt-simple')
 var datetime = require('../middleware/datetime')
+var migrator = require("../../database/migration/migrate")
 module.exports = function UserController(router, passport) {
     var authenticated = {
         user: {
@@ -12,38 +13,36 @@ module.exports = function UserController(router, passport) {
     router.route("/login").get(function(req, res) {
         var callback = req.query.callback || '/'
 
-        if (req.isAuthenticated()) {
-            return res.redirect(callback)
-        } else {
-            res.json({
-                message: "Please use POST /login to login API",
-                request_datetime: datetime.getDateTimeNow()
-            })
-        }
+        res.json({
+            message: "Please use POST /login to login API",
+            request_datetime: datetime.getDateTimeNow()
+        })
+
     })
 
     router.route('/login').post(function(req, res, next) {
         var callback = req.query.callback || '/profile'
+        var usernameOrEmail = req.body.usernameOrEmail;
+        var password = req.body.password
 
-        passport.authenticate('local', function(err, user, info) {
-            if (err || !user) {
-                res.json({
-                    message: "Unable to login! Please check your username and password is not null",
-                    request_datetime: datetime.getDateTimeNow(),
-                    user_info: null
-                })
-            }
-
-            req.logIn(user, function(error) {
-                if (error) {
-                    return next(error)
-                } else {
-                    var secret = "rpi-scret"
-                }
-
-                return res.redirect(callback)
+        if (!usernameOrEmail || !password) {
+            res.json({
+                message: "Required fields not null",
+                request_datetime: datetime.getDateTimeNow()
             })
-        })(req, res, next)
+        } else {
+            migrator.getUserByEmail(usernameOrEmail, password)
+                .then(data => {
+                    if (data) {
+
+                    } else {
+
+                    }
+                })
+                .catch(error => {
+                    console.error(error)
+                })
+        }
     })
 
     router.route('/').get(passport.authenticate('oauth'))
