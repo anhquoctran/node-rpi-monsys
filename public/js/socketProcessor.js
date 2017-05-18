@@ -44,7 +44,7 @@ $(document).ready(function() {
     var data = []
     var chart = new Highcharts.chart("cpu-usage-chart", {
         chart: {
-            zoomType: 'x',
+            typ: 'spline',
             events: {
                 load: function() {
                     socket.on("cpu", function(cpu) {
@@ -53,7 +53,8 @@ $(document).ready(function() {
                         series.addPoint(cpu)
                     })
                 }
-            }
+            },
+            animation: Highcharts.svg
         },
         title: {
             text: 'CPU Percentage (%)'
@@ -63,7 +64,8 @@ $(document).ready(function() {
                 'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in'
         },
         xAxis: {
-            type: 'datetime'
+            type: 'datetime',
+            tickPixelInterval: 150
         },
         yAxis: {
             title: {
@@ -111,7 +113,7 @@ $(document).ready(function() {
     })
 
     socket.on("memory", function(memory) {
-        $("#memPercent").text(memory + " %")
+        $("#memPercent").text(memory[1] + " %")
     })
 
     socket.on("disk", function(disk) {
