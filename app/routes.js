@@ -530,7 +530,7 @@ module.exports = function Route(app, passport) {
                     sysinfo.fsSize(), sysinfo.fsStats(), migrator.getOneUser(req.session.user.username), migrator.getNotification(req.session.user.username)
                 ])
                 .then(data => {
-                    res.render("layouts/sysinfo/filesytem", {
+                    res.render("layouts/sysinfo/filesystem", {
                         title: "Linux Filesystem Statistic",
                         filesystem: data[0],
                         fs_stat: data[1],
