@@ -5,10 +5,10 @@ $("#changePassword").click(function(e) {
     $.ajax({
         type: "POST",
         url: "/account/edit/credential",
-        data: JSON.stringify({
+        data: {
             password: password,
             newpassword: newpassword
-        }),
+        },
         dataType: "application/json",
         success: function(response) {
             if (response.status == true) {
@@ -42,14 +42,14 @@ $("#updateInfo").click(function(e) {
     $.ajax({
         type: "POST",
         url: "/account/edit/info",
-        data: JSON.stringify({
+        data: {
             fullname: fullname,
             email: email,
             birthdate: birthdate,
             hometown: hometown,
             currentcity: currentcity,
             phone: phone
-        }),
+        },
         dataType: "application/json",
         success: function(response) {
             if (response.status === true) {
